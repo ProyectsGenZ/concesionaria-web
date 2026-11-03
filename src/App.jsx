@@ -8,9 +8,15 @@ import VehicleDetailView from './components/VehicleDetailView';
 import ShowroomContact from './components/ShowroomContact';
 import Lightbox from './components/Lightbox';
 import Footer from './components/Footer';
+import AtelierDesign from './components/AtelierDesign';
+import VeloceDesign from './components/VeloceDesign';
+import DesignSwitcher from './components/DesignSwitcher';
 import { VEHICLES } from './data/vehicles';
 
 export default function App() {
+  const [activeDesign, setActiveDesign] = useState('monolith'); // 'monolith' | 'atelier' | 'veloce'
+
+  // MONOLITH State
   const [view, setView] = useState('home'); // 'home' | 'catalog' | 'detail'
   const [currency, setCurrency] = useState('USD'); // 'USD' | 'ARS'
   const [activeVehicleId, setActiveVehicleId] = useState('MNL-100');
@@ -74,93 +80,118 @@ export default function App() {
     setTimeout(() => setToastMessage(''), 4000);
   };
 
+  const handleOpenWhatsAppGeneral = (contextQuery) => {
+    const text = `Hola, me comunico desde la web oficial. Consulta: ${contextQuery}`;
+    window.open(`https://wa.me/5491155550199?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
   return (
-    <div className="min-h-screen bg-[#fcfcfd] text-zinc-900 flex flex-col selection:bg-black selection:text-white">
+    <div className="min-h-screen flex flex-col">
       
-      {/* Header Fijo */}
-      <Header
-        currentView={view}
-        onNavigate={handleNavigate}
-        onScrollToContact={() => handleScrollToContact()}
-        currency={currency}
-        onToggleCurrency={setCurrency}
+      {/* SELECTOR FLOTANTE DE DISEÑO (Permite alternar en tiempo real entre los 3 enfoques) */}
+      <DesignSwitcher
+        activeDesign={activeDesign}
+        onSelectDesign={(d) => {
+          setActiveDesign(d);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
 
-      {/* Main View Router */}
-      <main className="flex-1">
-        
-        {/* VISTA 1: INICIO */}
-        {view === 'home' && (
-          <div className="animate-fadeIn">
-            <HeroSlider
-              onOpenVehicle={handleOpenVehicle}
-              onNavigateCatalog={() => handleNavigate('catalog')}
+      {/* RENDERIZADO DEL DISEÑO SELECCIONADO */}
+
+      {/* DISEÑO 1: MONOLITH STUDIO (Blanco Perla · 3 Vistas Completas · Galería 4x2) */}
+      {activeDesign === 'monolith' && (
+        <div className="bg-[#fcfcfd] text-zinc-900 flex-1 flex flex-col selection:bg-black selection:text-white animate-fadeIn">
+          <Header
+            currentView={view}
+            onNavigate={handleNavigate}
+            onScrollToContact={() => handleScrollToContact()}
+            currency={currency}
+            onToggleCurrency={setCurrency}
+          />
+
+          <main className="flex-1">
+            {view === 'home' && (
+              <div className="animate-fadeIn">
+                <HeroSlider
+                  onOpenVehicle={handleOpenVehicle}
+                  onNavigateCatalog={() => handleNavigate('catalog')}
+                />
+                <SilhouetteBar
+                  onSelectSilhouette={handleSelectSilhouette}
+                  onSelectBrand={handleSelectBrand}
+                  onNavigateCatalog={() => handleNavigate('catalog')}
+                />
+                <FeaturedHome
+                  onOpenVehicle={handleOpenVehicle}
+                  onNavigateCatalog={() => handleNavigate('catalog')}
+                  currency={currency}
+                />
+              </div>
+            )}
+
+            {view === 'catalog' && (
+              <div className="animate-fadeIn">
+                <CatalogView
+                  onOpenVehicle={handleOpenVehicle}
+                  currency={currency}
+                  onToggleCurrency={setCurrency}
+                  initialCategory={selectedSilhouette}
+                  initialBrand={selectedBrand}
+                />
+              </div>
+            )}
+
+            {view === 'detail' && (
+              <div className="animate-fadeIn">
+                <VehicleDetailView
+                  vehicle={activeVehicle}
+                  onBack={() => setView('catalog')}
+                  onScrollToContact={handleScrollToContact}
+                  currency={currency}
+                  onOpenLightbox={handleOpenLightbox}
+                />
+              </div>
+            )}
+
+            <ShowroomContact
+              prefilledVehicle={prefilledVehicle}
+              onShowToast={showToast}
             />
-            <SilhouetteBar
-              onSelectSilhouette={handleSelectSilhouette}
-              onSelectBrand={handleSelectBrand}
-              onNavigateCatalog={() => handleNavigate('catalog')}
+          </main>
+
+          <Footer
+            onNavigate={handleNavigate}
+            onScrollToContact={() => handleScrollToContact()}
+          />
+
+          {lightboxOpen && (
+            <Lightbox
+              photos={lightboxPhotos}
+              initialIndex={lightboxIndex}
+              onClose={() => setLightboxOpen(false)}
             />
-            <FeaturedHome
-              onOpenVehicle={handleOpenVehicle}
-              onNavigateCatalog={() => handleNavigate('catalog')}
-              currency={currency}
-            />
-          </div>
-        )}
+          )}
+        </div>
+      )}
 
-        {/* VISTA 2: CATÁLOGO */}
-        {view === 'catalog' && (
-          <div className="animate-fadeIn">
-            <CatalogView
-              onOpenVehicle={handleOpenVehicle}
-              currency={currency}
-              onToggleCurrency={setCurrency}
-              initialCategory={selectedSilhouette}
-              initialBrand={selectedBrand}
-            />
-          </div>
-        )}
+      {/* DISEÑO 2: ATELIER AUTOMOBILE (Editorial Haute Couture · Marfil y Oro · Pasarela Horizontal) */}
+      {activeDesign === 'atelier' && (
+        <div className="flex-1 animate-fadeIn">
+          <AtelierDesign onOpenWhatsApp={handleOpenWhatsAppGeneral} />
+        </div>
+      )}
 
-        {/* VISTA 3: DETALLE DEL VEHÍCULO (PÁGINA COMPLETA ESTILO FORD RAPTOR) */}
-        {view === 'detail' && (
-          <div className="animate-fadeIn">
-            <VehicleDetailView
-              vehicle={activeVehicle}
-              onBack={() => setView('catalog')}
-              onScrollToContact={handleScrollToContact}
-              currency={currency}
-              onOpenLightbox={handleOpenLightbox}
-            />
-          </div>
-        )}
-
-        {/* SECCIÓN UNIFICADA: SHOWROOM & CONTACTO (Siempre accesible al scrollear o desde cualquier botón) */}
-        <ShowroomContact
-          prefilledVehicle={prefilledVehicle}
-          onShowToast={showToast}
-        />
-
-      </main>
-
-      {/* Footer */}
-      <Footer
-        onNavigate={handleNavigate}
-        onScrollToContact={() => handleScrollToContact()}
-      />
-
-      {/* Visor Lightbox Pantalla Completa para Galería 4x2 */}
-      {lightboxOpen && (
-        <Lightbox
-          photos={lightboxPhotos}
-          initialIndex={lightboxIndex}
-          onClose={() => setLightboxOpen(false)}
-        />
+      {/* DISEÑO 3: VELOCE CORSA (Motorsport Precision · Telemetría Activa · Comparador Lado a Lado) */}
+      {activeDesign === 'veloce' && (
+        <div className="flex-1 animate-fadeIn">
+          <VeloceDesign onOpenWhatsApp={handleOpenWhatsAppGeneral} />
+        </div>
       )}
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-black text-white px-6 py-3.5 rounded-full shadow-2xl text-xs font-semibold animate-bounce font-tech">
+        <div className="fixed bottom-20 right-6 z-50 bg-black text-white px-6 py-3.5 rounded-full shadow-2xl text-xs font-semibold animate-bounce font-tech">
           {toastMessage}
         </div>
       )}

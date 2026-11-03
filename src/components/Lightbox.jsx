@@ -76,3 +76,4 @@ export default function Lightbox({ photos = [], initialIndex = 0, onClose }) {
     </div>
   );
 }
+

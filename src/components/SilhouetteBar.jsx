@@ -123,3 +123,4 @@ export default function SilhouetteBar({ onSelectSilhouette, onSelectBrand, onNav
     </section>
   );
 }
+

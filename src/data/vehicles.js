@@ -366,3 +366,4 @@ export function getEightGalleryPhotos(car) {
   }
   return combined.slice(0, 8);
 }
+

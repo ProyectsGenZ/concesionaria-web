@@ -124,3 +124,4 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
     </section>
   );
 }
+
