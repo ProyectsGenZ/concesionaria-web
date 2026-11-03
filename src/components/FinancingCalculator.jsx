@@ -21,51 +21,51 @@ export default function FinancingCalculator({ onOpenWhatsApp }) {
   };
 
   return (
-    <section id="financiacion" className="py-20 bg-zinc-950 border-t border-b border-zinc-800">
+    <section id="financiacion" className="py-20 bg-zinc-50/70 border-t border-b border-zinc-200 subtle-fade-lines">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Left Text Explanation */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 border border-zinc-800 px-3.5 py-1 text-[11px] font-tech text-zinc-400 uppercase tracking-widest bg-zinc-900/60">
-              <Calculator className="w-3.5 h-3.5 text-white" />
-              SIMULADOR PRIVADO DE CRÉDITO
+            <div className="inline-flex items-center gap-2 border border-zinc-300 px-3.5 py-1 text-[11px] font-tech text-zinc-600 uppercase tracking-widest bg-white shadow-xs rounded-xs">
+              <Calculator className="w-3.5 h-3.5 text-black" />
+              SIMULADOR DE FINANCIACIÓN PRIVADA
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight uppercase leading-tight">
-              ESTRUCTURA FINANCIERA A MEDIDA.
+            <h2 className="text-3xl sm:text-4xl font-black text-black tracking-tight uppercase leading-tight font-display">
+              PLAN DE PAGO A TU MEDIDA.
             </h2>
 
-            <p className="text-xs text-zinc-400 leading-relaxed font-light">
-              Diseñamos esquemas de financiación prendaria y leasing corporativo adaptados a tu flujo patrimonial. Tasa fija en dólares o esquemas estructurados con valor residual.
+            <p className="text-sm text-zinc-600 leading-relaxed font-normal">
+              Estructuramos planes prendarios con tasa preferencial fija en dólares o esquemas con valor residual adaptados a particulares y empresas.
             </p>
 
-            <div className="pt-4 border-t border-zinc-800/80 space-y-3 text-xs text-zinc-300 font-tech">
+            <div className="pt-4 border-t border-zinc-200 space-y-3 text-xs text-zinc-700 font-tech">
               <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Pre-aprobación crediticia en menos de 24 horas</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Pre-calificación crediticia en menos de 24 horas</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Posibilidad de cancelación anticipada sin penalidad</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Cancelación anticipada total o parcial sin penalidad</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Tomamos tu vehículo actual como anticipo inicial</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Aceptamos tu vehículo usado como parte del anticipo</span>
               </div>
             </div>
           </div>
 
           {/* Right Interactive Simulator Box */}
-          <div className="lg:col-span-7 bg-zinc-900 border border-zinc-800 p-8 sm:p-10 space-y-8 shadow-2xl">
+          <div className="lg:col-span-7 bg-white border border-zinc-200 p-8 sm:p-10 space-y-8 shadow-[0_10px_30px_rgba(0,0,0,0.04)] rounded-xs">
             
             {/* Slider 1: Vehicle Price */}
             <div>
               <div className="flex justify-between items-baseline text-xs font-tech mb-3">
-                <span className="text-zinc-400 uppercase tracking-wider">
-                  Valor Estimado del Vehículo (USD)
+                <span className="text-zinc-600 uppercase tracking-wider font-semibold">
+                  Valor del Vehículo (USD)
                 </span>
-                <span className="text-xl font-bold text-white font-tech">
+                <span className="text-xl font-bold text-black font-tech">
                   USD {vehicleValue.toLocaleString()}
                 </span>
               </div>
@@ -76,9 +76,9 @@ export default function FinancingCalculator({ onOpenWhatsApp }) {
                 step="5000"
                 value={vehicleValue}
                 onChange={e => setVehicleValue(Number(e.target.value))}
-                className="w-full custom-range bg-zinc-800 h-2 appearance-none cursor-pointer"
+                className="w-full custom-range bg-zinc-200 h-2 appearance-none cursor-pointer rounded-lg"
               />
-              <div className="flex justify-between text-[10px] font-tech text-zinc-600 mt-1">
+              <div className="flex justify-between text-[10px] font-tech text-zinc-400 mt-1">
                 <span>USD 40.000</span>
                 <span>USD 350.000</span>
               </div>
@@ -87,10 +87,10 @@ export default function FinancingCalculator({ onOpenWhatsApp }) {
             {/* Slider 2: Down Payment % */}
             <div>
               <div className="flex justify-between items-baseline text-xs font-tech mb-3">
-                <span className="text-zinc-400 uppercase tracking-wider">
+                <span className="text-zinc-600 uppercase tracking-wider font-semibold">
                   Anticipo Inicial ({downpaymentPct}%)
                 </span>
-                <span className="text-lg font-bold text-white font-tech">
+                <span className="text-lg font-bold text-black font-tech">
                   USD {Math.round(downpayment).toLocaleString()}
                 </span>
               </div>
@@ -101,9 +101,9 @@ export default function FinancingCalculator({ onOpenWhatsApp }) {
                 step="5"
                 value={downpaymentPct}
                 onChange={e => setDownpaymentPct(Number(e.target.value))}
-                className="w-full custom-range bg-zinc-800 h-2 appearance-none cursor-pointer"
+                className="w-full custom-range bg-zinc-200 h-2 appearance-none cursor-pointer rounded-lg"
               />
-              <div className="flex justify-between text-[10px] font-tech text-zinc-600 mt-1">
+              <div className="flex justify-between text-[10px] font-tech text-zinc-400 mt-1">
                 <span>20% (Mínimo)</span>
                 <span>70% (Máximo)</span>
               </div>
@@ -111,18 +111,18 @@ export default function FinancingCalculator({ onOpenWhatsApp }) {
 
             {/* Months Selector */}
             <div>
-              <span className="block text-xs font-tech text-zinc-400 uppercase tracking-wider mb-3">
-                Plazo de Financiación
+              <span className="block text-xs font-tech text-zinc-600 uppercase tracking-wider mb-3 font-semibold">
+                Plazo en Cuotas Mensuales
               </span>
               <div className="grid grid-cols-4 gap-2.5">
                 {[12, 24, 36, 48].map(m => (
                   <button
                     key={m}
                     onClick={() => setTermMonths(m)}
-                    className={`py-3 text-xs font-tech uppercase font-bold transition-all ${
+                    className={`py-3 text-xs font-tech uppercase font-bold transition-all rounded-xs ${
                       termMonths === m
-                        ? 'bg-white text-black border border-white'
-                        : 'border border-zinc-800 text-zinc-400 hover:border-zinc-600 bg-zinc-950'
+                        ? 'bg-black text-white shadow-xs'
+                        : 'border border-zinc-200 text-zinc-600 hover:border-black bg-white'
                     }`}
                   >
                     {m} MESES
@@ -132,23 +132,23 @@ export default function FinancingCalculator({ onOpenWhatsApp }) {
             </div>
 
             {/* Result Box */}
-            <div className="bg-black border border-zinc-800 p-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+            <div className="bg-zinc-900 text-white p-6 sm:p-7 flex flex-col sm:flex-row justify-between items-center gap-6 rounded-xs">
               <div>
-                <span className="text-[10px] uppercase font-tech text-zinc-500 tracking-widest block">
+                <span className="text-[10px] uppercase font-tech text-zinc-400 tracking-widest block">
                   Cuota Mensual Estimada
                 </span>
                 <div className="text-3xl font-black text-white font-tech mt-0.5">
                   USD {Math.round(monthlyPayment).toLocaleString()}{' '}
-                  <span className="text-xs font-normal text-zinc-500">/ mes</span>
+                  <span className="text-xs font-normal text-zinc-400">/ mes</span>
                 </div>
-                <div className="text-[11px] text-zinc-500 font-tech mt-1">
-                  Saldo neto a financiar: <span className="text-zinc-300">USD {Math.round(financed).toLocaleString()}</span>
+                <div className="text-[11px] text-zinc-400 font-tech mt-1">
+                  Saldo a financiar: <span className="text-white font-medium">USD {Math.round(financed).toLocaleString()}</span>
                 </div>
               </div>
 
               <button
                 onClick={handleRequestProposal}
-                className="w-full sm:w-auto px-8 py-4 bg-white text-black hover:bg-zinc-200 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shrink-0"
+                className="w-full sm:w-auto px-8 py-4 bg-white text-black hover:bg-zinc-200 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shrink-0 rounded-xs"
               >
                 Solicitar Propuesta <ArrowRight className="w-3.5 h-3.5" />
               </button>

@@ -1,105 +1,93 @@
 import React from 'react';
-import { ArrowRight, ShieldCheck, Zap, Gauge } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Search } from 'lucide-react';
 
-export default function Hero({ onOpenWhatsApp, onExploreCatalog }) {
+export default function Hero({ onOpenWhatsApp }) {
+  const brandLogos = ['Porsche', 'BMW', 'Mercedes-Benz', 'Audi', 'Ford'];
+
   return (
-    <section className="relative pt-12 pb-24 border-b border-zinc-800 studio-grid overflow-hidden">
-      {/* Cinematic Studio Lighting Flare */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
+    <section className="relative pt-12 pb-20 border-b border-zinc-200/90 luminous-bg architectural-lines overflow-hidden">
+      
+      {/* Soft atmospheric gradient behind car */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-gradient-to-r from-zinc-200/50 via-zinc-100/60 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left Column: Brand Manifesto & Telemetry */}
+          {/* Left: Editorial Headline & Value Proposition */}
           <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="inline-flex items-center gap-2 border border-zinc-700 bg-zinc-950/80 px-3.5 py-1 text-[11px] font-tech text-zinc-300 uppercase tracking-widest">
-              <span className="w-1.5 h-1.5 bg-white"></span>
-              INGENIERÍA PURA & SELECCIÓN AUDITADA
+            <div className="inline-flex items-center gap-2 border border-zinc-300 bg-white/80 backdrop-blur-sm px-3.5 py-1 text-[11px] font-tech text-zinc-600 uppercase tracking-widest shadow-xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-zinc-800" />
+              CONCESIONARIA OFICIAL & SELECCIONADOS CERTIFICADOS
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.04] text-white">
-              LA FORMA EXACTA DEL DESEMPEÑO.
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.06] text-black font-display">
+              TRANSPARENCIA TOTAL EN CADA KILÓMETRO.
             </h1>
 
-            <p className="text-sm text-zinc-400 font-light leading-relaxed max-w-xl">
-              Cada unidad de nuestra colección pasa por una rigurosa auditoría técnica certificada de 180 puntos. Historial transparente, peritaje ante escribano y entrega inmediata en nuestro showroom privado.
+            <p className="text-base text-zinc-600 font-normal leading-relaxed max-w-xl">
+              Accedé a un catálogo exclusivo de vehículos 0km y usados garantizados. Cada unidad cuenta con peritaje mecánico en 180 puntos, documentación al día y entrega inmediata.
             </p>
 
-            {/* Telemetry Metrics */}
-            <div className="grid grid-cols-3 gap-6 pt-4 border-t border-zinc-800/80 font-tech">
-              <div>
-                <div className="text-3xl font-bold text-white flex items-baseline gap-1">
-                  480 <span className="text-xs font-normal text-zinc-500">HP</span>
-                </div>
-                <div className="text-[10px] uppercase text-zinc-500 tracking-wider mt-1 flex items-center gap-1">
-                  <Zap className="w-3 h-3 text-zinc-400" /> Potencia Biturbo
-                </div>
-              </div>
-
-              <div>
-                <div className="text-3xl font-bold text-white flex items-baseline gap-1">
-                  3.3 <span className="text-xs font-normal text-zinc-500">SEG</span>
-                </div>
-                <div className="text-[10px] uppercase text-zinc-500 tracking-wider mt-1 flex items-center gap-1">
-                  <Gauge className="w-3 h-3 text-zinc-400" /> 0-100 KM/H
-                </div>
-              </div>
-
-              <div>
-                <div className="text-3xl font-bold text-white">100%</div>
-                <div className="text-[10px] uppercase text-zinc-500 tracking-wider mt-1 flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3 text-emerald-400" /> Auditoría 180 Pts
-                </div>
-              </div>
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 pt-4">
+            {/* Quick Action CTAs */}
+            <div className="flex flex-wrap gap-4 pt-2">
               <a
                 href="#catalogo"
-                className="px-8 py-4 bg-white text-black font-bold text-xs tracking-widest uppercase hover:bg-zinc-200 transition-colors inline-flex items-center gap-2"
+                className="px-8 py-4 bg-black text-white font-bold text-xs tracking-widest uppercase hover:bg-zinc-800 transition-colors inline-flex items-center gap-2 shadow-sm"
               >
-                Explorar Colección <ArrowRight className="w-3.5 h-3.5" />
+                Ver Catálogo Disponible <ArrowRight className="w-3.5 h-3.5" />
               </a>
               <button
-                onClick={() => onOpenWhatsApp('Porsche 911 Carrera GTS (Unidad Destacada)')}
-                className="px-8 py-4 border border-zinc-700 hover:border-white text-white font-semibold text-xs tracking-widest uppercase transition-all"
+                onClick={() => onOpenWhatsApp('Quiero consultar por un vehículo o agendar una visita')}
+                className="px-8 py-4 border border-zinc-300 hover:border-black text-black font-bold text-xs tracking-widest uppercase bg-white/70 hover:bg-white transition-all shadow-xs"
               >
-                Agendar Test Drive Privado
+                Agendar Visita al Salón
               </button>
+            </div>
+
+            {/* Brand Trust Strip (Like AutoNation & Kavak) */}
+            <div className="pt-6 border-t border-zinc-200/80">
+              <span className="text-[11px] font-tech text-zinc-400 uppercase tracking-wider block mb-3">
+                Unidades oficiales y seleccionadas multimarca:
+              </span>
+              <div className="flex flex-wrap items-center gap-6 text-xs font-bold text-zinc-500 uppercase tracking-widest">
+                {brandLogos.map(b => (
+                  <span key={b} className="hover:text-black transition-colors cursor-pointer">
+                    {b}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Hero Vehicle Studio Spotlight Photography */}
+          {/* Right: Featured Car on Clean Studio Canvas */}
           <div className="lg:col-span-6 w-full">
-            <div className="relative group border border-zinc-800 bg-zinc-950 p-2 overflow-hidden shadow-2xl">
-              {/* Image with Aspect Ratio and Studio Lighting */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900">
+            <div className="relative group bg-white border border-zinc-200 p-3 shadow-[0_10px_35px_rgba(0,0,0,0.05)] transition-all">
+              
+              <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100">
                 <img
                   src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1600&q=85"
                   alt="Porsche 911 Carrera GTS"
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out brightness-95 contrast-105"
+                  className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-700 ease-out"
                   loading="eager"
                 />
                 
-                {/* Subtle vignette gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
-
-                {/* Badge Overlay */}
-                <div className="absolute top-4 left-4 bg-black/90 border border-zinc-700 px-3 py-1.5 text-xs font-tech text-white uppercase tracking-wider backdrop-blur-sm">
-                  PORSCHE 911 CARRERA GTS • 2024 (0 KM)
-                </div>
-
-                <div className="absolute bottom-4 right-4 bg-white text-black px-3 py-1 font-tech text-xs font-bold uppercase tracking-wider">
-                  DISPONIBLE EN SALÓN
+                {/* Clean Status Pill */}
+                <div className="absolute top-4 left-4 bg-white/95 border border-zinc-200 px-3 py-1 text-xs font-tech text-black uppercase tracking-wider font-semibold shadow-xs">
+                  0 KM • ENTREGA INMEDIATA
                 </div>
               </div>
 
-              {/* Bottom detail strip */}
-              <div className="p-4 bg-zinc-950 flex justify-between items-center text-xs font-tech text-zinc-400">
-                <span>Color: Agate Grey Metallic • Interior Cuero Negro</span>
-                <span className="text-white font-bold">USD 245.000</span>
+              {/* Minimal caption strip */}
+              <div className="p-4 bg-white flex justify-between items-baseline text-xs">
+                <div>
+                  <h3 className="font-bold text-zinc-900 text-sm">Porsche 911 Carrera GTS</h3>
+                  <p className="text-zinc-500 text-[11px] font-tech mt-0.5">2024 · Nafta · Agate Grey</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-zinc-900 font-black text-base font-tech">USD 245.000</span>
+                </div>
               </div>
+
             </div>
           </div>
 

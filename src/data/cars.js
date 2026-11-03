@@ -211,3 +211,4 @@ export const VEHICLES = [
     certification: 'Impecable estado de conservación, protegido con film transparente PPF frontal completo.'
   }
 ];
+
