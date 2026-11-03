@@ -1,49 +1,42 @@
 # Contexto del Proyecto: Concesionaria Web (STUDIO MOTORS)
 
 **Última actualización:** 03/11/2026  
-**Estado:** Frontend React + Vite + Tailwind CSS v4 operativo en `http://localhost:3000/`.
+**Estado:** Rediseño luminoso blanco/perla con líneas sutiles y tarjetas automotrices reales activo en `http://localhost:3000/`.
 
 ---
 
-## 1. Arquitectura y Stack Tecnológico
+## 1. Autocrítica Técnica y de Diseño Realizada
 
-- **Frontend**: React 19 + Vite 8 + Tailwind CSS v4 + Lucide React.
-- **Estilo**: Opción A ("Porsche Studio & Gallery") monocromático de alto impacto y contraste (B&W + Zinc/Slate).
-- **Sistema de Orquestación Multi-Agente (`agents/`)**:
-  - `MessageBus`, `WorkflowEngine`, `AgentOrchestrator`.
-  - Roles: `leader`, `subleader`, `worker-frontend`, `worker-backend`, `qa-tester`, `gatekeeper`.
-  - Verificación: 5/5 tests aprobados (`cmd /c npm test`).
+### ¿Qué estaba mal en la versión anterior?
+1. **Fondo negro absoluto**: Resultaba chocante, pesado y cansaba la vista. Las webs de fabricantes y retailers líderes mundiales (Porsche, BMW, Mercedes-Benz, Kavak, Ford) emplean lienzos claros, luminosos y aireados donde el automóvil destaca naturalmente.
+2. **Sobrecarga de métricas tipo "videojuego" en las tarjetas**:
+   - Se habían incluido 4 bloques de datos sintéticos (`480 HP`, `3.3s 0-100`, `Rodado`, `Caja PDK`) dentro de cada tarjeta de la grilla.
+   - Ninguna concesionaria real coloca bloques de telemetría invasivos en el catálogo principal; esto satura la lectura e interrumpe la decisión de compra.
+3. **Falta de componentes de confianza e interacción real**:
+   - Faltaban elementos como botón de favoritos (guardar vehículo), indicador de sucursal/ubicación, y diferenciación sutil entre 0km y usados.
 
----
-
-## 2. Componentes Implementados
-
-1. **`Header.jsx`**:
-   - Barra superior con estado de Concierge en vivo y teléfono directo.
-   - Navegación fija traslúcida (*backdrop-blur*) con logotipo tipográfico y botón prioritario a WhatsApp.
-2. **`Hero.jsx`**:
-   - Presentación de vehículo insignia (Porsche 911 Carrera GTS 2024).
-   - Telemetría visual de rendimiento (480 HP, 3.3s 0-100, 100% inspeccionado).
-   - Botón directo de reserva y exploración de inventario.
-3. **`Catalog.jsx`**:
-   - Filtros dinámicos por estado (`Todos`, `0 KM`, `Seleccionados`) y carrocería (`Coupé & Sport`, `SUV`).
-   - Buscador predictivo en tiempo real y selector por marcas y ordenamiento.
-   - Tarjetas 16:9 con fotografía de estudio, tira técnica (HP, 0-100, Km, Caja), precio contado y cuota mensual estimada.
-4. **`VehicleModal.jsx`**:
-   - Drawer/Modal de inspección técnica en profundidad con selector de galería, ficha técnica de motorización, lista de equipamiento de serie y opcionales, y botón de visita/cotización.
-5. **`FinancingCalculator.jsx`**:
-   - Simulador privado con sliders de valor del vehículo y anticipo (20% a 70%), selector de cuotas (12, 24, 36, 48 meses) y cálculo reactivo en tiempo real.
-6. **`TradeInForm.jsx`**:
-   - Formulario de tasación de usados "llave contra llave" conectado a WhatsApp.
-7. **`TrustBadges.jsx`**:
-   - Sellos de inspección en 180 puntos, dominio verificado ante escribano, garantía mecánica y entrega llave en mano.
-8. **`Footer.jsx`**:
-   - Datos del showroom en Vicente López (Av. del Libertador), horarios, canales de atención y seguridad jurídica.
+### ¿Qué se cambió y se implementó?
+1. **Lienzo Blanco Luminoso con Textura y Líneas Degradadas**:
+   - Base en blanco perla (`#fcfcfd`) con degradado radial sutil hacia gris neutro.
+   - Patrón de líneas arquitectónicas sutiles (`background-size: 48px 48px` con opacidad del 3%) y degradado lineal hacia los extremos, evitando el blanco plano clínico.
+2. **Rediseño Completo de Tarjetas de Vehículos (Benchmark Porsche Finder + Kavak)**:
+   - Tarjetas blancas limpias con bordes delgados de 1px (`#e4e4e7`) y sombra de elevación natural (`shadow-[0_12px_32px_rgba(0,0,0,0.06)]`).
+   - Botón interactivo de favoritos (corazón con animación de guardado).
+   - Pastillas sobrias de estado: `0 KM` o `CERTIFICADO`.
+   - Jerarquía clara: Marca (`Porsche`), Modelo (`911 Carrera GTS`), y una sola línea horizontal legible de especificaciones: `2024 · 0 km · Automática PDK · Nafta`.
+   - Ubicación: `Vicente López, Buenos Aires`.
+   - Bloque de precio: `USD 245.000` en tipografía contundente y cuota mensual estimada debajo.
+   - Botones funcionales: *"Ver Ficha"* y *"Cotizar por WhatsApp"*.
+3. **Mantenimiento de Datos Técnicos Completos en el Modal**:
+   - Todos los datos de motor, cilindrada, par motor (torque), tracción, velocidad máxima y equipamiento se preservaron y perfeccionaron exclusivamente en el modal de inspección detallada.
+4. **Header y Secciones Ligeras**:
+   - Cabecera en blanco traslúcido con efecto vidrio (*backdrop-blur*).
+   - Bloques de Financiación, Tasación de Usados y Sellos de Confianza adaptados a la nueva estética luminosa.
 
 ---
 
-## 3. Verificaciones y Estado de Ejecución
+## 2. Estado de Ejecución y Pruebas
 
-- `npm run build`: Compilación limpia en ~300ms sin advertencias.
-- `cmd /c npm test`: 5/5 pruebas unitarias y de orquestación aprobadas.
-- Servidor de desarrollo local activo: `http://localhost:3000/`.
+- Servidor Vite en vivo: `http://localhost:3000/`.
+- `npm run build`: Compilación en ~340ms sin errores.
+- `cmd /c npm test`: 5/5 pruebas automáticas aprobadas.
