@@ -64,6 +64,7 @@ export const VEHICLES = [
     paint: "Verde Manhattan",
     location: "Showroom Libertador",
     featured: true,
+    scale: 1.0,
     pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/c4/hibrido/bbc-c4-hibrido.png",
     // Versiones como en la Imagen 5
     versions: [
@@ -177,6 +178,7 @@ export const VEHICLES = [
     location: "Showroom Libertador",
     featured: true,
     flip: true,
+    scale: 1.0,
     pngImage: "https://hyundai.com.ar/publicfiles/model_pics/3b6c5c86cadb3ab52c3767e17d599321.png",
     versions: [
       {
@@ -269,6 +271,7 @@ export const VEHICLES = [
     location: "Hub Pilar",
     featured: false,
     flip: true,
+    scale: 1.18,
     pngImage: "https://hyundai.com.ar/publicfiles/model_pics/341b3771bdf7f5b082f93cedaded714f.png",
     photos: [
       "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80",
@@ -304,6 +307,7 @@ export const VEHICLES = [
     location: "Showroom Libertador",
     featured: false,
     flip: true,
+    scale: 1.05,
     pngImage: "https://hyundai.com.ar/publicfiles/model_pics/e7e5e083d6af4a1de84b59c48979a117.png",
     photos: [
       "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
@@ -339,6 +343,7 @@ export const VEHICLES = [
     location: "Showroom Libertador",
     featured: false,
     flip: true,
+    scale: 1.05,
     pngImage: "https://hyundai.com.ar/publicfiles/model_pics/56683bbba1a48c2e15d0ac237dfece23.png",
     photos: [
       "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1200&q=80",
@@ -373,6 +378,7 @@ export const VEHICLES = [
     paint: "Gris Artense",
     location: "Hub Pilar",
     featured: false,
+    scale: 1.15,
     pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/bbc-c3-you2.png",
     photos: [
       "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80"
@@ -406,6 +412,7 @@ export const VEHICLES = [
     paint: "Gris Grafito",
     location: "Showroom Libertador",
     featured: true,
+    scale: 1.02,
     pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/basalt/bbc-basalt.png",
     photos: [
       "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80"
@@ -439,6 +446,7 @@ export const VEHICLES = [
     paint: "Blanco Banquise",
     location: "Hub Pilar",
     featured: false,
+    scale: 1.12,
     pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/berlingo/bbc-berlingo.png",
     photos: [
       "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1200&q=80"
@@ -472,6 +480,7 @@ export const VEHICLES = [
     paint: "Naranja Código",
     location: "Showroom Libertador",
     featured: true,
+    scale: 0.96,
     pngImage: "https://pngimg.com/d/pickup_truck_PNG16335.png",
     photos: [
       "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85",
@@ -508,6 +517,7 @@ export const VEHICLES = [
     paint: "Gris Vulcano Metalizado",
     location: "Showroom Libertador",
     featured: true,
+    scale: 1.0,
     pngImage: "https://pngimg.com/d/porsche_PNG10613.png",
     photos: [
       "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
@@ -543,6 +553,7 @@ export const VEHICLES = [
     paint: "Azul Portimao",
     location: "Showroom Libertador",
     featured: true,
+    scale: 1.0,
     pngImage: "https://pngimg.com/d/bmw_PNG99539.png",
     photos: [
       "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80",
@@ -577,6 +588,8 @@ export const VEHICLES = [
     paint: "Gris Nardo",
     location: "Showroom Libertador",
     featured: false,
+    flip: true,
+    scale: 1.05,
     pngImage: "https://pngimg.com/d/audi_PNG1771.png",
     photos: [
       "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1200&q=80",

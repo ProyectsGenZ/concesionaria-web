@@ -289,15 +289,22 @@ export default function CatalogView({
                       </p>
 
                       {/* Miniatura PNG con Sombra de Piso (Orientación 3/4 Unificada) */}
-                      <div className="car-platform-shadow w-full h-40 flex items-center justify-center my-3 relative">
-                        <img
-                          src={car.pngImage}
-                          alt={`${car.brand} ${car.model}`}
-                          className={`max-h-full max-w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-1 ${
-                            car.flip ? '-scale-x-100' : ''
-                          }`}
-                          loading="lazy"
-                        />
+                      <div className="car-platform-shadow w-full h-40 flex items-center justify-center my-3 relative overflow-visible">
+                        {/* Wrapper estático de orientación horizontal permanente (previene rotaciones en hover) */}
+                        <div className={`w-full h-full flex items-center justify-center ${car.flip ? 'scale-x-[-1]' : ''}`}>
+                          {/* Contenedor interno que ejecuta el zoom suave exclusivamente */}
+                          <div className="w-full h-full flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-105 group-hover:-translate-y-1">
+                            <img
+                              src={car.pngImage}
+                              alt={`${car.brand} ${car.model}`}
+                              style={{
+                                transform: `scale(${car.scale || 1.0})`
+                              }}
+                              className="max-h-28 sm:max-h-32 w-auto max-w-[88%] object-contain relative z-10 select-none pointer-events-none"
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       {/* Ficha técnica ultra limpia en 1 sola línea */}

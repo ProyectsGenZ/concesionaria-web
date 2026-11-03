@@ -379,14 +379,17 @@ export default function VehicleDetailView({
 
           {/* Visualización del Auto PNG con Sombra sobre Base Minimalista */}
           <div className="max-w-3xl mx-auto my-10">
-            <div className="car-platform-shadow w-full h-64 sm:h-80 flex items-center justify-center relative">
-              <img
-                src={currentVersion.png || vehicle.pngImage}
-                alt={currentVersion.name}
-                className={`max-h-full max-w-full object-contain relative z-10 transition-all duration-500 ${
-                  vehicle.flip ? '-scale-x-100' : ''
-                }`}
-              />
+            <div className="car-platform-shadow w-full h-64 sm:h-80 flex items-center justify-center relative overflow-visible">
+              <div className={`w-full h-full flex items-center justify-center ${vehicle.flip ? 'scale-x-[-1]' : ''}`}>
+                <img
+                  src={currentVersion.png || vehicle.pngImage}
+                  alt={currentVersion.name}
+                  style={{
+                    transform: `scale(${vehicle.scale || 1.0})`
+                  }}
+                  className="max-h-56 sm:max-h-72 w-auto max-w-[92%] object-contain relative z-10 select-none pointer-events-none transition-transform duration-300"
+                />
+              </div>
             </div>
           </div>
 

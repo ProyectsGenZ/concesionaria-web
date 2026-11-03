@@ -11,19 +11,6 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleScrollToServices = () => {
-    if (currentView !== 'home') {
-      onNavigate('home');
-      setTimeout(() => {
-        const el = document.getElementById('financiacion-usados');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
-    } else {
-      const el = document.getElementById('financiacion-usados');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <header
       className={`fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-b border-zinc-200/90 transition-all duration-300 shadow-xs ${
@@ -71,12 +58,6 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
             }`}
           >
             Gama & Catálogo
-          </button>
-          <button
-            onClick={handleScrollToServices}
-            className="text-black hover:opacity-60 transition py-1 cursor-pointer"
-          >
-            Financiación & Permutas
           </button>
           <button
             onClick={onScrollToContact}
