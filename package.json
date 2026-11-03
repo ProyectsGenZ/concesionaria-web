@@ -1,0 +1,19 @@
+{
+  "name": "concesionaria-web",
+  "version": "1.0.0",
+  "description": "Plataforma web para concesionaria de vehículos con sistema de orquestación y diseño antislop",
+  "main": "agents/index.js",
+  "scripts": {
+    "test": "node --test tests/**/*.test.js",
+    "orchestrate": "node -e \"const { AgentOrchestrator } = require('./agents'); new AgentOrchestrator().runGoal(process.argv[1] || 'Verificación de estado de la concesionaria').then(r => console.log('Resultado:', r.approved ? 'APROBADO' : 'RECHAZADO'));\""
+  },
+  "keywords": [
+    "concesionaria",
+    "automoviles",
+    "orchestration",
+    "antislop",
+    "clean-code"
+  ],
+  "author": "",
+  "license": "ISC"
+}
