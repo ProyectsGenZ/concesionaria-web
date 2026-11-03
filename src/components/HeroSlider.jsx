@@ -43,7 +43,7 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
               <img
                 src={slide.image}
                 alt={slide.title}
-                className={`w-full h-full object-cover object-center brightness-[0.82] contrast-105 ${
+                className={`w-full h-full object-cover object-center brightness-[0.96] contrast-[1.02] ${
                   isActive ? 'animate-kenburns' : ''
                 }`}
               />
@@ -52,9 +52,9 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
         })}
       </div>
 
-      {/* Gradientes atmosféricos suaves y cinematográficos */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-black/30 z-10 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent z-10 pointer-events-none" />
+      {/* Gradientes atmosféricos suaves y sutiles (filtro aclarado según requerimiento) */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent z-10 pointer-events-none" />
 
       {/* Content Overlay */}
       <div className="relative z-20 h-full max-w-[1440px] mx-auto px-6 lg:px-10 pt-28 pb-14 sm:pb-16 flex flex-col justify-end">

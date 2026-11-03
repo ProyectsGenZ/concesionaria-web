@@ -62,7 +62,9 @@ export default function SilhouetteBar({ onSelectSilhouette, onSelectBrand, onNav
                 <img
                   src={car.pngImage}
                   alt={`${car.brand} ${car.model}`}
-                  className="max-h-full max-w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-1"
+                  className={`max-h-full max-w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-1 ${
+                    car.flip ? '-scale-x-100' : ''
+                  }`}
                   loading="lazy"
                 />
               </div>

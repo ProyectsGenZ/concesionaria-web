@@ -98,7 +98,9 @@ export default function VehicleDetailView({
                   <img
                     src={vehicle.pngImage}
                     alt={vehicle.model}
-                    className="max-h-full max-w-full object-contain relative z-10 transition-transform duration-700 group-hover:scale-105"
+                    className={`max-h-full max-w-full object-contain relative z-10 transition-transform duration-700 group-hover:scale-105 ${
+                      vehicle.flip ? '-scale-x-100' : ''
+                    }`}
                   />
                 </div>
               ) : (
@@ -337,7 +339,9 @@ export default function VehicleDetailView({
               <img
                 src={currentVersion.png || vehicle.pngImage}
                 alt={currentVersion.name}
-                className="max-h-full max-w-full object-contain relative z-10 transition-all duration-500"
+                className={`max-h-full max-w-full object-contain relative z-10 transition-all duration-500 ${
+                  vehicle.flip ? '-scale-x-100' : ''
+                }`}
               />
             </div>
           </div>

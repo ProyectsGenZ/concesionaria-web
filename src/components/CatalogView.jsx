@@ -266,40 +266,42 @@ export default function CatalogView({
                   <article
                     key={car.id}
                     onClick={() => handleOpenCar(car.id)}
-                    className="group bg-white/90 backdrop-blur-sm rounded-3xl border border-zinc-200/80 hover:border-black p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between cursor-pointer"
+                    className="group bg-transparent hover:bg-white/80 rounded-3xl p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-md flex flex-col justify-between cursor-pointer"
                     title={`Abrir ${car.brand} ${car.model} en nueva pestaña`}
                   >
                     <div>
                       {/* Badge y Marca */}
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 font-tech">
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-black/60 font-tech">
                           {car.brand}
                         </span>
-                        <span className="px-2 py-0.5 rounded-full bg-zinc-100 text-black text-[10px] font-bold uppercase tracking-wider border border-zinc-200/60 font-tech">
+                        <span className="px-2 py-0.5 rounded-full bg-zinc-100 text-black text-[10px] font-bold uppercase tracking-wider font-tech">
                           {car.badge}
                         </span>
                       </div>
 
                       {/* Título */}
-                      <h3 className="text-xl font-extrabold text-black tracking-tight leading-snug mb-1 font-display">
+                      <h3 className="text-xl font-black text-black tracking-tight leading-snug mb-1 font-display">
                         {car.model}
                       </h3>
                       <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-1 mb-4 font-normal">
                         {car.trim}
                       </p>
 
-                      {/* Miniatura PNG con Sombra de Piso */}
+                      {/* Miniatura PNG con Sombra de Piso (Orientación 3/4 Unificada) */}
                       <div className="car-platform-shadow w-full h-40 flex items-center justify-center my-3 relative">
                         <img
                           src={car.pngImage}
                           alt={`${car.brand} ${car.model}`}
-                          className="max-h-full max-w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-1"
+                          className={`max-h-full max-w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-1 ${
+                            car.flip ? '-scale-x-100' : ''
+                          }`}
                           loading="lazy"
                         />
                       </div>
 
                       {/* Ficha técnica ultra limpia en 1 sola línea */}
-                      <div className="pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-tech">
+                      <div className="pt-3 border-t border-zinc-200/50 flex items-center justify-between text-[11px] text-zinc-600 font-tech">
                         <span>{car.year}</span>
                         <span>•</span>
                         <span>{car.km === 0 ? '0 km' : `${car.km.toLocaleString('es-AR')} km`}</span>
@@ -309,9 +311,9 @@ export default function CatalogView({
                     </div>
 
                     {/* Precio y Acción */}
-                    <div className="pt-5 mt-5 border-t border-zinc-100 flex items-center justify-between">
+                    <div className="pt-5 mt-5 border-t border-zinc-200/50 flex items-center justify-between">
                       <div>
-                        <span className="block text-[9px] uppercase tracking-wider text-zinc-400 font-tech">Precio</span>
+                        <span className="block text-[9px] uppercase tracking-wider text-black/50 font-tech font-bold">Precio</span>
                         <span className="text-lg font-black text-black font-tech tabular-nums">
                           {formatPrice(car.priceUSD)}
                         </span>

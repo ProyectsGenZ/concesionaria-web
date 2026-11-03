@@ -38,46 +38,48 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
           </button>
         </div>
 
-        {/* Grilla Limpia en Blanco y Negro con Miniaturas PNG y Sombra de Suelo */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {/* Grilla Limpia en Blanco y Negro SIN BORDES con Miniaturas PNG orientadas todas a 3/4 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {featured.map((car) => (
             <article
               key={car.id}
               onClick={() => handleOpenCar(car.id)}
-              className="group bg-white/80 backdrop-blur-sm rounded-3xl border border-zinc-200/80 hover:border-black p-8 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl flex flex-col justify-between cursor-pointer"
+              className="group bg-transparent hover:bg-white/80 p-8 rounded-3xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lg flex flex-col justify-between cursor-pointer"
               title={`Abrir ${car.brand} ${car.model} en nueva pestaña`}
             >
               <div>
                 {/* Header de la tarjeta con Badge y Año */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 font-tech">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-black/60 font-tech">
                     {car.brand}
                   </span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 text-black text-[10px] font-semibold border border-zinc-200/60 font-tech">
+                  <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 text-black text-[10px] font-bold uppercase tracking-wider font-tech">
                     {car.badge}
                   </span>
                 </div>
 
                 {/* Título */}
-                <h3 className="text-2xl font-extrabold text-black tracking-tight mb-2 font-display">
+                <h3 className="text-2xl font-black text-black tracking-tight mb-2 font-display">
                   {car.model}
                 </h3>
                 <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-6 font-normal">
                   {car.description}
                 </p>
 
-                {/* Miniatura PNG con Sombra en el Piso (Estilo Hyundai / Citroën) */}
+                {/* Miniatura PNG con Sombra en el Piso (Orientación 3/4 Unificada hacia la Izquierda) */}
                 <div className="car-platform-shadow w-full h-48 flex items-center justify-center my-4 relative">
                   <img
                     src={car.pngImage}
                     alt={`${car.brand} ${car.model}`}
-                    className="max-h-full max-w-full object-contain relative z-10 transition-transform duration-700 ease-out group-hover:scale-108 group-hover:-translate-y-1"
+                    className={`max-h-full max-w-full object-contain relative z-10 transition-transform duration-700 ease-out group-hover:scale-108 group-hover:-translate-y-1 ${
+                      car.flip ? '-scale-x-100' : ''
+                    }`}
                     loading="lazy"
                   />
                 </div>
 
                 {/* Especificaciones Técnicas Rápidas en una sola línea */}
-                <div className="pt-4 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500 font-tech">
+                <div className="pt-4 border-t border-zinc-200/50 flex items-center justify-between text-xs text-zinc-600 font-tech">
                   <span>{car.year}</span>
                   <span>•</span>
                   <span>{car.km === 0 ? '0 km' : `${car.km.toLocaleString('es-AR')} km`}</span>
@@ -89,9 +91,9 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
               </div>
 
               {/* Precio y Botón Único de Acción */}
-              <div className="pt-6 mt-6 border-t border-zinc-100 flex items-center justify-between">
+              <div className="pt-6 mt-6 border-t border-zinc-200/50 flex items-center justify-between">
                 <div>
-                  <span className="block text-[10px] uppercase tracking-wider text-zinc-400 font-tech">Valor</span>
+                  <span className="block text-[10px] uppercase tracking-wider text-black/50 font-tech font-bold">Valor</span>
                   <span className="text-xl font-black text-black font-tech tabular-nums">
                     {formatPrice(car.priceUSD)}
                   </span>
