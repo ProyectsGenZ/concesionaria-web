@@ -1,42 +1,49 @@
-# Contexto del Proyecto: Concesionaria Web
+# Contexto del Proyecto: Concesionaria Web (STUDIO MOTORS)
 
 **Última actualización:** 03/11/2026  
-**Estado:** Inicializado con Sistema de Orquestación y Reglas Antislop
+**Estado:** Frontend React + Vite + Tailwind CSS v4 operativo en `http://localhost:3000/`.
 
 ---
 
-## 1. Arquitectura y Orquestación
+## 1. Arquitectura y Stack Tecnológico
 
+- **Frontend**: React 19 + Vite 8 + Tailwind CSS v4 + Lucide React.
+- **Estilo**: Opción A ("Porsche Studio & Gallery") monocromático de alto impacto y contraste (B&W + Zinc/Slate).
 - **Sistema de Orquestación Multi-Agente (`agents/`)**:
-  - `MessageBus`: Bus de eventos con mensajería directa, consultas asíncronas `ask/reply` y trazabilidad de auditoría.
-  - `WorkflowEngine`: Máquina de estados jerárquica con compuertas de calidad (`SUBMITTED` -> `PLANNING` -> `DISPATCHING` -> `IN_PROGRESS` -> `TESTING` -> `CODE_REVIEW` -> `APPROVED`).
-  - **Roles**:
-    - **Líder (`leader`)**: Arquitecto jefe y planificador estratégico.
-    - **Sublíder (`subleader`)**: Desglose técnico y coordinación de tareas.
-    - **Especialistas (`worker-frontend`, `worker-backend`)**: Ejecución operativa.
-    - **QA Tester (`qa-tester`)**: Validador automático de pruebas unitarias y de integración.
-    - **Gatekeeper (`gatekeeper`)**: Guardián de seguridad, Clean Code y estándares Antislop UI.
-- **Suite de Pruebas**:
-  - `tests/orchestrator.test.js`: 5/5 pruebas automáticas aprobadas (`cmd /c npm test`).
+  - `MessageBus`, `WorkflowEngine`, `AgentOrchestrator`.
+  - Roles: `leader`, `subleader`, `worker-frontend`, `worker-backend`, `qa-tester`, `gatekeeper`.
+  - Verificación: 5/5 tests aprobados (`cmd /c npm test`).
 
 ---
 
-## 2. Reglas de Diseño Antislop y UI/UX Automotriz
+## 2. Componentes Implementados
 
-- **Filosofía**: Evitar el aspecto genérico de IA ("AI slop").
-- **Paleta de Colores**: Neutros profundos (Zinc / Slate carbón), acentos mecánicos o deportivos (ámbar ámbar cálido, carmín sobrio o cian metálico de precisión), tipografías con carácter e impacto (ej. *Cabinet Grotesk*, *Syne*, *Plus Jakarta Sans*, *Outfit* o *Geist*).
-- **Componentes automotrices clave**:
-  - Hero inmersivo con vehículo destacado, llamada a la acción clara y selector rápido de inventario.
-  - Catálogo interactivo con filtros dinámicos (Marca, Modelo, Año, Combustible, Rango de Precio, Tipo de Carrocería, Transmisión, 0km / Usados).
-  - Ficha técnica de detalle con galería fotográfica de alta resolución / lightbox y specs detalladas.
-  - Simulador interactivo de cuotas y financiación.
-  - Botón de conversión rápida a WhatsApp con mensaje precargado del vehículo de interés.
-  - Formulario de cotización / test drive con validación estricta y feedback accesible.
+1. **`Header.jsx`**:
+   - Barra superior con estado de Concierge en vivo y teléfono directo.
+   - Navegación fija traslúcida (*backdrop-blur*) con logotipo tipográfico y botón prioritario a WhatsApp.
+2. **`Hero.jsx`**:
+   - Presentación de vehículo insignia (Porsche 911 Carrera GTS 2024).
+   - Telemetría visual de rendimiento (480 HP, 3.3s 0-100, 100% inspeccionado).
+   - Botón directo de reserva y exploración de inventario.
+3. **`Catalog.jsx`**:
+   - Filtros dinámicos por estado (`Todos`, `0 KM`, `Seleccionados`) y carrocería (`Coupé & Sport`, `SUV`).
+   - Buscador predictivo en tiempo real y selector por marcas y ordenamiento.
+   - Tarjetas 16:9 con fotografía de estudio, tira técnica (HP, 0-100, Km, Caja), precio contado y cuota mensual estimada.
+4. **`VehicleModal.jsx`**:
+   - Drawer/Modal de inspección técnica en profundidad con selector de galería, ficha técnica de motorización, lista de equipamiento de serie y opcionales, y botón de visita/cotización.
+5. **`FinancingCalculator.jsx`**:
+   - Simulador privado con sliders de valor del vehículo y anticipo (20% a 70%), selector de cuotas (12, 24, 36, 48 meses) y cálculo reactivo en tiempo real.
+6. **`TradeInForm.jsx`**:
+   - Formulario de tasación de usados "llave contra llave" conectado a WhatsApp.
+7. **`TrustBadges.jsx`**:
+   - Sellos de inspección en 180 puntos, dominio verificado ante escribano, garantía mecánica y entrega llave en mano.
+8. **`Footer.jsx`**:
+   - Datos del showroom en Vicente López (Av. del Libertador), horarios, canales de atención y seguridad jurídica.
 
 ---
 
-## 3. Estado de Verificaciones
+## 3. Verificaciones y Estado de Ejecución
 
-- `cmd /c npm test`: **5/5 tests aprobados** (0 errores).
-- Git: Repositorio inicializado.
-
+- `npm run build`: Compilación limpia en ~300ms sin advertencias.
+- `cmd /c npm test`: 5/5 pruebas unitarias y de orquestación aprobadas.
+- Servidor de desarrollo local activo: `http://localhost:3000/`.

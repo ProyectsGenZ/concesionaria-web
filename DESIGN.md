@@ -76,3 +76,4 @@ Documento vivo de arquitectura visual, tokens y reglas de diseño para la plataf
 6. **Certificación y Garantía**:
    - Sello de inspección técnica en 180 puntos mecánicos y estructurales.
    - Entrega llave en mano y servicio de gestoría integral.
+
