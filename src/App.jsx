@@ -8,15 +8,10 @@ import VehicleDetailView from './components/VehicleDetailView';
 import ShowroomContact from './components/ShowroomContact';
 import Lightbox from './components/Lightbox';
 import Footer from './components/Footer';
-import AtelierDesign from './components/AtelierDesign';
-import VeloceDesign from './components/VeloceDesign';
-import DesignSwitcher from './components/DesignSwitcher';
 import { VEHICLES } from './data/vehicles';
 
 export default function App() {
-  const [activeDesign, setActiveDesign] = useState('monolith'); // 'monolith' | 'atelier' | 'veloce'
-
-  // MONOLITH State
+  // Navigation & View State
   const [view, setView] = useState('home'); // 'home' | 'catalog' | 'detail'
   const [currency, setCurrency] = useState('USD'); // 'USD' | 'ARS'
   const [activeVehicleId, setActiveVehicleId] = useState('CIT-001');
@@ -53,7 +48,6 @@ export default function App() {
   };
 
   const handleOpenVehicle = (carId) => {
-    // Abre en nueva pestaña mostrando la unidad, sus partes y características
     window.open(`?vehiculo=${carId}`, '_blank');
   };
 
@@ -92,111 +86,80 @@ export default function App() {
     setTimeout(() => setToastMessage(''), 4000);
   };
 
-  const handleOpenWhatsAppGeneral = (contextQuery) => {
-    const text = `Hola, me comunico desde la web oficial. Consulta: ${contextQuery}`;
-    window.open(`https://wa.me/5491155550199?text=${encodeURIComponent(text)}`, '_blank');
-  };
-
   return (
-    <div className="min-h-screen flex flex-col whynot-pearl-bg">
+    <div className="min-h-screen flex flex-col whynot-pearl-bg text-zinc-900 selection:bg-black selection:text-white">
       
-      {/* SELECTOR FLOTANTE DE DISEÑO (Permite alternar en tiempo real entre los 3 enfoques) */}
-      <DesignSwitcher
-        activeDesign={activeDesign}
-        onSelectDesign={(d) => {
-          setActiveDesign(d);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+      {/* Cabecera Principal */}
+      <Header
+        currentView={view}
+        onNavigate={handleNavigate}
+        onScrollToContact={() => handleScrollToContact()}
+        currency={currency}
+        onToggleCurrency={setCurrency}
       />
 
-      {/* DISEÑO 1: MONOLITH STUDIO (Blanco y Negro Texturizado · Miniaturas PNG con Sombra · Partes & Versiones) */}
-      {activeDesign === 'monolith' && (
-        <div className="whynot-pearl-bg text-zinc-900 flex-1 flex flex-col selection:bg-black selection:text-white animate-fadeIn">
-          <Header
-            currentView={view}
-            onNavigate={handleNavigate}
-            onScrollToContact={() => handleScrollToContact()}
-            currency={currency}
-            onToggleCurrency={setCurrency}
-          />
-
-          <main className="flex-1">
-            {view === 'home' && (
-              <div className="animate-fadeIn">
-                <HeroSlider
-                  onOpenVehicle={handleOpenVehicle}
-                  onNavigateCatalog={() => handleNavigate('catalog')}
-                />
-                <SilhouetteBar
-                  onSelectSilhouette={handleSelectSilhouette}
-                  onSelectBrand={handleSelectBrand}
-                  onNavigateCatalog={() => handleNavigate('catalog')}
-                />
-                <FeaturedHome
-                  onOpenVehicle={handleOpenVehicle}
-                  onNavigateCatalog={() => handleNavigate('catalog')}
-                  currency={currency}
-                />
-              </div>
-            )}
-
-            {view === 'catalog' && (
-              <div className="animate-fadeIn">
-                <CatalogView
-                  onOpenVehicle={handleOpenVehicle}
-                  currency={currency}
-                  onToggleCurrency={setCurrency}
-                  initialCategory={selectedSilhouette}
-                  initialBrand={selectedBrand}
-                />
-              </div>
-            )}
-
-            {view === 'detail' && (
-              <div className="animate-fadeIn">
-                <VehicleDetailView
-                  vehicle={activeVehicle}
-                  onBack={() => setView('catalog')}
-                  onScrollToContact={handleScrollToContact}
-                  currency={currency}
-                  onOpenLightbox={handleOpenLightbox}
-                />
-              </div>
-            )}
-
-            <ShowroomContact
-              prefilledVehicle={prefilledVehicle}
-              onShowToast={showToast}
+      <main className="flex-1">
+        {view === 'home' && (
+          <div className="animate-fadeIn">
+            <HeroSlider
+              onOpenVehicle={handleOpenVehicle}
+              onNavigateCatalog={() => handleNavigate('catalog')}
             />
-          </main>
-
-          <Footer
-            onNavigate={handleNavigate}
-            onScrollToContact={() => handleScrollToContact()}
-          />
-
-          {lightboxOpen && (
-            <Lightbox
-              photos={lightboxPhotos}
-              initialIndex={lightboxIndex}
-              onClose={() => setLightboxOpen(false)}
+            <SilhouetteBar
+              onSelectSilhouette={handleSelectSilhouette}
+              onSelectBrand={handleSelectBrand}
+              onNavigateCatalog={() => handleNavigate('catalog')}
             />
-          )}
-        </div>
-      )}
+            <FeaturedHome
+              onOpenVehicle={handleOpenVehicle}
+              onNavigateCatalog={() => handleNavigate('catalog')}
+              currency={currency}
+            />
+          </div>
+        )}
 
-      {/* DISEÑO 2: ATELIER AUTOMOBILE (Editorial Haute Couture · Marfil y Oro · Pasarela Horizontal) */}
-      {activeDesign === 'atelier' && (
-        <div className="flex-1 animate-fadeIn">
-          <AtelierDesign onOpenWhatsApp={handleOpenWhatsAppGeneral} />
-        </div>
-      )}
+        {view === 'catalog' && (
+          <div className="animate-fadeIn">
+            <CatalogView
+              onOpenVehicle={handleOpenVehicle}
+              currency={currency}
+              onToggleCurrency={setCurrency}
+              initialCategory={selectedSilhouette}
+              initialBrand={selectedBrand}
+            />
+          </div>
+        )}
 
-      {/* DISEÑO 3: VELOCE CORSA (Motorsport Precision · Telemetría Activa · Comparador Lado a Lado) */}
-      {activeDesign === 'veloce' && (
-        <div className="flex-1 animate-fadeIn">
-          <VeloceDesign onOpenWhatsApp={handleOpenWhatsAppGeneral} />
-        </div>
+        {view === 'detail' && (
+          <div className="animate-fadeIn">
+            <VehicleDetailView
+              vehicle={activeVehicle}
+              onBack={() => setView('catalog')}
+              onScrollToContact={handleScrollToContact}
+              currency={currency}
+              onOpenLightbox={handleOpenLightbox}
+            />
+          </div>
+        )}
+
+        {/* Showroom & Contacto con Rediseño Total y Banner de Redes Sociales De Lado a Lado */}
+        <ShowroomContact
+          prefilledVehicle={prefilledVehicle}
+          onShowToast={showToast}
+        />
+      </main>
+
+      <Footer
+        onNavigate={handleNavigate}
+        onScrollToContact={() => handleScrollToContact()}
+      />
+
+      {lightboxOpen && (
+        <Lightbox
+          photos={lightboxPhotos}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+        />
       )}
 
       {/* Toast Notification */}

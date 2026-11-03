@@ -5,13 +5,6 @@ import { HERO_SLIDES } from '../data/vehicles';
 export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % HERO_SLIDES.length);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, []);
-
   const currentSlide = HERO_SLIDES[activeIndex];
 
   const handlePrev = () => {
@@ -29,23 +22,21 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
   return (
     <section className="relative w-full h-screen min-h-[640px] bg-black text-white overflow-hidden select-none">
       
-      {/* Background Slides con Efecto Zoom Lento (Ken Burns) */}
+      {/* Background Slides Estáticos sin Giros ni Movimientos Involuntarios */}
       <div className="absolute inset-0 w-full h-full">
         {HERO_SLIDES.map((slide, idx) => {
           const isActive = idx === activeIndex;
           return (
             <div
               key={slide.carId}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+              className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
                 isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
               }`}
             >
               <img
                 src={slide.image}
                 alt={slide.title}
-                className={`w-full h-full object-cover object-center brightness-[0.96] contrast-[1.02] ${
-                  isActive ? 'animate-kenburns' : ''
-                }`}
+                className="w-full h-full object-cover object-center brightness-[0.96] contrast-[1.02]"
               />
             </div>
           );
