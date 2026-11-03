@@ -1,42 +1,35 @@
 # Contexto del Proyecto: Concesionaria Web (Suite Multi-Diseño)
 
 **Última actualización:** 03/11/2026  
-**Estado:** Servidor activo en `http://localhost:3000/`. Implementadas todas las directivas de las 5 imágenes del usuario: estética blanco y negro texturizada estilo WHY NOT, miniaturas PNG con sombra de suelo, apertura en nueva pestaña, zoom Ken Burns en hero, mosaico editorial de partes "Explorá cada ángulo", selector "Conocé sus versiones" y redes sociales SVG monocromáticas.
+**Estado:** Servidor activo en `http://localhost:3000/`. Segunda iteración de refinamiento completada: todas las miniaturas unificadas en 3/4 hacia la izquierda, tarjetas de vehículos sin bordes (abiertas y limpias), filtro de banner aclarado, cabecera con tipografía en negro sólido, rediseño total del apartado de Contacto y recuadro de Redes Sociales individual de lado a lado.
 
 ---
 
-## 1. Implementación de Requerimientos y Capturas del Usuario
+## 1. Ajustes de la Última Iteración (Feedback del Usuario)
 
-1. **Estética Blanco & Negro y Fondo Texturizado (Estilo WHY NOT)**:
-   - Fondo perla con gradientes radiales ultra sutiles (`whynot-pearl-bg`) y cuadrícula arquitectónica sutil. Máxima amplitud de espacios en blanco y legibilidad sin elementos chocantes a la vista.
+1. **Orientación Homogénea de Miniaturas (3/4 Frontal a la Izquierda)**:
+   - Se configuró la inversión horizontal (`flip: true` -> `-scale-x-100`) para los modelos de Hyundai, garantizando que el 100% de los vehículos del catálogo miren hacia la misma dirección en ángulo 3/4 frontal.
 
-2. **Miniaturas PNG con Sombra de Suelo (Imágenes 1 y 2 - Hyundai & Citroën)**:
-   - Grilla de modelos (`SilhouetteBar.jsx`, `FeaturedHome.jsx` y `CatalogView.jsx`) con vehículos oficiales de Hyundai (Nueva Tucson, HB20, Nueva Creta, Santa Fe) y Citroën (Nuevo C4 Híbrido, C3, Basalt, Berlingo) recortados en PNG transparente con sombra elíptica hiperrealista de contacto en el piso (`car-platform-shadow`).
+2. **Eliminación Total de Bordes en Vehículos**:
+   - Se eliminaron los marcos grises y bordes perimetrales de las tarjetas en `FeaturedHome.jsx` y `CatalogView.jsx`. Los vehículos ahora flotan directamente sobre la textura perla suave, logrando un aspecto aireado, moderno y nada encapsulado.
 
-3. **Banner Principal con Zoom Lento (Ken Burns Effect)**:
-   - `HeroSlider.jsx`: Animación cinematográfica continua suave (`animate-kenburns`) en las imágenes de fondo, con botones depurados y un único llamado de acción transparente.
+3. **Banner Principal Aclarado (Menos Filtro Oscuro)**:
+   - Se elevó la luminosidad de las fotos a `brightness-[0.96]` y se redujo drásticamente el gradiente oscuro a sólo un sombreado leve en la base (`from-black/75 via-black/20 to-transparent`), permitiendo apreciar la nitidez y colores de cada coche.
 
-4. **Cabecera Dinámica Traslúcida**:
-   - `Header.jsx`: Detecta el desplazamiento (`scrollY > 25`). Al inicio es ultra traslúcida y al deslizarse se difumina con efecto vidrio esmerilado (`bg-white/80 backdrop-blur-xl border-zinc-200/70`), mezclándose elegantemente con el contenido que pasa por debajo.
+4. **Cabecera en Negro Sólido por Defecto**:
+   - Todos los enlaces y elementos de `Header.jsx` ahora visten negro intenso (`text-black font-extrabold`) con fondo `bg-white/95 backdrop-blur-xl`, garantizando legibilidad inmediata y alto contraste en todo momento.
 
-5. **Apertura de Vehículo en Nueva Pestaña**:
-   - Al hacer click en cualquier vehículo del Hero, Gama o Catálogo, se abre automáticamente una **nueva pestaña** (`?vehiculo=ID`).
-   - `App.jsx` lee el parámetro de la URL y arranca directamente en la vista completa de detalle del vehículo (`view-detail`).
+5. **Rediseño Total del Apartado de Contacto**:
+   - `ShowroomContact.jsx` renovado integralmente como un Salón Concierge VIP: selector de sede (*Showroom Libertador* y *Hub Pilar*), badge de atención en tiempo real, canales directos (WhatsApp y Teléfono con botones destacados) y formulario con selector interactivo de motivo de consulta (*Compra*, *Test Drive*, *Permuta*).
 
-6. **Mosaico Editorial "Explorá Cada Ángulo" (Imagen 4 - Citroën C4)**:
-   - Sección en `VehicleDetailView.jsx` que desglosa fotográficamente las partes clave del auto: carrocería 3/4 frontal, pantalla multimedia y cámaras 360°, cockpit y volante de cuero, instrumental digital, butacas ergonómicas, ópticas LED, techo solar y remate posterior.
-
-7. **Sección "Conocé Sus Versiones" (Imagen 5)**:
-   - En `VehicleDetailView.jsx`: Pestañas interactivas de versiones (`MAX` | `PLUS`), visualización PNG con sombra de contacto, 3 características destacadas con barritas de acento y botón único `CONTACTAR ASESOR`.
-
-8. **Redes Sociales SVG Monocromáticas (Imagen 3)**:
-   - En `ShowroomContact.jsx` y `Footer.jsx`: Encabezado `Seguinos en nuestras Redes Sociales` con iconos vectoriales SVG en gris neutro (`Facebook`, `Instagram`, `X / Twitter`, `YouTube`, `LinkedIn`).
+6. **Bloque "Seguinos en nuestras Redes Sociales" Individual de Lado a Lado**:
+   - Franja dedicada full-width (`w-full bg-white border-y border-zinc-200/90 py-16`) que cruza la pantalla de extremo a extremo, con título destacado e iconos SVG vectoriales monocromáticos (Facebook, Instagram, X, YouTube, LinkedIn) centrados y de escala generosa.
 
 ---
 
 ## 2. Verificación de QA y Testing
 
 - Servidor Vite en vivo: `http://localhost:3000/`.
-- Compilación `npm run build`: Exitosa en 326ms sin errores.
+- Compilación `npm run build`: Exitosa en 332ms sin errores ni advertencias.
 - Tests `cmd /c npm test`: **5/5 tests aprobados (100%)**.
 - Git: Rama `master` limpia y commiteada con Conventional Commits.
