@@ -42,3 +42,4 @@ Antes de finalizar cualquier respuesta o dar por entregada una funcionalidad:
 cmd /c npm test
 ```
 Debe aprobar el 100% de las pruebas sin excepciones.
+

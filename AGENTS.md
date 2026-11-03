@@ -7,3 +7,4 @@
 - Conversar siempre en español.
 - Seguridad estricta: No guardar tokens, API keys ni credenciales en código fuente.
 - Mantener actualizado `PROJECT_CONTEXT.md` al finalizar ciclos significativos.
+

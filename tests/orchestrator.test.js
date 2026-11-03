@@ -134,3 +134,4 @@ test('Gatekeeper Gate: Gatekeeper rechaza por falta de seguridad y aprueba tras 
   assert.equal(result.reviewReports[1].approved, true);
   assert.ok(states.includes('GATEKEEPER_REJECTED'));
 });
+

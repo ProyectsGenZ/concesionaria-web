@@ -112,3 +112,4 @@ class MessageBus {
 }
 
 module.exports = { MessageBus };
+

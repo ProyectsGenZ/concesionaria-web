@@ -42,3 +42,4 @@ class LeaderAgent extends Agent {
 }
 
 module.exports = { LeaderAgent };
+

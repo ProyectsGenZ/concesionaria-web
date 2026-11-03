@@ -55,3 +55,4 @@ function createBackendWorker(options = {}) {
 }
 
 module.exports = { WorkerAgent, createFrontendWorker, createBackendWorker };
+

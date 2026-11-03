@@ -52,3 +52,4 @@ class QATesterAgent extends Agent {
 }
 
 module.exports = { QATesterAgent };
+

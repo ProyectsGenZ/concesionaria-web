@@ -49,3 +49,4 @@ class SubleaderAgent extends Agent {
 }
 
 module.exports = { SubleaderAgent };
+

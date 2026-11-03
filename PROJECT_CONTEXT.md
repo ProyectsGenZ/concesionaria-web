@@ -39,3 +39,4 @@
 
 - `cmd /c npm test`: **5/5 tests aprobados** (0 errores).
 - Git: Repositorio inicializado.
+
