@@ -1,126 +1,89 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
 import { VEHICLES } from '../data/vehicles';
 
 export default function SilhouetteBar({ onSelectSilhouette, onSelectBrand, onNavigateCatalog }) {
-  const categories = [
-    {
-      name: 'Pick-ups',
-      filterValue: 'Pick-up',
-      subtitle: 'Ranger Raptor · V6 · Amarok',
-      image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80',
-      count: VEHICLES.filter(v => v.bodyType === 'Pick-up').length
-    },
-    {
-      name: 'SUVs',
-      filterValue: 'SUV',
-      subtitle: 'Macan T · SW4 · Q5 · Tucson',
-      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80',
-      count: VEHICLES.filter(v => v.bodyType === 'SUV').length
-    },
-    {
-      name: 'Sedán Ejecutivo',
-      filterValue: 'Sedán',
-      subtitle: 'BMW Serie 3 M Sport',
-      image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80',
-      count: VEHICLES.filter(v => v.bodyType === 'Sedán').length
-    },
-    {
-      name: 'Coupé & Sport',
-      filterValue: 'Coupé',
-      subtitle: 'Audi TT RS Quattro',
-      image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=600&q=80',
-      count: VEHICLES.filter(v => v.bodyType === 'Coupé').length
-    },
-    {
-      name: 'Hot Hatch',
-      filterValue: 'Hatchback',
-      subtitle: 'Volkswagen Golf GTI Mk8',
-      image: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80',
-      count: VEHICLES.filter(v => v.bodyType === 'Hatchback').length
-    }
-  ];
+  const [activeTab, setActiveTab] = useState('TODOS'); // 'TODOS' | 'PARTICULARES' | 'UTILITARIOS'
 
-  const brands = ['Ford', 'Porsche', 'BMW', 'Audi', 'Toyota', 'Volkswagen', 'Hyundai'];
+  const filteredVehicles = VEHICLES.filter(v => {
+    if (activeTab === 'TODOS') return true;
+    if (activeTab === 'UTILITARIOS') return v.categoryTab === 'UTILITARIOS' || v.bodyType === 'Pick-up';
+    return v.categoryTab === 'PARTICULARES' || v.bodyType !== 'Utilitario';
+  });
+
+  const handleOpenCar = (carId) => {
+    window.open(`?vehiculo=${carId}`, '_blank');
+  };
 
   return (
-    <section className="max-w-[1440px] mx-auto px-6 lg:px-10 pt-20 pb-16">
-      
-      {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10">
-        <div>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400 block mb-2 font-tech">
-            Segmentos & Siluetas
+    <section className="whynot-pearl-bg py-20 border-b border-zinc-200/60 select-none">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+        
+        {/* Cabecera Limpia con Tabs Superiores (Inspirado exactamente en la Imagen 2 de Citroën) */}
+        <div className="flex flex-col items-center justify-center text-center mb-14">
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-3 font-tech">
+            Gama de Vehículos
           </span>
-          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-black font-display">
-            Explorá por tipo de vehículo
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black font-display mb-8">
+            Nuestros Modelos
           </h2>
+
+          {/* Tabs Limpios: TODOS | PARTICULARES | UTILITARIOS */}
+          <div className="flex items-center gap-8 border-b border-zinc-200 pb-2 text-xs sm:text-sm font-bold tracking-wider">
+            {['TODOS', 'PARTICULARES', 'UTILITARIOS'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`pb-2 relative uppercase transition-colors cursor-pointer ${
+                  activeTab === tab
+                    ? 'text-black font-black'
+                    : 'text-zinc-400 hover:text-black font-semibold'
+                }`}
+              >
+                <span>{tab}</span>
+                {activeTab === tab && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600 transition-all duration-300" />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
-        <button
-          onClick={onNavigateCatalog}
-          className="mt-4 sm:mt-0 text-sm font-semibold text-black hover:text-zinc-600 transition inline-flex items-center gap-2 group"
-        >
-          <span>Ver inventario completo</span>
-          <span className="group-hover:translate-x-1 transition-transform">→</span>
-        </button>
-      </div>
 
-      {/* Grid of 5 Categories */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-        {categories.map((cat) => (
-          <button
-            key={cat.filterValue}
-            onClick={() => onSelectSilhouette(cat.filterValue)}
-            className="group relative rounded-2xl border border-zinc-200 hover:border-black bg-zinc-50/70 hover:bg-white p-5 transition-all duration-500 text-left flex flex-col justify-between h-64 overflow-hidden hover:shadow-xl cursor-pointer"
-          >
-            <div className="flex items-center justify-between w-full z-10">
-              <span className="px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-[10px] font-bold uppercase tracking-wider text-black">
-                {cat.count} {cat.count === 1 ? 'Unidad' : 'Unidades'}
-              </span>
-              <span className="w-7 h-7 rounded-full bg-white border border-zinc-200 flex items-center justify-center text-xs text-black group-hover:bg-black group-hover:text-white transition-colors">
-                →
-              </span>
-            </div>
-
-            <div className="my-auto py-2 flex items-center justify-center">
-              <img
-                src={cat.image}
-                alt={cat.name}
-                className="w-full h-28 object-cover rounded-xl shadow-xs group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-
-            <div className="z-10 pt-2">
-              <span className="font-bold text-lg text-black block leading-tight font-display">
-                {cat.name}
-              </span>
-              <span className="text-xs text-zinc-500 font-tech">
-                {cat.subtitle}
-              </span>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      {/* Brand Filter Strip */}
-      <div className="mt-8 pt-8 border-t border-zinc-200 flex flex-wrap items-center justify-between gap-3">
-        <span className="text-xs font-semibold uppercase tracking-widest text-zinc-500 font-tech">
-          Filtrar por marca:
-        </span>
-        <div className="flex flex-wrap items-center gap-2">
-          {brands.map((brand) => (
-            <button
-              key={brand}
-              onClick={() => onSelectBrand(brand)}
-              className="px-4 py-2 rounded-full border border-zinc-200 hover:border-black hover:bg-black hover:text-white text-xs font-semibold text-zinc-800 transition-all cursor-pointer"
+        {/* Grilla de Miniaturas PNG con Sombra de Piso (Inspirado exactamente en Imagen 1 de Hyundai y 2 de Citroën) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
+          {filteredVehicles.map((car) => (
+            <div
+              key={car.id}
+              onClick={() => handleOpenCar(car.id)}
+              className="group flex flex-col items-center text-center cursor-pointer p-4 rounded-2xl hover:bg-white/60 transition-all duration-300"
+              title={`Abrir ${car.brand} ${car.model} en nueva pestaña`}
             >
-              {brand}
-            </button>
+              {/* Contenedor del Vehículo PNG con Sombra en el Piso */}
+              <div className="car-platform-shadow w-full h-36 sm:h-44 flex items-center justify-center mb-4 relative">
+                <img
+                  src={car.pngImage}
+                  alt={`${car.brand} ${car.model}`}
+                  className="max-h-full max-w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-1"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Nombre del Modelo Limpio en Mayúsculas */}
+              <div className="mt-1">
+                <span className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest block font-tech mb-0.5">
+                  {car.brand}
+                </span>
+                <h3 className="text-sm sm:text-base font-extrabold text-black uppercase tracking-tight group-hover:text-neutral-700 transition font-display">
+                  {car.model}
+                </h3>
+                <span className="text-[11px] text-zinc-400 font-tech mt-1 block">
+                  {car.trim.split('·')[0]}
+                </span>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
 
+      </div>
     </section>
   );
 }
-

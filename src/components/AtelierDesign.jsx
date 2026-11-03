@@ -361,3 +361,4 @@ export default function AtelierDesign({ onOpenWhatsApp }) {
     </div>
   );
 }
+

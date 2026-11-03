@@ -14,25 +14,55 @@
   }
 }
 
-/* Textura sutil y líneas arquitectónicas que degradan sobre el blanco */
-.luminous-bg {
-  background-color: #fbfbfd;
+/* Efecto de Zoom Lento Cinematográfico (Ken Burns) */
+@keyframes kenburns {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 22s ease-in-out infinite alternate;
+}
+
+/* Sombra de suelo hiperrealista para miniaturas PNG de vehículos */
+.car-platform-shadow {
+  position: relative;
+}
+
+.car-platform-shadow::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 10%;
+  right: 10%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.09) 45%, transparent 75%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Fondo Perla Texturizado y Gradientes Suaves estilo WHY NOT (No chocante, máxima limpieza) */
+.whynot-pearl-bg {
+  background-color: #fcfcfd;
   background-image: 
-    radial-gradient(at 100% 0%, rgba(226, 232, 240, 0.4) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(241, 245, 249, 0.6) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(238, 242, 246, 0.7) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(230, 235, 242, 0.7) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(248, 250, 252, 0.6) 0px, transparent 60%);
 }
 
 .architectural-lines {
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-.subtle-fade-lines {
-  background: 
-    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.8) 100%),
-    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(203, 213, 225, 0.3) 40px);
+    linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
 .custom-range::-webkit-slider-thumb {

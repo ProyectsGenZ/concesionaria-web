@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ExternalLink, MessageCircle, Check } from 'lucide-react';
+import { ArrowLeft, MessageCircle, Check, ArrowUpRight } from 'lucide-react';
 import { EXCHANGE_RATE, getEightGalleryPhotos } from '../data/vehicles';
 
 export default function VehicleDetailView({
@@ -12,30 +12,55 @@ export default function VehicleDetailView({
   if (!vehicle) return null;
 
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const [selectedVersionIdx, setSelectedVersionIdx] = useState(0);
   const galleryPhotos = getEightGalleryPhotos(vehicle);
 
   const priceARS = vehicle.priceUSD * EXCHANGE_RATE;
-  const priceNoTaxARS = priceARS * 0.826; // approx sin IVA
+  const priceNoTaxARS = priceARS * 0.826;
 
   const formatPrice = (usd) => {
     if (currency === 'USD') return 'USD ' + usd.toLocaleString('es-AR');
     return '$ ' + (usd * EXCHANGE_RATE).toLocaleString('es-AR');
   };
 
-  const handleOpenNewTab = () => {
-    window.open(window.location.href, '_blank');
-  };
-
   const handleWhatsApp = () => {
-    const text = `Hola MONOLITH Automotive, estoy consultando desde la web por la unidad: ${vehicle.brand} ${vehicle.model} (${vehicle.year}) - Ref: ${vehicle.id}. Deseo recibir información y coordinar una visita.`;
+    const text = `Hola, me comunico desde la web oficial por la unidad: ${vehicle.brand} ${vehicle.model} (${vehicle.year}) - Ref: ${vehicle.id}. Deseo recibir asesoramiento y cotización formal.`;
     window.open(`https://wa.me/5491155550199?text=${encodeURIComponent(text)}`, '_blank');
   };
 
+  // Versiones por defecto si no están especificadas
+  const versionsList = vehicle.versions || [
+    {
+      name: "MAX / TOURING",
+      highlight: `Equipamiento tope de gama y máxima dotación tecnológica para ${vehicle.model}.`,
+      features: [
+        "Tapizados en cuero seleccionado y butacas eléctricas",
+        "Paquete avanzado de asistencias a la conducción (ADAS)",
+        "Techo vidriado panorámico y llantas de aleación diamantadas"
+      ],
+      colors: `Disponible en paleta oficial ${vehicle.brand}`,
+      png: vehicle.pngImage
+    },
+    {
+      name: "PLUS / COMFORT",
+      highlight: `Equilibrio perfecto entre rendimiento, conectividad y confort diario.`,
+      features: [
+        "Pantalla táctil de alta definición con conectividad inalámbrica",
+        "Climatizador automático bi-zona y acceso manos libres",
+        "Control de crucero adaptativo y frenado autónomo"
+      ],
+      colors: "Disponible en tonos perla, grafito y plata metalizado",
+      png: vehicle.pngImage
+    }
+  ];
+
+  const currentVersion = versionsList[selectedVersionIdx] || versionsList[0];
+
   return (
-    <section className="pt-20 min-h-screen bg-white">
+    <section className="whynot-pearl-bg pt-20 min-h-screen text-zinc-900 select-none">
       
-      {/* Sub-barra Superior Fija */}
-      <div className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-zinc-200">
+      {/* Sub-barra Superior Fija con Retroceso Rápido */}
+      <div className="sticky top-16 z-30 bg-white/80 backdrop-blur-md border-b border-zinc-200/80">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10 h-14 flex items-center justify-between">
           <button
             onClick={onBack}
@@ -46,50 +71,61 @@ export default function VehicleDetailView({
           </button>
 
           <div className="flex items-center gap-4">
-            <span className="hidden sm:inline text-xs text-zinc-400 font-medium">
-              {vehicle.brand} / {vehicle.model}
+            <span className="text-xs text-zinc-400 font-tech">
+              {vehicle.brand} · {vehicle.model} ({vehicle.year})
             </span>
             <button
-              onClick={handleOpenNewTab}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-zinc-200 hover:border-black text-xs font-semibold text-black transition cursor-pointer"
-              title="Abrir en nueva pestaña"
+              onClick={() => window.open(window.location.href, '_blank')}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-200 hover:border-black text-[11px] font-semibold text-black transition bg-white cursor-pointer"
+              title="Abrir copia en nueva pestaña"
             >
-              <span>Abrir en nueva pestaña</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Nueva Pestaña</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
       </div>
 
       {/* 1. HERO SHOWCASE DEL VEHÍCULO */}
-      <div className="max-w-[1360px] mx-auto px-6 lg:px-10 pt-12 pb-16">
+      <div className="max-w-[1360px] mx-auto px-6 lg:px-10 pt-10 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Columna Izquierda: Imagen Principal + Miniaturas */}
+          {/* Columna Izquierda: Showcase con Miniatura PNG o Foto Principal */}
           <div className="lg:col-span-7 flex flex-col items-center">
-            <div className="w-full aspect-[16/10] rounded-3xl overflow-hidden bg-zinc-100 border border-zinc-200 relative group shadow-sm">
-              <img
-                src={galleryPhotos[activePhotoIndex]}
-                alt={vehicle.model}
-                className="w-full h-full object-cover transition-all duration-700"
-              />
-              <div className="absolute top-4 left-4 flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-black text-white text-[11px] font-bold uppercase tracking-wider shadow-xs">
+            <div className="w-full aspect-[16/10] rounded-3xl overflow-hidden bg-white/90 border border-zinc-200/80 relative group shadow-sm flex items-center justify-center p-6">
+              {activePhotoIndex === 0 && vehicle.pngImage ? (
+                <div className="car-platform-shadow w-full h-full flex items-center justify-center">
+                  <img
+                    src={vehicle.pngImage}
+                    alt={vehicle.model}
+                    className="max-h-full max-w-full object-contain relative z-10 transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+              ) : (
+                <img
+                  src={galleryPhotos[activePhotoIndex]}
+                  alt={vehicle.model}
+                  className="w-full h-full object-cover rounded-2xl transition-all duration-700"
+                />
+              )}
+
+              <div className="absolute top-4 left-4 flex items-center gap-2 z-20">
+                <span className="px-3 py-1 rounded-full bg-black text-white text-[10px] font-bold uppercase tracking-wider font-tech shadow-xs">
                   {vehicle.badge}
                 </span>
-                <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-black border border-zinc-200 text-[11px] font-semibold">
+                <span className="px-3 py-1 rounded-full bg-white/95 text-black border border-zinc-200 text-[10px] font-semibold font-tech">
                   {vehicle.bodyType}
                 </span>
               </div>
             </div>
 
-            {/* Miniaturas rápidas */}
-            <div className="flex items-center justify-center gap-3 mt-4 overflow-x-auto py-1 max-w-full">
-              {galleryPhotos.slice(0, 5).map((photo, idx) => (
+            {/* Miniaturas de selección rápida */}
+            <div className="flex items-center justify-center gap-2.5 mt-4 overflow-x-auto py-1 max-w-full">
+              {galleryPhotos.slice(0, 6).map((photo, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActivePhotoIndex(idx)}
-                  className={`w-16 h-11 rounded-lg overflow-hidden border transition cursor-pointer shrink-0 ${
+                  className={`w-14 h-10 rounded-lg overflow-hidden border transition cursor-pointer shrink-0 ${
                     activePhotoIndex === idx
                       ? 'border-black ring-2 ring-black'
                       : 'border-zinc-200 opacity-60 hover:opacity-100'
@@ -101,23 +137,26 @@ export default function VehicleDetailView({
             </div>
           </div>
 
-          {/* Columna Derecha: Título, bullets, precios y botones */}
+          {/* Columna Derecha: Título, bullets, precios y botones depurados */}
           <div className="lg:col-span-5 space-y-6 text-left">
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.22em] text-zinc-400 block mb-1 font-tech">
+              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-1 font-tech">
                 {vehicle.brand}
               </span>
-              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.03em] text-black leading-[1.06] font-display">
+              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-black leading-tight font-display">
                 {vehicle.model}
               </h1>
+              <span className="text-xs text-zinc-500 font-tech mt-1 block">
+                {vehicle.trim}
+              </span>
             </div>
 
-            <p className="text-sm text-zinc-600 leading-relaxed font-normal">
+            <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-normal">
               {vehicle.description}
             </p>
 
             {/* Bullets clave */}
-            <ul className="space-y-2.5 text-sm text-black font-medium pt-1">
+            <ul className="space-y-2.5 text-xs sm:text-sm text-black font-medium pt-1">
               {vehicle.bullets.map((bullet, idx) => (
                 <li key={idx} className="flex items-start gap-2.5">
                   <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
@@ -126,42 +165,39 @@ export default function VehicleDetailView({
               ))}
             </ul>
 
-            {/* Bloque de Precios Dual */}
-            <div className="pt-4 border-t border-zinc-200 space-y-3">
+            {/* Precios Duales */}
+            <div className="pt-4 border-t border-zinc-200/80 space-y-2">
               <div>
-                <span className="block text-xs font-medium text-zinc-400 mb-0.5 font-tech">
+                <span className="block text-[11px] font-medium text-zinc-400 font-tech uppercase">
                   Precio sugerido de lista
                 </span>
-                <span className="text-3xl sm:text-4xl font-extrabold text-black tabular-nums tracking-tight font-tech">
+                <span className="text-3xl sm:text-4xl font-black text-black tabular-nums tracking-tight font-tech">
                   $ {priceARS.toLocaleString('es-AR')},00
                 </span>
               </div>
 
               <div>
-                <span className="block text-xs text-zinc-400 font-tech">
-                  Precio sin impuestos nacionales / Valor de referencia USD
-                </span>
-                <span className="text-sm font-semibold text-zinc-700 tabular-nums font-tech">
-                  USD {vehicle.priceUSD.toLocaleString('es-AR')} · ($ {priceNoTaxARS.toLocaleString('es-AR', { maximumFractionDigits: 2 })} sin IVA)
+                <span className="text-xs font-semibold text-zinc-600 tabular-nums font-tech">
+                  USD {vehicle.priceUSD.toLocaleString('es-AR')} · ($ {priceNoTaxARS.toLocaleString('es-AR', { maximumFractionDigits: 0 })} sin impuestos)
                 </span>
               </div>
             </div>
 
-            {/* Botones de Acción */}
-            <div className="pt-3 flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => onScrollToContact(`${vehicle.brand} ${vehicle.model} (${vehicle.year})`)}
-                className="px-8 py-3.5 rounded-full bg-black hover:bg-zinc-800 text-white font-semibold text-sm transition-all duration-300 hover:shadow-xl active:scale-95 cursor-pointer"
-              >
-                Cotizar / Agendar Visita
-              </button>
+            {/* Botones de Acción (Pocos botones y cada uno con función específica) */}
+            <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
                 onClick={handleWhatsApp}
-                className="px-6 py-3.5 rounded-full border border-zinc-300 hover:border-black text-black font-semibold text-sm transition-all duration-300 inline-flex items-center gap-2 cursor-pointer"
+                className="px-8 py-3.5 rounded-full bg-black hover:bg-zinc-800 text-white font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:shadow-xl inline-flex items-center gap-2.5 cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Consultar por WhatsApp</span>
-                <span>→</span>
+                <span>Contactar Asesor Oficial</span>
+              </button>
+
+              <button
+                onClick={() => onScrollToContact(`${vehicle.brand} ${vehicle.model} (${vehicle.year})`)}
+                className="px-6 py-3.5 rounded-full border border-zinc-300 hover:border-black text-black font-semibold text-xs uppercase tracking-wider transition-all duration-300 bg-white/60 cursor-pointer"
+              >
+                Agendar Visita
               </button>
             </div>
 
@@ -170,139 +206,181 @@ export default function VehicleDetailView({
         </div>
       </div>
 
-      {/* 2. SECCIÓN "GALERÍA" EN GRILLA 4x2 (8 FOTOS) */}
-      <div className="pt-6 pb-20">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-black font-display">
-            Galería
-          </h2>
-          <p className="text-xs text-zinc-400 mt-1 font-tech">
-            Hacé clic en cualquier fotografía para ampliarla a pantalla completa
-          </p>
-        </div>
+      {/* 2. SECCIÓN "EXPLORÁ CADA ÁNGULO" (Inspirada exactamente en la Imagen 4 del Usuario) */}
+      <div className="py-20 border-t border-zinc-200/80 bg-white/50 backdrop-blur-xs">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 text-left">
+          
+          <div className="max-w-2xl mb-12">
+            <h2 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-black font-display">
+              EXPLORÁ CADA ÁNGULO DEL {vehicle.brand.toUpperCase()} {vehicle.model.toUpperCase()}
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-500 mt-2 font-normal">
+              Mirá las imágenes que revelan la esencia del nuevo {vehicle.model}.
+            </p>
+          </div>
 
-        {/* Mosaico 4 columnas x 2 filas (8 fotos) */}
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1 bg-zinc-200 border-y border-zinc-200">
-          {galleryPhotos.map((photo, idx) => (
-            <div
-              key={idx}
-              onClick={() => onOpenLightbox(galleryPhotos, idx)}
-              className="relative aspect-[16/10] bg-zinc-100 overflow-hidden cursor-pointer group"
-            >
-              <img
-                src={photo}
-                alt={`Foto ${idx + 1}`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="px-3 py-1.5 rounded-full bg-white/90 text-black text-xs font-bold shadow-md">
-                  Ampliar foto ↗
-                </span>
+          {/* Mosaico Editorial de Fotos y Partes (Imagen 4) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {(vehicle.anglePhotos || [
+              {
+                title: "Vista 3/4 Frontal",
+                part: "Carrocería & Aerodinámica",
+                url: galleryPhotos[0],
+                span: "col-span-1 lg:col-span-2 row-span-2"
+              },
+              {
+                title: "Infotainment & Pantalla Digital",
+                part: "Cámaras 360° y Asistencias",
+                url: galleryPhotos[1],
+                span: "col-span-1"
+              },
+              {
+                title: "Cockpit y Puesto de Conducción",
+                part: "Volante Multifunción en Cuero",
+                url: galleryPhotos[2],
+                span: "col-span-1"
+              },
+              {
+                title: "Instrumental Digital Full HD",
+                part: "Telemetría y Modos de Manejo",
+                url: galleryPhotos[3],
+                span: "col-span-1"
+              },
+              {
+                title: "Butacas Deportivas Ergonómicas",
+                part: "Tapizado en Cuero Microperforado",
+                url: galleryPhotos[4],
+                span: "col-span-1"
+              },
+              {
+                title: "Remate Posterior y Ópticas LED",
+                part: "Firma Lumínica de Alta Visibilidad",
+                url: galleryPhotos[5],
+                span: "col-span-1 lg:col-span-2"
+              },
+              {
+                title: "Techo Panorámico Vidriado",
+                part: "Iluminación Natural con Apertura",
+                url: galleryPhotos[6],
+                span: "col-span-1"
+              },
+              {
+                title: "Llantas Diamantadas y Frenos",
+                part: "Chasis y Puesta a Punto",
+                url: galleryPhotos[7],
+                span: "col-span-1"
+              }
+            ]).map((angle, idx) => (
+              <div
+                key={idx}
+                onClick={() => onOpenLightbox(galleryPhotos, idx % galleryPhotos.length)}
+                className={`group relative rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 cursor-pointer shadow-xs ${angle.span || 'col-span-1'}`}
+              >
+                <div className="w-full h-full min-h-[220px] aspect-[4/3] overflow-hidden">
+                  <img
+                    src={angle.url}
+                    alt={angle.title}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity flex flex-col justify-end p-5">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300 font-tech">
+                    {angle.part}
+                  </span>
+                  <h4 className="text-sm font-bold text-white tracking-tight font-display">
+                    {angle.title}
+                  </h4>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
         </div>
       </div>
 
-      {/* 3. FICHA TÉCNICA Y ESPECIFICACIONES OFICIALES */}
-      <div className="max-w-[1360px] mx-auto px-6 lg:px-10 pb-24">
-        <div className="bg-zinc-50 rounded-3xl border border-zinc-200 p-8 sm:p-12 shadow-xs">
+      {/* 3. SECCIÓN "CONOCÉ SUS VERSIONES" (Inspirada exactamente en la Imagen 5 del Usuario) */}
+      <div className="py-20 border-t border-zinc-200/80 bg-white">
+        <div className="max-w-[1360px] mx-auto px-6 lg:px-10 text-center">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-8 mb-8 border-b border-zinc-200">
-            <div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400 block mb-1 font-tech">
-                Especificaciones Oficiales
-              </span>
-              <h3 className="text-2xl font-bold text-black font-display">
-                Ficha Técnica y Equipamiento
-              </h3>
+          <div className="max-w-2xl mx-auto mb-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-black font-display">
+              CONOCÉ SUS VERSIONES
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-500 mt-2">
+              Descubrí el {vehicle.model} pensado para tu forma de moverte.
+            </p>
+
+            {/* Pestañas de Versiones (MAX | PLUS) */}
+            <div className="flex items-center justify-center gap-8 mt-6 border-b border-zinc-200 pb-2">
+              {versionsList.map((ver, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedVersionIdx(idx)}
+                  className={`pb-2 relative text-xs sm:text-sm font-extrabold tracking-widest uppercase transition-colors cursor-pointer ${
+                    selectedVersionIdx === idx ? 'text-red-600 font-black' : 'text-black hover:text-red-600'
+                  }`}
+                >
+                  <span>{ver.name}</span>
+                  {selectedVersionIdx === idx && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600" />
+                  )}
+                </button>
+              ))}
             </div>
-            <span className="text-xs font-semibold text-zinc-500 mt-2 sm:mt-0 tabular-nums font-tech">
-              Código de Unidad: {vehicle.id}
-            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm font-tech">
-            
-            {/* 1. Motorización */}
-            <div className="space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 block">
-                Motorización
-              </span>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Motor</span>
-                <span className="font-bold text-black">{vehicle.engine}</span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Potencia</span>
-                <span className="font-bold text-black tabular-nums">{vehicle.power}</span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Combustible</span>
-                <span className="font-bold text-black">{vehicle.fuel}</span>
-              </div>
+          {/* Visualización del Auto PNG con Sombra sobre Base Minimalista */}
+          <div className="max-w-3xl mx-auto my-10">
+            <div className="car-platform-shadow w-full h-64 sm:h-80 flex items-center justify-center relative">
+              <img
+                src={currentVersion.png || vehicle.pngImage}
+                alt={currentVersion.name}
+                className="max-h-full max-w-full object-contain relative z-10 transition-all duration-500"
+              />
             </div>
+          </div>
 
-            {/* 2. Transmisión & Chasis */}
-            <div className="space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 block">
-                Transmisión & Chasis
-              </span>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Caja</span>
-                <span className="font-bold text-black">{vehicle.transmission}</span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Tracción</span>
-                <span className="font-bold text-black">{vehicle.traction}</span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Carrocería</span>
-                <span className="font-bold text-black">{vehicle.bodyType}</span>
-              </div>
-            </div>
-
-            {/* 3. Estado & Historial */}
-            <div className="space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 block">
-                Estado & Historial
-              </span>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Año Modelo</span>
-                <span className="font-bold text-black tabular-nums">{vehicle.year}</span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Kilometraje</span>
-                <span className="font-bold text-black tabular-nums">
-                  {vehicle.km === 0 ? '0 km' : `${vehicle.km.toLocaleString('es-AR')} km`}
+          {/* Características Clave con Barritas Rojas y Botón CONTACTAR ASESOR */}
+          <div className="max-w-4xl mx-auto pt-6 text-left">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-t border-zinc-100 pt-8">
+              
+              <div className="md:col-span-7 space-y-4">
+                <span className="text-xl font-black text-black font-display uppercase block">
+                  {currentVersion.name}
                 </span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Condición</span>
-                <span className="font-bold text-black uppercase">{vehicle.condition}</span>
-              </div>
-            </div>
+                <p className="text-xs text-zinc-500 font-normal">
+                  {currentVersion.highlight}
+                </p>
 
-            {/* 4. Estética & Ubicación */}
-            <div className="space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 block">
-                Estética & Ubicación
-              </span>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Color Exterior</span>
-                <span className="font-bold text-black">{vehicle.paint}</span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Salón</span>
-                <span className="font-bold text-black">{vehicle.location}</span>
-              </div>
-              <div className="py-2 border-b border-zinc-200 flex justify-between">
-                <span className="text-zinc-500">Disponibilidad</span>
-                <span className="font-bold text-black">Entrega Inmediata</span>
-              </div>
-            </div>
+                {/* 3 Viñetas con Barrita Roja */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                  {currentVersion.features.map((feat, idx) => (
+                    <div key={idx} className="border-t-2 border-red-600 pt-2 text-left">
+                      <span className="text-xs font-semibold text-black leading-snug block">
+                        {feat}
+                      </span>
+                    </div>
+                  ))}
+                </div>
 
+                <p className="text-[11px] text-zinc-400 font-tech pt-2">
+                  {currentVersion.colors}
+                </p>
+              </div>
+
+              {/* Único botón de llamada a la acción */}
+              <div className="md:col-span-5 flex justify-start md:justify-end">
+                <button
+                  onClick={handleWhatsApp}
+                  className="px-8 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 cursor-pointer"
+                >
+                  CONTACTAR ASESOR
+                </button>
+              </div>
+
+            </div>
           </div>
 
         </div>
@@ -311,4 +389,3 @@ export default function VehicleDetailView({
     </section>
   );
 }
-

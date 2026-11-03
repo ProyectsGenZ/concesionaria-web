@@ -54,3 +54,4 @@ export default function DesignSwitcher({ activeDesign, onSelectDesign }) {
     </div>
   );
 }
+

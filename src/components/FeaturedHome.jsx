@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { VEHICLES, EXCHANGE_RATE } from '../data/vehicles';
 
 export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currency }) {
@@ -10,94 +10,102 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
     return '$ ' + (usd * EXCHANGE_RATE).toLocaleString('es-AR');
   };
 
+  const handleOpenCar = (carId) => {
+    window.open(`?vehiculo=${carId}`, '_blank');
+  };
+
   return (
-    <section className="max-w-[1440px] mx-auto px-6 lg:px-10 py-16 border-t border-zinc-200">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
-        <div>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400 block mb-2 font-tech">
-            Selección MONOLITH
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-black font-display">
-            Unidades destacadas
-          </h2>
+    <section className="whynot-pearl-bg py-24 border-b border-zinc-200/60 select-none">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+        
+        {/* Encabezado Limpio con Gran Espaciado */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16">
+          <div className="max-w-xl text-left">
+            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-2 font-tech">
+              Selección Destacada
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-black font-display">
+              Unidades de Vanguardia
+            </h2>
+          </div>
+          
+          <button
+            onClick={onNavigateCatalog}
+            className="mt-4 sm:mt-0 text-xs font-bold uppercase tracking-wider text-black hover:text-zinc-500 transition inline-flex items-center gap-2 group cursor-pointer"
+          >
+            <span>Explorar catálogo completo ({VEHICLES.length})</span>
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </button>
         </div>
-        <button
-          onClick={onNavigateCatalog}
-          className="mt-4 sm:mt-0 px-6 py-3 rounded-full border border-black text-xs font-semibold text-black hover:bg-black hover:text-white transition-all duration-300"
-        >
-          Abrir catálogo completo ({VEHICLES.length})
-        </button>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {featured.map((car) => {
-          const badgeStyle = car.condition === '0km'
-            ? 'bg-black text-white border-black'
-            : 'bg-white/95 text-black border-zinc-200 backdrop-blur-md';
-
-          return (
+        {/* Grilla Limpia en Blanco y Negro con Miniaturas PNG y Sombra de Suelo */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {featured.map((car) => (
             <article
               key={car.id}
-              onClick={() => onOpenVehicle(car.id)}
-              className="group bg-white rounded-2xl border border-zinc-200 hover:border-black transition-all duration-500 hover:-translate-y-1 hover:shadow-xl overflow-hidden flex flex-col justify-between cursor-pointer"
+              onClick={() => handleOpenCar(car.id)}
+              className="group bg-white/80 backdrop-blur-sm rounded-3xl border border-zinc-200/80 hover:border-black p-8 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl flex flex-col justify-between cursor-pointer"
+              title={`Abrir ${car.brand} ${car.model} en nueva pestaña`}
             >
               <div>
-                {/* 16:10 Photo */}
-                <div className="relative aspect-[16/10] bg-zinc-100 overflow-hidden">
-                  <img
-                    src={car.photos[0]}
-                    alt={`${car.brand} ${car.model}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                    loading="lazy"
-                  />
-                  <div className="absolute top-3.5 left-3.5">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-xs ${badgeStyle}`}>
-                      {car.badge}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-1 font-tech">
+                {/* Header de la tarjeta con Badge y Año */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 font-tech">
                     {car.brand}
                   </span>
-                  <h3 className="text-xl font-bold text-black tracking-tight leading-snug mb-2 font-display">
-                    {car.model}
-                  </h3>
-                  <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-4 font-normal">
-                    {car.description}
-                  </p>
+                  <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 text-black text-[10px] font-semibold border border-zinc-200/60 font-tech">
+                    {car.badge}
+                  </span>
+                </div>
 
-                  <div className="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-600 font-tech">
-                    <span>{car.year}</span>
-                    <span>•</span>
-                    <span>{car.km === 0 ? '0 km' : `${car.km.toLocaleString('es-AR')} km`}</span>
-                    <span>•</span>
-                    <span>{car.transmission}</span>
-                    <span>•</span>
-                    <span>{car.fuel}</span>
-                  </div>
+                {/* Título */}
+                <h3 className="text-2xl font-extrabold text-black tracking-tight mb-2 font-display">
+                  {car.model}
+                </h3>
+                <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-6 font-normal">
+                  {car.description}
+                </p>
+
+                {/* Miniatura PNG con Sombra en el Piso (Estilo Hyundai / Citroën) */}
+                <div className="car-platform-shadow w-full h-48 flex items-center justify-center my-4 relative">
+                  <img
+                    src={car.pngImage}
+                    alt={`${car.brand} ${car.model}`}
+                    className="max-h-full max-w-full object-contain relative z-10 transition-transform duration-700 ease-out group-hover:scale-108 group-hover:-translate-y-1"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Especificaciones Técnicas Rápidas en una sola línea */}
+                <div className="pt-4 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500 font-tech">
+                  <span>{car.year}</span>
+                  <span>•</span>
+                  <span>{car.km === 0 ? '0 km' : `${car.km.toLocaleString('es-AR')} km`}</span>
+                  <span>•</span>
+                  <span>{car.transmission.split(' ')[0]}</span>
+                  <span>•</span>
+                  <span>{car.fuel}</span>
                 </div>
               </div>
 
-              {/* Price and Action */}
-              <div className="p-6 pt-0 border-t border-zinc-100/80 bg-zinc-50/50 flex items-center justify-between">
+              {/* Precio y Botón Único de Acción */}
+              <div className="pt-6 mt-6 border-t border-zinc-100 flex items-center justify-between">
                 <div>
-                  <span className="block text-[10px] font-medium text-zinc-400 uppercase font-tech">Precio</span>
-                  <span className="text-xl font-bold text-black font-tech tabular-nums">
+                  <span className="block text-[10px] uppercase tracking-wider text-zinc-400 font-tech">Valor</span>
+                  <span className="text-xl font-black text-black font-tech tabular-nums">
                     {formatPrice(car.priceUSD)}
                   </span>
                 </div>
-                <span className="px-4 py-2 rounded-full bg-black text-white text-xs font-semibold group-hover:bg-zinc-800 transition">
-                  Ver ficha →
+                
+                <span className="w-10 h-10 rounded-full bg-black group-hover:bg-zinc-800 text-white flex items-center justify-center transition shadow-xs group-hover:scale-105">
+                  <ArrowUpRight className="w-4 h-4" />
                 </span>
               </div>
             </article>
-          );
-        })}
+          ))}
+        </div>
+
       </div>
     </section>
   );
 }
-

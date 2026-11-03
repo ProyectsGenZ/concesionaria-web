@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import HeroSlider from './components/HeroSlider';
 import SilhouetteBar from './components/SilhouetteBar';
@@ -19,7 +19,7 @@ export default function App() {
   // MONOLITH State
   const [view, setView] = useState('home'); // 'home' | 'catalog' | 'detail'
   const [currency, setCurrency] = useState('USD'); // 'USD' | 'ARS'
-  const [activeVehicleId, setActiveVehicleId] = useState('MNL-100');
+  const [activeVehicleId, setActiveVehicleId] = useState('CIT-001');
   const [prefilledVehicle, setPrefilledVehicle] = useState('');
   const [selectedSilhouette, setSelectedSilhouette] = useState('all');
   const [selectedBrand, setSelectedBrand] = useState('all');
@@ -32,6 +32,19 @@ export default function App() {
   // Toast
   const [toastMessage, setToastMessage] = useState('');
 
+  // DETECCIÓN DE APERTURA EN NUEVA PESTAÑA (?vehiculo=ID)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const targetVehiculoId = params.get('vehiculo');
+    if (targetVehiculoId) {
+      const found = VEHICLES.find(v => v.id.toLowerCase() === targetVehiculoId.toLowerCase());
+      if (found) {
+        setActiveVehicleId(found.id);
+        setView('detail');
+      }
+    }
+  }, []);
+
   const activeVehicle = VEHICLES.find(v => v.id === activeVehicleId) || VEHICLES[0];
 
   const handleNavigate = (newView) => {
@@ -40,9 +53,8 @@ export default function App() {
   };
 
   const handleOpenVehicle = (carId) => {
-    setActiveVehicleId(carId);
-    setView('detail');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Abre en nueva pestaña mostrando la unidad, sus partes y características
+    window.open(`?vehiculo=${carId}`, '_blank');
   };
 
   const handleSelectSilhouette = (silhouette) => {
@@ -86,7 +98,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col whynot-pearl-bg">
       
       {/* SELECTOR FLOTANTE DE DISEÑO (Permite alternar en tiempo real entre los 3 enfoques) */}
       <DesignSwitcher
@@ -97,11 +109,9 @@ export default function App() {
         }}
       />
 
-      {/* RENDERIZADO DEL DISEÑO SELECCIONADO */}
-
-      {/* DISEÑO 1: MONOLITH STUDIO (Blanco Perla · 3 Vistas Completas · Galería 4x2) */}
+      {/* DISEÑO 1: MONOLITH STUDIO (Blanco y Negro Texturizado · Miniaturas PNG con Sombra · Partes & Versiones) */}
       {activeDesign === 'monolith' && (
-        <div className="bg-[#fcfcfd] text-zinc-900 flex-1 flex flex-col selection:bg-black selection:text-white animate-fadeIn">
+        <div className="whynot-pearl-bg text-zinc-900 flex-1 flex flex-col selection:bg-black selection:text-white animate-fadeIn">
           <Header
             currentView={view}
             onNavigate={handleNavigate}
@@ -191,7 +201,7 @@ export default function App() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-20 right-6 z-50 bg-black text-white px-6 py-3.5 rounded-full shadow-2xl text-xs font-semibold animate-bounce font-tech">
+        <div className="fixed bottom-20 right-6 z-50 bg-black text-white px-6 py-3 rounded-full shadow-2xl text-xs font-semibold animate-bounce font-tech">
           {toastMessage}
         </div>
       )}
