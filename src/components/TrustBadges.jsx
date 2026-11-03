@@ -1,45 +1,57 @@
 import React from 'react';
-import { ShieldCheck, Award, FileText, Sparkles } from 'lucide-react';
+import { ShieldCheck, FileCheck, Award, KeyRound } from 'lucide-react';
 
 export default function TrustBadges() {
   const points = [
     {
       icon: ShieldCheck,
-      title: 'AUDITORÍA EN 180 PUNTOS',
-      desc: 'Inspección computarizada de motor, chasis, tren delantero, caja de cambios y estructura libre de siniestros.'
+      title: 'Peritaje en 180 Puntos',
+      desc: 'Inspección técnica computarizada de motor, chasis, frenos, electrónica y alineación sin siniestros.'
     },
     {
-      icon: FileText,
-      title: 'DOMINIO 100% CERTIFICADO',
-      desc: 'Libre deudas verificado, informe de dominio histórico y peritaje legal ante escribano público.'
+      icon: FileCheck,
+      title: 'Kilometraje & Dominio Certificado',
+      desc: 'Historial notarial verificado, libre de deudas al día y kilometraje real garantizado por contrato.'
     },
     {
       icon: Award,
-      title: 'GARANTÍA MECÁNICA ESCRITA',
-      desc: 'Cobertura oficial con respaldo de postventa y asistencia en ruta las 24 horas en todo el país.'
+      title: 'Garantía Mecánica Escrita',
+      desc: 'Respaldo oficial de postventa y asistencia en ruta durante 12 meses en todo el territorio nacional.'
     },
     {
-      icon: Sparkles,
-      title: 'ENTREGA LLAVE EN MANO',
-      desc: 'Detallado estético premium, tratamiento cerámico y gestoría integral para que solo te preocupes por disfrutar.'
+      icon: KeyRound,
+      title: 'Entrega Inmediata Llave en Mano',
+      desc: 'Gestoría integral propia, tratamiento cerámico bonificado y entrega lista para rodar sin trámites.'
     }
   ];
 
   return (
-    <section className="py-16 bg-[#fbfbfd] border-b border-zinc-200">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <section className="whynot-pearl-bg py-20 border-b border-zinc-200/80 select-none">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+        
+        {/* Cabecera Discreta */}
+        <div className="max-w-2xl mb-14 text-left">
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-2 font-tech">
+            Estándar de Seguridad MONOLITH
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-black font-display">
+            Transparencia y Garantía en Cada Operación
+          </h2>
+        </div>
+
+        {/* 4 Pilares Sin Bordes Pesados */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-left">
           {points.map((pt, i) => {
             const Icon = pt.icon;
             return (
               <div
                 key={i}
-                className="border border-zinc-200 bg-white p-8 space-y-3.5 hover:border-zinc-400 hover:shadow-[0_8px_25px_rgba(0,0,0,0.04)] transition-all rounded-xs"
+                className="group bg-transparent hover:bg-white/80 p-6 rounded-3xl transition-all duration-300"
               >
-                <div className="w-10 h-10 border border-zinc-200 bg-zinc-50 flex items-center justify-center text-black">
-                  <Icon className="w-5 h-5 text-black" />
+                <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-xs">
+                  <Icon className="w-6 h-6 stroke-[1.75]" />
                 </div>
-                <h3 className="text-sm font-bold text-black uppercase tracking-wider font-tech">
+                <h3 className="text-base font-black text-black tracking-tight mb-2 font-display">
                   {pt.title}
                 </h3>
                 <p className="text-xs text-zinc-500 font-normal leading-relaxed">
@@ -49,6 +61,7 @@ export default function TrustBadges() {
             );
           })}
         </div>
+
       </div>
     </section>
   );

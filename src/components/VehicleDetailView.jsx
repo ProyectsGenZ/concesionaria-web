@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowLeft, MessageCircle, Check, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, MessageCircle, Check, ArrowUpRight, Calculator, RefreshCw } from 'lucide-react';
 import { EXCHANGE_RATE, getEightGalleryPhotos } from '../data/vehicles';
+import FinancingCalculator from './FinancingCalculator';
+import TradeInForm from './TradeInForm';
 
 export default function VehicleDetailView({
   vehicle,
@@ -13,6 +15,9 @@ export default function VehicleDetailView({
 
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
   const [selectedVersionIdx, setSelectedVersionIdx] = useState(0);
+  const [activeAngleCategory, setActiveAngleCategory] = useState('ALL'); // 'ALL' | 'EXTERIOR' | 'INTERIOR' | 'TECNICA'
+  const [activeServiceTab, setActiveServiceTab] = useState('financing'); // 'financing' | 'tradein'
+
   const galleryPhotos = getEightGalleryPhotos(vehicle);
 
   const priceARS = vehicle.priceUSD * EXCHANGE_RATE;
@@ -56,27 +61,91 @@ export default function VehicleDetailView({
 
   const currentVersion = versionsList[selectedVersionIdx] || versionsList[0];
 
+  const allAnglePhotos = vehicle.anglePhotos || [
+    {
+      title: "Vista 3/4 Frontal",
+      part: "Carrocería & Aerodinámica",
+      type: "EXTERIOR",
+      url: galleryPhotos[0],
+      span: "col-span-1 lg:col-span-2 row-span-2"
+    },
+    {
+      title: "Infotainment & Pantalla Digital",
+      part: "Cámaras 360° y Asistencias",
+      type: "INTERIOR",
+      url: galleryPhotos[1],
+      span: "col-span-1"
+    },
+    {
+      title: "Cockpit y Puesto de Conducción",
+      part: "Volante Multifunción en Cuero",
+      type: "INTERIOR",
+      url: galleryPhotos[2],
+      span: "col-span-1"
+    },
+    {
+      title: "Instrumental Digital Full HD",
+      part: "Telemetría y Modos de Manejo",
+      type: "TECNICA",
+      url: galleryPhotos[3],
+      span: "col-span-1"
+    },
+    {
+      title: "Butacas Deportivas Ergonómicas",
+      part: "Tapizado en Cuero Microperforado",
+      type: "INTERIOR",
+      url: galleryPhotos[4],
+      span: "col-span-1"
+    },
+    {
+      title: "Remate Posterior y Ópticas LED",
+      part: "Firma Lumínica de Alta Visibilidad",
+      type: "EXTERIOR",
+      url: galleryPhotos[5],
+      span: "col-span-1 lg:col-span-2"
+    },
+    {
+      title: "Techo Panorámico Vidriado",
+      part: "Iluminación Natural con Apertura",
+      type: "EXTERIOR",
+      url: galleryPhotos[6],
+      span: "col-span-1"
+    },
+    {
+      title: "Llantas Diamantadas y Frenos",
+      part: "Chasis y Puesta a Punto",
+      type: "TECNICA",
+      url: galleryPhotos[7],
+      span: "col-span-1"
+    }
+  ];
+
+  const filteredAngles = allAnglePhotos.filter(angle => {
+    if (activeAngleCategory === 'ALL') return true;
+    return angle.type === activeAngleCategory;
+  });
+
   return (
     <section className="whynot-pearl-bg pt-20 min-h-screen text-zinc-900 select-none">
       
       {/* Sub-barra Superior Fija con Retroceso Rápido */}
-      <div className="sticky top-16 z-30 bg-white/80 backdrop-blur-md border-b border-zinc-200/80">
+      <div className="sticky top-16 z-30 bg-white/95 backdrop-blur-md border-b border-zinc-200/90 shadow-xs">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10 h-14 flex items-center justify-between">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs font-bold text-black hover:text-zinc-500 transition group cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs font-black text-black hover:opacity-60 transition group cursor-pointer font-tech uppercase tracking-wider"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span>Volver al catálogo</span>
           </button>
 
           <div className="flex items-center gap-4">
-            <span className="text-xs text-zinc-400 font-tech">
+            <span className="text-xs text-black font-extrabold font-tech">
               {vehicle.brand} · {vehicle.model} ({vehicle.year})
             </span>
             <button
               onClick={() => window.open(window.location.href, '_blank')}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-200 hover:border-black text-[11px] font-semibold text-black transition bg-white cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-300 hover:border-black text-[11px] font-bold text-black transition bg-white cursor-pointer font-tech"
               title="Abrir copia en nueva pestaña"
             >
               <span>Nueva Pestaña</span>
@@ -92,7 +161,7 @@ export default function VehicleDetailView({
           
           {/* Columna Izquierda: Showcase con Miniatura PNG o Foto Principal */}
           <div className="lg:col-span-7 flex flex-col items-center">
-            <div className="w-full aspect-[16/10] rounded-3xl overflow-hidden bg-white/90 border border-zinc-200/80 relative group shadow-sm flex items-center justify-center p-6">
+            <div className="w-full aspect-[16/10] rounded-3xl overflow-hidden bg-white/90 relative group flex items-center justify-center p-6 shadow-xs">
               {activePhotoIndex === 0 && vehicle.pngImage ? (
                 <div className="car-platform-shadow w-full h-full flex items-center justify-center">
                   <img
@@ -142,13 +211,13 @@ export default function VehicleDetailView({
           {/* Columna Derecha: Título, bullets, precios y botones depurados */}
           <div className="lg:col-span-5 space-y-6 text-left">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-1 font-tech">
+              <span className="text-[11px] font-extrabold uppercase tracking-[0.25em] text-black/60 block mb-1 font-tech">
                 {vehicle.brand}
               </span>
-              <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-black leading-tight font-display">
+              <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-black leading-tight font-display">
                 {vehicle.model}
               </h1>
-              <span className="text-xs text-zinc-500 font-tech mt-1 block">
+              <span className="text-xs text-zinc-600 font-tech mt-1 block">
                 {vehicle.trim}
               </span>
             </div>
@@ -170,7 +239,7 @@ export default function VehicleDetailView({
             {/* Precios Duales */}
             <div className="pt-4 border-t border-zinc-200/80 space-y-2">
               <div>
-                <span className="block text-[11px] font-medium text-zinc-400 font-tech uppercase">
+                <span className="block text-[11px] font-bold text-black/60 font-tech uppercase">
                   Precio sugerido de lista
                 </span>
                 <span className="text-3xl sm:text-4xl font-black text-black tabular-nums tracking-tight font-tech">
@@ -179,17 +248,17 @@ export default function VehicleDetailView({
               </div>
 
               <div>
-                <span className="text-xs font-semibold text-zinc-600 tabular-nums font-tech">
+                <span className="text-xs font-bold text-zinc-700 tabular-nums font-tech">
                   USD {vehicle.priceUSD.toLocaleString('es-AR')} · ($ {priceNoTaxARS.toLocaleString('es-AR', { maximumFractionDigits: 0 })} sin impuestos)
                 </span>
               </div>
             </div>
 
-            {/* Botones de Acción (Pocos botones y cada uno con función específica) */}
+            {/* Botones de Acción */}
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
                 onClick={handleWhatsApp}
-                className="px-8 py-3.5 rounded-full bg-black hover:bg-zinc-800 text-white font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:shadow-xl inline-flex items-center gap-2.5 cursor-pointer"
+                className="px-8 py-3.5 rounded-full bg-black hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 hover:shadow-xl inline-flex items-center gap-2.5 cursor-pointer font-tech"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Contactar Asesor Oficial</span>
@@ -197,7 +266,7 @@ export default function VehicleDetailView({
 
               <button
                 onClick={() => onScrollToContact(`${vehicle.brand} ${vehicle.model} (${vehicle.year})`)}
-                className="px-6 py-3.5 rounded-full border border-zinc-300 hover:border-black text-black font-semibold text-xs uppercase tracking-wider transition-all duration-300 bg-white/60 cursor-pointer"
+                className="px-6 py-3.5 rounded-full border border-zinc-300 hover:border-black text-black font-bold text-xs uppercase tracking-wider transition-all duration-300 bg-white/80 cursor-pointer font-tech"
               >
                 Agendar Visita
               </button>
@@ -208,75 +277,50 @@ export default function VehicleDetailView({
         </div>
       </div>
 
-      {/* 2. SECCIÓN "EXPLORÁ CADA ÁNGULO" (Inspirada exactamente en la Imagen 4 del Usuario) */}
+      {/* 2. SECCIÓN "EXPLORÁ CADA ÁNGULO" Con Filtro de Categorías (Valeria - Perfil 2) */}
       <div className="py-20 border-t border-zinc-200/80 bg-white/50 backdrop-blur-xs">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10 text-left">
           
-          <div className="max-w-2xl mb-12">
-            <h2 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-black font-display">
-              EXPLORÁ CADA ÁNGULO DEL {vehicle.brand.toUpperCase()} {vehicle.model.toUpperCase()}
-            </h2>
-            <p className="text-xs sm:text-sm text-zinc-500 mt-2 font-normal">
-              Mirá las imágenes que revelan la esencia del nuevo {vehicle.model}.
-            </p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-black font-display">
+                EXPLORÁ CADA ÁNGULO DEL {vehicle.brand.toUpperCase()} {vehicle.model.toUpperCase()}
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-500 mt-2 font-normal">
+                Mirá las imágenes que revelan la esencia del nuevo {vehicle.model}.
+              </p>
+            </div>
+
+            {/* Filtro Rápido de Ángulos */}
+            <div className="flex items-center gap-1.5 p-1 bg-zinc-100 rounded-xl text-xs font-bold font-tech">
+              {[
+                { id: 'ALL', label: 'Todos' },
+                { id: 'EXTERIOR', label: 'Exterior' },
+                { id: 'INTERIOR', label: 'Interior' },
+                { id: 'TECNICA', label: 'Detalles' }
+              ].map(f => (
+                <button
+                  key={f.id}
+                  onClick={() => setActiveAngleCategory(f.id)}
+                  className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
+                    activeAngleCategory === f.id
+                      ? 'bg-black text-white shadow-xs'
+                      : 'text-zinc-600 hover:text-black'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Mosaico Editorial de Fotos y Partes (Imagen 4) */}
+          {/* Mosaico Editorial */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {(vehicle.anglePhotos || [
-              {
-                title: "Vista 3/4 Frontal",
-                part: "Carrocería & Aerodinámica",
-                url: galleryPhotos[0],
-                span: "col-span-1 lg:col-span-2 row-span-2"
-              },
-              {
-                title: "Infotainment & Pantalla Digital",
-                part: "Cámaras 360° y Asistencias",
-                url: galleryPhotos[1],
-                span: "col-span-1"
-              },
-              {
-                title: "Cockpit y Puesto de Conducción",
-                part: "Volante Multifunción en Cuero",
-                url: galleryPhotos[2],
-                span: "col-span-1"
-              },
-              {
-                title: "Instrumental Digital Full HD",
-                part: "Telemetría y Modos de Manejo",
-                url: galleryPhotos[3],
-                span: "col-span-1"
-              },
-              {
-                title: "Butacas Deportivas Ergonómicas",
-                part: "Tapizado en Cuero Microperforado",
-                url: galleryPhotos[4],
-                span: "col-span-1"
-              },
-              {
-                title: "Remate Posterior y Ópticas LED",
-                part: "Firma Lumínica de Alta Visibilidad",
-                url: galleryPhotos[5],
-                span: "col-span-1 lg:col-span-2"
-              },
-              {
-                title: "Techo Panorámico Vidriado",
-                part: "Iluminación Natural con Apertura",
-                url: galleryPhotos[6],
-                span: "col-span-1"
-              },
-              {
-                title: "Llantas Diamantadas y Frenos",
-                part: "Chasis y Puesta a Punto",
-                url: galleryPhotos[7],
-                span: "col-span-1"
-              }
-            ]).map((angle, idx) => (
+            {filteredAngles.map((angle, idx) => (
               <div
                 key={idx}
                 onClick={() => onOpenLightbox(galleryPhotos, idx % galleryPhotos.length)}
-                className={`group relative rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 cursor-pointer shadow-xs ${angle.span || 'col-span-1'}`}
+                className={`group relative rounded-2xl overflow-hidden bg-zinc-100 cursor-pointer shadow-xs ${angle.span || 'col-span-1'}`}
               >
                 <div className="w-full h-full min-h-[220px] aspect-[4/3] overflow-hidden">
                   <img
@@ -302,12 +346,12 @@ export default function VehicleDetailView({
         </div>
       </div>
 
-      {/* 3. SECCIÓN "CONOCÉ SUS VERSIONES" (Inspirada exactamente en la Imagen 5 del Usuario) */}
+      {/* 3. SECCIÓN "CONOCÉ SUS VERSIONES" (Imagen 5) */}
       <div className="py-20 border-t border-zinc-200/80 bg-white">
         <div className="max-w-[1360px] mx-auto px-6 lg:px-10 text-center">
           
           <div className="max-w-2xl mx-auto mb-10">
-            <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-black font-display">
+            <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-black font-display">
               CONOCÉ SUS VERSIONES
             </h2>
             <p className="text-xs sm:text-sm text-zinc-500 mt-2">
@@ -378,7 +422,7 @@ export default function VehicleDetailView({
               <div className="md:col-span-5 flex justify-start md:justify-end">
                 <button
                   onClick={handleWhatsApp}
-                  className="px-8 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 cursor-pointer"
+                  className="px-8 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 cursor-pointer font-tech"
                 >
                   CONTACTAR ASESOR
                 </button>
@@ -386,6 +430,52 @@ export default function VehicleDetailView({
 
             </div>
           </div>
+
+        </div>
+      </div>
+
+      {/* 4. SECCIÓN FINANCIACIÓN & PERMUTA CONTEXTUALIZADA PARA ESTA UNIDAD */}
+      <div className="py-20 border-t border-zinc-200/80 whynot-pearl-bg">
+        <div className="max-w-[1360px] mx-auto px-6 lg:px-10">
+          
+          <div className="flex items-center justify-center gap-4 mb-10">
+            <button
+              onClick={() => setActiveServiceTab('financing')}
+              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer font-tech inline-flex items-center gap-2 ${
+                activeServiceTab === 'financing'
+                  ? 'bg-black text-white shadow-xs'
+                  : 'bg-white text-zinc-600 hover:text-black border border-zinc-200'
+              }`}
+            >
+              <Calculator className="w-3.5 h-3.5" />
+              <span>Simular Cuotas para este Vehículo</span>
+            </button>
+
+            <button
+              onClick={() => setActiveServiceTab('tradein')}
+              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer font-tech inline-flex items-center gap-2 ${
+                activeServiceTab === 'tradein'
+                  ? 'bg-black text-white shadow-xs'
+                  : 'bg-white text-zinc-600 hover:text-black border border-zinc-200'
+              }`}
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Entregar mi Auto en Parte de Pago</span>
+            </button>
+          </div>
+
+          {activeServiceTab === 'financing' && (
+            <FinancingCalculator
+              initialPriceUSD={vehicle.priceUSD}
+              currency={currency}
+            />
+          )}
+
+          {activeServiceTab === 'tradein' && (
+            <TradeInForm
+              targetVehicle={`${vehicle.brand} ${vehicle.model} (${vehicle.year})`}
+            />
+          )}
 
         </div>
       </div>

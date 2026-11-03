@@ -11,6 +11,19 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleScrollToServices = () => {
+    if (currentView !== 'home') {
+      onNavigate('home');
+      setTimeout(() => {
+        const el = document.getElementById('financiacion-usados');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    } else {
+      const el = document.getElementById('financiacion-usados');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-b border-zinc-200/90 transition-all duration-300 shadow-xs ${
@@ -38,7 +51,7 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
         </button>
 
         {/* Navegación Central en Negro por Defecto (Máxima Legibilidad) */}
-        <nav className="hidden md:flex items-center space-x-10 text-xs font-bold uppercase tracking-wider text-black">
+        <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-wider text-black font-tech">
           <button
             onClick={() => onNavigate('home')}
             className={`transition relative py-1 cursor-pointer ${
@@ -60,8 +73,14 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
             Gama & Catálogo
           </button>
           <button
+            onClick={handleScrollToServices}
+            className="text-black hover:opacity-60 transition py-1 cursor-pointer"
+          >
+            Financiación & Permutas
+          </button>
+          <button
             onClick={onScrollToContact}
-            className="text-black hover:opacity-60 transition py-1 cursor-pointer font-bold"
+            className="text-black hover:opacity-60 transition py-1 cursor-pointer"
           >
             Showroom & Contacto
           </button>
@@ -100,7 +119,7 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
           {/* Menú Mobile */}
           <button
             onClick={() => onNavigate(currentView === 'catalog' ? 'home' : 'catalog')}
-            className="md:hidden px-3.5 py-1.5 rounded-full border border-zinc-300 text-xs font-bold text-black bg-zinc-50"
+            className="md:hidden px-3.5 py-1.5 rounded-full border border-zinc-300 text-xs font-bold text-black bg-zinc-50 font-tech"
           >
             {currentView === 'catalog' ? 'Inicio' : 'Modelos'}
           </button>
