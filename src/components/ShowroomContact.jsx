@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MessageCircle, MapPin, ArrowUpRight, Clock, ShieldCheck } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, ArrowUpRight, ShieldCheck } from 'lucide-react';
 
 export default function ShowroomContact({ prefilledVehicle = '', onShowToast }) {
   const [activeBranch, setActiveBranch] = useState('libertador'); // 'libertador' | 'pilar'

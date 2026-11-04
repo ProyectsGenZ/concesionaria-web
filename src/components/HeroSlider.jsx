@@ -16,7 +16,11 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
   };
 
   const handleOpenSlideVehicle = () => {
-    window.open(`?vehiculo=${currentSlide.carId}`, '_blank');
+    if (onOpenVehicle) {
+      onOpenVehicle(currentSlide.carId);
+    } else {
+      window.open(`?vehiculo=${currentSlide.carId}`, '_blank');
+    }
   };
 
   return (

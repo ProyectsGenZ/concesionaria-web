@@ -16,8 +16,6 @@ export default function App() {
   const [currency, setCurrency] = useState('USD'); // 'USD' | 'ARS'
   const [activeVehicleId, setActiveVehicleId] = useState('CIT-001');
   const [prefilledVehicle, setPrefilledVehicle] = useState('');
-  const [selectedSilhouette, setSelectedSilhouette] = useState('all');
-  const [selectedBrand, setSelectedBrand] = useState('all');
 
   // Lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -49,20 +47,6 @@ export default function App() {
 
   const handleOpenVehicle = (carId) => {
     window.open(`?vehiculo=${carId}`, '_blank');
-  };
-
-  const handleSelectSilhouette = (silhouette) => {
-    setSelectedSilhouette(silhouette);
-    setSelectedBrand('all');
-    setView('catalog');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSelectBrand = (brand) => {
-    setSelectedBrand(brand);
-    setSelectedSilhouette('all');
-    setView('catalog');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleScrollToContact = (vehicleName = '') => {
@@ -109,9 +93,7 @@ export default function App() {
 
             {/* 2. Gama de Siluetas y Modelos en 3/4 */}
             <SilhouetteBar
-              onSelectSilhouette={handleSelectSilhouette}
-              onSelectBrand={handleSelectBrand}
-              onNavigateCatalog={() => handleNavigate('catalog')}
+              onOpenVehicle={handleOpenVehicle}
             />
 
             {/* 3. Unidades Destacadas sin Bordes */}
@@ -129,8 +111,6 @@ export default function App() {
               onOpenVehicle={handleOpenVehicle}
               currency={currency}
               onToggleCurrency={setCurrency}
-              initialCategory={selectedSilhouette}
-              initialBrand={selectedBrand}
             />
           </div>
         )}

@@ -11,7 +11,11 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
   };
 
   const handleOpenCar = (carId) => {
-    window.open(`?vehiculo=${carId}`, '_blank');
+    if (onOpenVehicle) {
+      onOpenVehicle(carId);
+    } else {
+      window.open(`?vehiculo=${carId}`, '_blank');
+    }
   };
 
   return (

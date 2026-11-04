@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { VEHICLES } from '../data/vehicles';
 
-export default function SilhouetteBar({ onSelectSilhouette, onSelectBrand, onNavigateCatalog }) {
+export default function SilhouetteBar({ onOpenVehicle }) {
   const [activeTab, setActiveTab] = useState('TODOS'); // 'TODOS' | 'PARTICULARES' | 'UTILITARIOS'
 
   const filteredVehicles = VEHICLES.filter(v => {
@@ -11,7 +11,11 @@ export default function SilhouetteBar({ onSelectSilhouette, onSelectBrand, onNav
   });
 
   const handleOpenCar = (carId) => {
-    window.open(`?vehiculo=${carId}`, '_blank');
+    if (onOpenVehicle) {
+      onOpenVehicle(carId);
+    } else {
+      window.open(`?vehiculo=${carId}`, '_blank');
+    }
   };
 
   return (
