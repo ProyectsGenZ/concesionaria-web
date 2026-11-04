@@ -30,33 +30,9 @@ export default function VehicleDetailView({
     window.open(`https://wa.me/5491155550199?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  // Versiones por defecto si no están especificadas
-  const versionsList = vehicle.versions || [
-    {
-      name: "MAX / TOURING",
-      highlight: `Equipamiento tope de gama y máxima dotación tecnológica para ${vehicle.model}.`,
-      features: [
-        "Tapizados en cuero seleccionado y butacas eléctricas",
-        "Paquete avanzado de asistencias a la conducción (ADAS)",
-        "Techo vidriado panorámico y llantas de aleación diamantadas"
-      ],
-      colors: `Disponible en paleta oficial ${vehicle.brand}`,
-      png: vehicle.pngImage
-    },
-    {
-      name: "PLUS / COMFORT",
-      highlight: `Equilibrio perfecto entre rendimiento, conectividad y confort diario.`,
-      features: [
-        "Pantalla táctil de alta definición con conectividad inalámbrica",
-        "Climatizador automático bi-zona y acceso manos libres",
-        "Control de crucero adaptativo y frenado autónomo"
-      ],
-      colors: "Disponible en tonos perla, grafito y plata metalizado",
-      png: vehicle.pngImage
-    }
-  ];
-
-  const currentVersion = versionsList[selectedVersionIdx] || versionsList[0];
+  const hasMultipleVersions = Array.isArray(vehicle.versions) && vehicle.versions.length > 1;
+  const versionsList = hasMultipleVersions ? vehicle.versions : [];
+  const currentVersion = versionsList[selectedVersionIdx] || null;
 
   const allAnglePhotos = vehicle.anglePhotos || [
     {
@@ -343,96 +319,98 @@ export default function VehicleDetailView({
         </div>
       </div>
 
-      {/* 3. SECCIÓN "CONOCÉ SUS VERSIONES" (Imagen 5) */}
-      <div className="py-20 border-t border-zinc-200/80 bg-white">
-        <div className="max-w-[1360px] mx-auto px-6 lg:px-10 text-center">
-          
-          <div className="max-w-2xl mx-auto mb-10">
-            <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-black font-display">
-              CONOCÉ SUS VERSIONES
-            </h2>
-            <p className="text-xs sm:text-sm text-zinc-500 mt-2">
-              Descubrí el {vehicle.model} pensado para tu forma de moverte.
-            </p>
+      {/* 3. SECCIÓN "CONOCÉ SUS VERSIONES" (Solo si el vehículo cuenta con múltiples versiones reales) */}
+      {hasMultipleVersions && currentVersion && (
+        <div className="py-20 border-t border-zinc-200/80 bg-white">
+          <div className="max-w-[1360px] mx-auto px-6 lg:px-10 text-center">
+            
+            <div className="max-w-2xl mx-auto mb-10">
+              <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-black font-display">
+                CONOCÉ SUS VERSIONES
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-500 mt-2">
+                Descubrí el {vehicle.model} pensado para tu forma de moverte.
+              </p>
 
-            {/* Pestañas de Versiones (MAX | PLUS) */}
-            <div className="flex items-center justify-center gap-8 mt-6 border-b border-zinc-200 pb-2">
-              {versionsList.map((ver, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedVersionIdx(idx)}
-                  className={`pb-2 relative text-xs sm:text-sm font-extrabold tracking-widest uppercase transition-colors cursor-pointer ${
-                    selectedVersionIdx === idx ? 'text-red-600 font-black' : 'text-black hover:text-red-600'
-                  }`}
-                >
-                  <span>{ver.name}</span>
-                  {selectedVersionIdx === idx && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600" />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Visualización del Auto PNG con Sombra sobre Base Minimalista */}
-          <div className="max-w-3xl mx-auto my-10">
-            <div className="car-platform-shadow w-full h-64 sm:h-80 flex items-center justify-center relative overflow-visible">
-              <div className={`w-full h-full flex items-center justify-center ${vehicle.flip ? 'scale-x-[-1]' : ''}`}>
-                <img
-                  src={currentVersion.png || vehicle.pngImage}
-                  alt={currentVersion.name}
-                  style={{
-                    transform: `scale(${vehicle.scale || 1.0})`
-                  }}
-                  className="max-h-56 sm:max-h-72 w-auto max-w-[92%] object-contain relative z-10 select-none pointer-events-none transition-transform duration-300"
-                />
+              {/* Pestañas de Versiones (MAX | PLUS) */}
+              <div className="flex items-center justify-center gap-8 mt-6 border-b border-zinc-200 pb-2">
+                {versionsList.map((ver, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedVersionIdx(idx)}
+                    className={`pb-2 relative text-xs sm:text-sm font-extrabold tracking-widest uppercase transition-colors cursor-pointer ${
+                      selectedVersionIdx === idx ? 'text-red-600 font-black' : 'text-black hover:text-red-600'
+                    }`}
+                  >
+                    <span>{ver.name}</span>
+                    {selectedVersionIdx === idx && (
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-600" />
+                    )}
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* Características Clave con Barritas Rojas y Botón CONTACTAR ASESOR */}
-          <div className="max-w-4xl mx-auto pt-6 text-left">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-t border-zinc-100 pt-8">
-              
-              <div className="md:col-span-7 space-y-4">
-                <span className="text-xl font-black text-black font-display uppercase block">
-                  {currentVersion.name}
-                </span>
-                <p className="text-xs text-zinc-500 font-normal">
-                  {currentVersion.highlight}
-                </p>
+            {/* Visualización del Auto PNG con Sombra sobre Base Minimalista */}
+            <div className="max-w-3xl mx-auto my-10">
+              <div className="car-platform-shadow w-full h-64 sm:h-80 flex items-center justify-center relative overflow-visible">
+                <div className={`w-full h-full flex items-center justify-center ${vehicle.flip ? 'scale-x-[-1]' : ''}`}>
+                  <img
+                    src={currentVersion.png || vehicle.pngImage}
+                    alt={currentVersion.name}
+                    style={{
+                      transform: `scale(${vehicle.scale || 1.0})`
+                    }}
+                    className="max-h-56 sm:max-h-72 w-auto max-w-[92%] object-contain relative z-10 select-none pointer-events-none transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
 
-                {/* 3 Viñetas con Barrita Roja */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                  {currentVersion.features.map((feat, idx) => (
-                    <div key={idx} className="border-t-2 border-red-600 pt-2 text-left">
-                      <span className="text-xs font-semibold text-black leading-snug block">
-                        {feat}
-                      </span>
-                    </div>
-                  ))}
+            {/* Características Clave con Barritas Rojas y Botón CONTACTAR ASESOR */}
+            <div className="max-w-4xl mx-auto pt-6 text-left">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-t border-zinc-100 pt-8">
+                
+                <div className="md:col-span-7 space-y-4">
+                  <span className="text-xl font-black text-black font-display uppercase block">
+                    {currentVersion.name}
+                  </span>
+                  <p className="text-xs text-zinc-500 font-normal">
+                    {currentVersion.highlight}
+                  </p>
+
+                  {/* 3 Viñetas con Barrita Roja */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                    {currentVersion.features.map((feat, idx) => (
+                      <div key={idx} className="border-t-2 border-red-600 pt-2 text-left">
+                        <span className="text-xs font-semibold text-black leading-snug block">
+                          {feat}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <p className="text-[11px] text-zinc-400 font-tech pt-2">
+                    {currentVersion.colors}
+                  </p>
                 </div>
 
-                <p className="text-[11px] text-zinc-400 font-tech pt-2">
-                  {currentVersion.colors}
-                </p>
-              </div>
+                {/* Único botón de llamada a la acción */}
+                <div className="md:col-span-5 flex justify-start md:justify-end">
+                  <button
+                    onClick={handleWhatsApp}
+                    className="px-8 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 cursor-pointer font-tech"
+                  >
+                    CONTACTAR ASESOR
+                  </button>
+                </div>
 
-              {/* Único botón de llamada a la acción */}
-              <div className="md:col-span-5 flex justify-start md:justify-end">
-                <button
-                  onClick={handleWhatsApp}
-                  className="px-8 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 cursor-pointer font-tech"
-                >
-                  CONTACTAR ASESOR
-                </button>
               </div>
-
             </div>
-          </div>
 
+          </div>
         </div>
-      </div>
+      )}
 
     </section>
   );

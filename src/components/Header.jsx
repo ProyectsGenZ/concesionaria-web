@@ -19,7 +19,7 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
           : 'py-4 bg-white/95 backdrop-blur-xl border-b border-zinc-200/90'
       }`}
     >
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 flex items-center justify-between">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 flex items-center justify-between relative">
         
         {/* Logotipo Minimalista Monocromático */}
         <button
@@ -39,8 +39,8 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
           </div>
         </button>
 
-        {/* Navegación Central en Negro por Defecto (Máxima Legibilidad) */}
-        <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-wider text-black font-tech">
+        {/* Navegación Central Ubicada EXACTAMENTE en la Mitad de la Pantalla */}
+        <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-wider text-black font-tech absolute left-1/2 -translate-x-1/2">
           <button
             onClick={() => onNavigate('home')}
             className={`transition relative py-1 cursor-pointer ${

@@ -1,32 +1,28 @@
 # Contexto del Proyecto: Concesionaria Web (Arquitectura Unificada MONOLITH Studio)
 
 **Última actualización:** 04/11/2026  
-**Estado:** Servidor activo en `http://localhost:3000/`. Consolidación estética antislop: mayor transparencia translúcida de la cabecera en scroll, simplificación del menú de navegación a "Catálogo" y "Contacto", eliminación completa de módulos financieros/permuta de la ficha técnica de unidad, y homogenización de los 12 vehículos en ángulo 3/4 hacia la izquierda con fondos transparentes puros y escalas uniformes.
+**Estado:** Servidor activo en `http://localhost:3000/`. Consolidación estética antislop: navegación central ubicada en la mitad matemática exacta de la pantalla, todos los 12 vehículos físicamente orientados hacia la izquierda en ángulo 3/4 frontal sin dependencia de transformaciones CSS, y sección "CONOCÉ SUS VERSIONES" condicionada exclusivamente a vehículos con múltiples versiones reales.
 
 ---
 
 ## 1. Ajustes y Mejoras Aplicadas en Esta Iteración
 
-1. **Cabecera Translúcida y Navegación Minimalista (`Header.jsx`)**:
-   - Mayor transparencia dinámica al bajar por la página (`bg-white/60 backdrop-blur-md border-b border-zinc-200/50 shadow-xs`), permitiendo que el contenido se trasluzca de forma limpia y moderna mientras se desliza.
-   - Simplificación de los botones principales a **"Catálogo"** y **"Contacto"**.
+1. **Centrado Matemático Absoluto de Navegación (`Header.jsx`)**:
+   - Se aplicó posicionamiento centrado absoluto (`absolute left-1/2 -translate-x-1/2`) en el `<nav>` de "Inicio", "Catálogo" y "Contacto", ubicándolo en el 50% geométrico exacto del viewport, sin desviación por asimetría entre el logotipo y los controles de moneda/contacto.
 
-2. **Homogeneización Absoluta de la Gama de 12 Vehículos (`vehicles.js`)**:
-   - **Orientación 3/4 hacia la izquierda unificada**: Los 12 modelos (C4 Híbrido, Tucson, HB20, Creta, Santa Fe, C3, Basalt, Berlingo, Ranger Raptor, Porsche Macan, BMW X5 y Audi TT) miran uniformemente hacia la izquierda.
-   - **Corrección de Berlingo Furgón**: Se eliminó el recuadro blanco opaco mediante procesamiento de canal alfa (`colorType: 6`), dejándolo 100% transparente sobre sombra de piso.
-   - **Ajuste de Proporciones del Porsche**: Se eliminó el 75% de padding transparente vacío que reducía su tamaño, normalizándolo al tamaño de los demás vehículos.
-   - **Pick-up en 3/4**: Se reemplazó la camioneta de perfil lateral plano de 90° por una toma en perspectiva 3/4 frontal.
-   - **Audi TT**: Orientación corregida hacia la izquierda en ángulo deportivo.
+2. **Gama Completa de 12 Vehículos Físicamente Orientados a la Izquierda (`vehicles.js`)**:
+   - Se procesaron e invirtieron los 4 modelos de Hyundai (Tucson, HB20, Creta y Santa Fe) a archivos locales en `public/images/cars/` (`hyundai-*.png`), de modo que el 100% de los 12 autos miran de forma nativa e inalterable en ángulo 3/4 hacia la izquierda.
+   - Se eliminaron las clases de rotación virtual `scale-x-[-1]`, asegurando compatibilidad total y consistente en cualquier navegador y dispositivo.
 
-3. **Depuración Definitiva de la Ficha de Vehículo (`VehicleDetailView.jsx`)**:
-   - Se removió por completo la sección inferior de "Simular Cuotas para este Vehículo" y "Entregar mi Auto en Parte de Pago".
-   - La vista de detalle queda enfocada exclusivamente en su propósito comercial: datos clave, galería bento editorial de partes y detalles ("EXPLORÁ CADA ÁNGULO"), y selector de versiones interactivas ("CONOCÉ SUS VERSIONES") con botón directo de contacto a WhatsApp.
+3. **Condición Estricta para "CONOCÉ SUS VERSIONES" (`VehicleDetailView.jsx`)**:
+   - Se eliminó la generación de versiones ficticias ("MAX/PLUS" por defecto).
+   - El bloque solo se renderiza si el modelo tiene un arreglo real con más de una versión (ej. Nuevo C4 Híbrido o Nueva Tucson). En vehículos con versiones únicas o usados seleccionados (Porsche, BMW, Audi, Ranger Raptor), la sección no se muestra, manteniendo la ficha técnica honesta y concisa.
 
 ---
 
 ## 2. Verificación de QA y Testing
 
 - Servidor Vite en vivo: `http://localhost:3000/`.
-- Compilación `npm run build`: Exitosa en 492ms sin advertencias (`dist/`).
+- Compilación `npm run build`: Exitosa en 336ms sin advertencias (`dist/`).
 - Tests de Orquestación `cmd /c npm test`: **5/5 tests aprobados (100%)**.
 - Git: Preparado para commit atómico bajo estándar Conventional Commits.

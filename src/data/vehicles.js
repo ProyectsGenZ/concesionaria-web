@@ -16,7 +16,7 @@ export const HERO_SLIDES = [
     title: "Hyundai Nueva Tucson",
     subtitle: "Diseño paramétrico revolucionario · Propulsión híbrida inteligente · Doble pantalla curva integrada de 12.3\" con tecnología SmartSense.",
     image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=2000&q=85",
-    pngImage: "https://hyundai.com.ar/publicfiles/model_pics/3b6c5c86cadb3ab52c3767e17d599321.png"
+    pngImage: "/images/cars/hyundai-tucson.png"
   },
   {
     carId: "MNL-100",
@@ -24,7 +24,7 @@ export const HERO_SLIDES = [
     title: "Ford Ranger Raptor",
     subtitle: "Motor Naftero EcoBoost 3.0L V6 Bi-Turbo de 397 CV · Amortiguadores FOX Racing SHOX Live Valve de 2.5\" de calibración activa.",
     image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=2000&q=85",
-    pngImage: "https://pngimg.com/d/pickup_truck_PNG16335.png"
+    pngImage: "/images/cars/pickup-93.png"
   },
   {
     carId: "MNL-101",
@@ -32,7 +32,7 @@ export const HERO_SLIDES = [
     title: "Porsche Macan T",
     subtitle: "265 CV Turbo PDK AWD · Paquete Sport Chrono de serie · Suspensión adaptativa PASM rebajada 15 mm en Gris Vulcano.",
     image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=2000&q=85",
-    pngImage: "https://pngimg.com/d/porsche_PNG10613.png"
+    pngImage: "/images/cars/porsche-macan-clean.png"
   }
 ];
 
@@ -177,9 +177,8 @@ export const VEHICLES = [
     paint: "Gris Titanio",
     location: "Showroom Libertador",
     featured: true,
-    flip: true,
     scale: 1.0,
-    pngImage: "https://hyundai.com.ar/publicfiles/model_pics/3b6c5c86cadb3ab52c3767e17d599321.png",
+    pngImage: "/images/cars/hyundai-tucson.png",
     versions: [
       {
         name: "LIMITED 4WD",
@@ -190,7 +189,7 @@ export const VEHICLES = [
           "Monitor de punto ciego en tablero digital (BVM)"
         ],
         colors: "Titan Grey, Phantom Black, White Cream, Amazon Grey",
-        png: "https://hyundai.com.ar/publicfiles/model_pics/3b6c5c86cadb3ab52c3767e17d599321.png"
+        png: "/images/cars/hyundai-tucson.png"
       },
       {
         name: "GLS 2WD",
@@ -201,7 +200,7 @@ export const VEHICLES = [
           "Faros delanteros Parametric Hidden Lights Full LED"
         ],
         colors: "Phantom Black, White Cream, Shimmering Silver",
-        png: "https://hyundai.com.ar/publicfiles/model_pics/3b6c5c86cadb3ab52c3767e17d599321.png"
+        png: "/images/cars/hyundai-tucson.png"
       }
     ],
     anglePhotos: [
@@ -270,9 +269,8 @@ export const VEHICLES = [
     paint: "Plata Brisk",
     location: "Hub Pilar",
     featured: false,
-    flip: true,
-    scale: 1.18,
-    pngImage: "https://hyundai.com.ar/publicfiles/model_pics/341b3771bdf7f5b082f93cedaded714f.png",
+    scale: 1.0,
+    pngImage: "/images/cars/hyundai-hb20.png",
     photos: [
       "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80"
@@ -306,9 +304,8 @@ export const VEHICLES = [
     paint: "Gris Magnético",
     location: "Showroom Libertador",
     featured: false,
-    flip: true,
-    scale: 1.05,
-    pngImage: "https://hyundai.com.ar/publicfiles/model_pics/e7e5e083d6af4a1de84b59c48979a117.png",
+    scale: 1.0,
+    pngImage: "/images/cars/hyundai-creta.png",
     photos: [
       "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80"
@@ -342,9 +339,8 @@ export const VEHICLES = [
     paint: "Terracotta Brown",
     location: "Showroom Libertador",
     featured: false,
-    flip: true,
-    scale: 1.05,
-    pngImage: "https://hyundai.com.ar/publicfiles/model_pics/56683bbba1a48c2e15d0ac237dfece23.png",
+    scale: 1.0,
+    pngImage: "/images/cars/hyundai-santafe.png",
     photos: [
       "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80"
