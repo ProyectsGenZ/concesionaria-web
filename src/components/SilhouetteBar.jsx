@@ -75,6 +75,7 @@ export default function SilhouetteBar({ onOpenVehicle }) {
                       }}
                       className="max-h-28 sm:max-h-32 w-auto max-w-[88%] object-contain relative z-10 select-none pointer-events-none"
                       loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 </div>

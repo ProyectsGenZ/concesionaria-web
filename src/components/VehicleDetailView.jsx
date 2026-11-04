@@ -140,6 +140,7 @@ export default function VehicleDetailView({
                   <img
                     src={vehicle.pngImage}
                     alt={vehicle.model}
+                    decoding="async"
                     className={`max-h-full max-w-full object-contain relative z-10 transition-transform duration-700 group-hover:scale-105 ${
                       vehicle.flip ? '-scale-x-100' : ''
                     }`}
@@ -175,7 +176,7 @@ export default function VehicleDetailView({
                       : 'border-zinc-200 opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={photo} alt="Miniatura" className="w-full h-full object-cover" />
+                  <img src={photo} alt="Miniatura" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -301,6 +302,7 @@ export default function VehicleDetailView({
                     alt={angle.title}
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
 
@@ -361,6 +363,8 @@ export default function VehicleDetailView({
                     style={{
                       transform: `scale(${vehicle.scale || 1.0})`
                     }}
+                    loading="lazy"
+                    decoding="async"
                     className="max-h-56 sm:max-h-72 w-auto max-w-[92%] object-contain relative z-10 select-none pointer-events-none transition-transform duration-300"
                   />
                 </div>

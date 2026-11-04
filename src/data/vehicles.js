@@ -7,15 +7,15 @@ export const HERO_SLIDES = [
     tag: "Lanzamiento Exclusivo · Híbrido 48V",
     title: "Nuevo Citroën C4 Híbrido",
     subtitle: "Silueta aerodinámica Crossover Coupé · Motor híbrido de alta eficiencia y máximo confort con suspensión de topes hidráulicos progresivos.",
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=2000&q=85",
-    pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/c4/hibrido/bbc-c4-hibrido.png"
+    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=75",
+    pngImage: "/images/cars/citroen-c4-hibrido.png"
   },
   {
     carId: "HYU-001",
     tag: "Nueva Generación · Entrega Inmediata",
     title: "Hyundai Nueva Tucson",
     subtitle: "Diseño paramétrico revolucionario · Propulsión híbrida inteligente · Doble pantalla curva integrada de 12.3\" con tecnología SmartSense.",
-    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=2000&q=85",
+    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1600&q=75",
     pngImage: "/images/cars/hyundai-tucson.png"
   },
   {
@@ -23,7 +23,7 @@ export const HERO_SLIDES = [
     tag: "Ford Performance · En Showroom",
     title: "Ford Ranger Raptor",
     subtitle: "Motor Naftero EcoBoost 3.0L V6 Bi-Turbo de 397 CV · Amortiguadores FOX Racing SHOX Live Valve de 2.5\" de calibración activa.",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=2000&q=85",
+    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=75",
     pngImage: "/images/cars/pickup-93.png"
   },
   {
@@ -31,7 +31,7 @@ export const HERO_SLIDES = [
     tag: "Porsche Exclusive · Seleccionado",
     title: "Porsche Macan T",
     subtitle: "265 CV Turbo PDK AWD · Paquete Sport Chrono de serie · Suspensión adaptativa PASM rebajada 15 mm en Gris Vulcano.",
-    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=2000&q=85",
+    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1600&q=75",
     pngImage: "/images/cars/porsche-macan-clean.png"
   }
 ];
@@ -65,7 +65,7 @@ export const VEHICLES = [
     location: "Showroom Libertador",
     featured: true,
     scale: 1.0,
-    pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/c4/hibrido/bbc-c4-hibrido.png",
+    pngImage: "/images/cars/citroen-c4-hibrido.png",
     // Versiones como en la Imagen 5
     versions: [
       {
@@ -77,7 +77,7 @@ export const VEHICLES = [
           "Techo vidriado estilo 'Spoiler'"
         ],
         colors: "Disponible en colores Verde Manhattan, Gris Mercury, Blanco Okenita, Negro Perla, Rojo Elixir y Azul Eclipse",
-        png: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/c4/hibrido/bbc-c4-hibrido.png"
+        png: "/images/cars/citroen-c4-hibrido.png"
       },
       {
         name: "PLUS",
@@ -88,7 +88,7 @@ export const VEHICLES = [
           "Llantas de aleación diamantadas de 18 pulgadas"
         ],
         colors: "Disponible en Gris Mercury, Blanco Okenita y Negro Perla",
-        png: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/c4/hibrido/bbc-c4-hibrido.png"
+        png: "/images/cars/citroen-c4-hibrido.png"
       }
     ],
     // Mosaico Editorial de 12 fotos de partes y ángulos (Como en la Imagen 4)
@@ -375,7 +375,7 @@ export const VEHICLES = [
     location: "Hub Pilar",
     featured: false,
     scale: 1.15,
-    pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/bbc-c3-you2.png",
+    pngImage: "/images/cars/citroen-c3.png",
     photos: [
       "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80"
     ]
@@ -409,7 +409,7 @@ export const VEHICLES = [
     location: "Showroom Libertador",
     featured: true,
     scale: 1.02,
-    pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/basalt/bbc-basalt.png",
+    pngImage: "/images/cars/citroen-basalt.png",
     photos: [
       "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80"
     ]
@@ -594,14 +594,14 @@ export const VEHICLES = [
 ];
 
 export const EXTRA_GALLERY_POOL = [
-  "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=1000&q=80"
+  "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=70"
 ];
 
 export function getEightGalleryPhotos(car) {

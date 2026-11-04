@@ -84,6 +84,7 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
                         }}
                         className="max-h-36 sm:max-h-40 w-auto max-w-[90%] object-contain relative z-10 select-none pointer-events-none"
                         loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>

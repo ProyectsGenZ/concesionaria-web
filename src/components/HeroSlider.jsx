@@ -41,6 +41,9 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
                 src={slide.image}
                 alt={slide.title}
                 className="w-full h-full object-cover object-center brightness-100 contrast-100"
+                fetchpriority={idx === 0 ? "high" : "low"}
+                loading={idx === 0 ? "eager" : "lazy"}
+                decoding={idx === 0 ? "sync" : "async"}
               />
             </div>
           );
