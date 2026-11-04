@@ -446,8 +446,8 @@ export const VEHICLES = [
     paint: "Blanco Banquise",
     location: "Hub Pilar",
     featured: false,
-    scale: 1.12,
-    pngImage: "https://www.citroen.com.ar/content/dam/citroen/argentina/home/bbc/berlingo/bbc-berlingo.png",
+    scale: 1.0,
+    pngImage: "/images/cars/berlingo-clean.png",
     photos: [
       "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1200&q=80"
     ]
@@ -480,8 +480,8 @@ export const VEHICLES = [
     paint: "Naranja Código",
     location: "Showroom Libertador",
     featured: true,
-    scale: 0.96,
-    pngImage: "https://pngimg.com/d/pickup_truck_PNG16335.png",
+    scale: 1.0,
+    pngImage: "/images/cars/pickup-93.png",
     photos: [
       "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85",
@@ -518,7 +518,7 @@ export const VEHICLES = [
     location: "Showroom Libertador",
     featured: true,
     scale: 1.0,
-    pngImage: "https://pngimg.com/d/porsche_PNG10613.png",
+    pngImage: "/images/cars/porsche-macan-clean.png",
     photos: [
       "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1200&q=80",
@@ -530,13 +530,13 @@ export const VEHICLES = [
   {
     id: "MNL-103",
     brand: "BMW",
-    model: "330i M Sport Pro",
-    trim: "2.0 TwinPower Turbo Steptronic 8 Vel",
-    description: "El sedán deportivo por excelencia con paquete aerodinámico M Pro, frenos deportivos M y pantalla curva BMW Live Cockpit.",
+    model: "X5 M Sport",
+    trim: "3.0 TwinPower Turbo Steptronic 8 Vel AWD",
+    description: "La referencia en SUVs deportivos de alto rendimiento, con tracción xDrive inteligente y paquete estético M Sport completo.",
     bullets: [
-      "Motor 2.0L TwinPower Turbo de 258 CV y tracción trasera.",
-      "BMW Curved Display con sistema operativo iDrive 8.",
-      "Paquete M Sport Pro con llantas de 19\" y chasis deportivo."
+      "Motor 3.0L TwinPower Turbo de 340 CV con tracción total xDrive.",
+      "Cockpit digital curvado con conectividad inalámbrica y navegación integrada.",
+      "Paquete M Sport Pro con llantas de 20\" y suspensión neumática adaptativa."
     ],
     condition: "usado",
     badge: "USADO SELECCIONADO",
@@ -544,17 +544,17 @@ export const VEHICLES = [
     km: 14200,
     transmission: "Automática Steptronic",
     fuel: "Nafta",
-    traction: "RWD",
-    bodyType: "Sedán",
+    traction: "AWD",
+    bodyType: "SUV",
     categoryTab: "PARTICULARES",
-    priceUSD: 74500,
-    power: "258 CV",
-    engine: "2.0L Turbo",
-    paint: "Azul Portimao",
+    priceUSD: 89500,
+    power: "340 CV",
+    engine: "3.0L Turbo",
+    paint: "Negro Zafiro Metalizado",
     location: "Showroom Libertador",
     featured: true,
     scale: 1.0,
-    pngImage: "https://pngimg.com/d/bmw_PNG99539.png",
+    pngImage: "/images/cars/bmw-x5-clean.png",
     photos: [
       "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&q=80"
@@ -585,12 +585,11 @@ export const VEHICLES = [
     priceUSD: 105000,
     power: "400 CV",
     engine: "2.5L 5 Cilindros",
-    paint: "Gris Nardo",
+    paint: "Rojo Misano",
     location: "Showroom Libertador",
     featured: false,
-    flip: true,
-    scale: 1.05,
-    pngImage: "https://pngimg.com/d/audi_PNG1771.png",
+    scale: 1.0,
+    pngImage: "/images/cars/audi-tt-clean.png",
     photos: [
       "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"

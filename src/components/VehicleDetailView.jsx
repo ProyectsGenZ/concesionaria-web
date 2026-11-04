@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowLeft, MessageCircle, Check, ArrowUpRight, Calculator, RefreshCw } from 'lucide-react';
+import { ArrowLeft, MessageCircle, Check, ArrowUpRight } from 'lucide-react';
 import { EXCHANGE_RATE, getEightGalleryPhotos } from '../data/vehicles';
-import FinancingCalculator from './FinancingCalculator';
-import TradeInForm from './TradeInForm';
 
 export default function VehicleDetailView({
   vehicle,
@@ -16,7 +14,6 @@ export default function VehicleDetailView({
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
   const [selectedVersionIdx, setSelectedVersionIdx] = useState(0);
   const [activeAngleCategory, setActiveAngleCategory] = useState('ALL'); // 'ALL' | 'EXTERIOR' | 'INTERIOR' | 'TECNICA'
-  const [activeServiceTab, setActiveServiceTab] = useState('financing'); // 'financing' | 'tradein'
 
   const galleryPhotos = getEightGalleryPhotos(vehicle);
 
@@ -433,52 +430,6 @@ export default function VehicleDetailView({
 
             </div>
           </div>
-
-        </div>
-      </div>
-
-      {/* 4. SECCIÓN FINANCIACIÓN & PERMUTA CONTEXTUALIZADA PARA ESTA UNIDAD */}
-      <div className="py-20 border-t border-zinc-200/80 whynot-pearl-bg">
-        <div className="max-w-[1360px] mx-auto px-6 lg:px-10">
-          
-          <div className="flex items-center justify-center gap-4 mb-10">
-            <button
-              onClick={() => setActiveServiceTab('financing')}
-              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer font-tech inline-flex items-center gap-2 ${
-                activeServiceTab === 'financing'
-                  ? 'bg-black text-white shadow-xs'
-                  : 'bg-white text-zinc-600 hover:text-black border border-zinc-200'
-              }`}
-            >
-              <Calculator className="w-3.5 h-3.5" />
-              <span>Simular Cuotas para este Vehículo</span>
-            </button>
-
-            <button
-              onClick={() => setActiveServiceTab('tradein')}
-              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer font-tech inline-flex items-center gap-2 ${
-                activeServiceTab === 'tradein'
-                  ? 'bg-black text-white shadow-xs'
-                  : 'bg-white text-zinc-600 hover:text-black border border-zinc-200'
-              }`}
-            >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>Entregar mi Auto en Parte de Pago</span>
-            </button>
-          </div>
-
-          {activeServiceTab === 'financing' && (
-            <FinancingCalculator
-              initialPriceUSD={vehicle.priceUSD}
-              currency={currency}
-            />
-          )}
-
-          {activeServiceTab === 'tradein' && (
-            <TradeInForm
-              targetVehicle={`${vehicle.brand} ${vehicle.model} (${vehicle.year})`}
-            />
-          )}
 
         </div>
       </div>

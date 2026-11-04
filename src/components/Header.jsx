@@ -13,8 +13,10 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-b border-zinc-200/90 transition-all duration-300 shadow-xs ${
-        scrolled ? 'py-3' : 'py-4'
+      className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? 'py-3 bg-white/60 backdrop-blur-md border-b border-zinc-200/50 shadow-xs'
+          : 'py-4 bg-white/95 backdrop-blur-xl border-b border-zinc-200/90'
       }`}
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10 flex items-center justify-between">
@@ -57,13 +59,13 @@ export default function Header({ currentView, onNavigate, onScrollToContact, cur
                 : 'text-black hover:opacity-60'
             }`}
           >
-            Gama & Catálogo
+            Catálogo
           </button>
           <button
             onClick={onScrollToContact}
             className="text-black hover:opacity-60 transition py-1 cursor-pointer"
           >
-            Showroom & Contacto
+            Contacto
           </button>
         </nav>
 

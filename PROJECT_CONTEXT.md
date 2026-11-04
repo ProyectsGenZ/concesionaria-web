@@ -1,37 +1,32 @@
 # Contexto del Proyecto: Concesionaria Web (Arquitectura Unificada MONOLITH Studio)
 
-**Última actualización:** 03/11/2026  
-**Estado:** Servidor activo en `http://localhost:3000/`. Finalización del ciclo de depuración estética antislop: reducción del filtro oscuro del Hero principal, corrección definitiva del bug de rotación/vuelta en hover de miniaturas, homogenización de tamaño y orientación 3/4 hacia la izquierda de todos los vehículos, y eliminación de los bloques secundarios ("ESTÁNDAR DE SEGURIDAD MONOLITH" y "COMPRA Y PERMUTA").
+**Última actualización:** 04/11/2026  
+**Estado:** Servidor activo en `http://localhost:3000/`. Consolidación estética antislop: mayor transparencia translúcida de la cabecera en scroll, simplificación del menú de navegación a "Catálogo" y "Contacto", eliminación completa de módulos financieros/permuta de la ficha técnica de unidad, y homogenización de los 12 vehículos en ángulo 3/4 hacia la izquierda con fondos transparentes puros y escalas uniformes.
 
 ---
 
 ## 1. Ajustes y Mejoras Aplicadas en Esta Iteración
 
-1. **Aclarado Luminoso del Banner Principal (`HeroSlider.jsx`)**:
-   - Imágenes al 100% de brillo y contraste natural.
-   - Eliminados gradientes laterales opacos y reducido el overlay inferior a un sombreado sutil (`from-black/50 via-transparent to-transparent`) que asegura legibilidad perfecta con la máxima luminosidad.
+1. **Cabecera Translúcida y Navegación Minimalista (`Header.jsx`)**:
+   - Mayor transparencia dinámica al bajar por la página (`bg-white/60 backdrop-blur-md border-b border-zinc-200/50 shadow-xs`), permitiendo que el contenido se trasluzca de forma limpia y moderna mientras se desliza.
+   - Simplificación de los botones principales a **"Catálogo"** y **"Contacto"**.
 
-2. **Resolución Definitiva del Bug de Rotación en Hover (`SilhouetteBar.jsx`, `FeaturedHome.jsx`, `CatalogView.jsx`)**:
-   - Se aisló la inversión horizontal (`scale-x-[-1]`) en un contenedor wrapper estático padre.
-   - El elemento hijo interno ejecuta de forma aislada el zoom suave (`group-hover:scale-105`), eliminando la sobreescritura de propiedades `transform` en Tailwind que provocaba el giro de 180° del vehículo.
+2. **Homogeneización Absoluta de la Gama de 12 Vehículos (`vehicles.js`)**:
+   - **Orientación 3/4 hacia la izquierda unificada**: Los 12 modelos (C4 Híbrido, Tucson, HB20, Creta, Santa Fe, C3, Basalt, Berlingo, Ranger Raptor, Porsche Macan, BMW X5 y Audi TT) miran uniformemente hacia la izquierda.
+   - **Corrección de Berlingo Furgón**: Se eliminó el recuadro blanco opaco mediante procesamiento de canal alfa (`colorType: 6`), dejándolo 100% transparente sobre sombra de piso.
+   - **Ajuste de Proporciones del Porsche**: Se eliminó el 75% de padding transparente vacío que reducía su tamaño, normalizándolo al tamaño de los demás vehículos.
+   - **Pick-up en 3/4**: Se reemplazó la camioneta de perfil lateral plano de 90° por una toma en perspectiva 3/4 frontal.
+   - **Audi TT**: Orientación corregida hacia la izquierda en ángulo deportivo.
 
-3. **Homogeneización Visual y Orientación Unificada en 3/4**:
-   - Los 12 modelos del catálogo apuntan de forma uniforme hacia la izquierda en ángulo 3/4 frontal (estándar oficial de marcas globales como Hyundai y Citroën).
-   - Se introdujo una escala óptica calibrada (`scale`) por modelo para normalizar márgenes transparentes, garantizando idéntico tamaño visual en pantalla.
-
-4. **Depuración de Secciones**:
-   - Se removió el bloque `TrustBadges` ("ESTÁNDAR DE SEGURIDAD MONOLITH").
-   - Se removió la sección `#financiacion-usados` ("COMPRA Y PERMUTA") de la home y su botón de acceso en `Header.jsx`.
-   - Se mantuvo la herramienta de financiación y permuta contextualizada exclusivamente dentro de la ficha de detalle de cada unidad (`VehicleDetailView.jsx`).
-
-5. **Banner de Redes Sociales de Lado a Lado**:
-   - Mantenido como franja individual horizontal de ancho completo con iconos SVG monocromáticos limpios.
+3. **Depuración Definitiva de la Ficha de Vehículo (`VehicleDetailView.jsx`)**:
+   - Se removió por completo la sección inferior de "Simular Cuotas para este Vehículo" y "Entregar mi Auto en Parte de Pago".
+   - La vista de detalle queda enfocada exclusivamente en su propósito comercial: datos clave, galería bento editorial de partes y detalles ("EXPLORÁ CADA ÁNGULO"), y selector de versiones interactivas ("CONOCÉ SUS VERSIONES") con botón directo de contacto a WhatsApp.
 
 ---
 
 ## 2. Verificación de QA y Testing
 
 - Servidor Vite en vivo: `http://localhost:3000/`.
-- Compilación `npm run build`: Exitosa en 334ms sin advertencias (`dist/`).
+- Compilación `npm run build`: Exitosa en 492ms sin advertencias (`dist/`).
 - Tests de Orquestación `cmd /c npm test`: **5/5 tests aprobados (100%)**.
 - Git: Preparado para commit atómico bajo estándar Conventional Commits.
