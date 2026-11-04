@@ -1,7 +1,8 @@
 # Contexto del Proyecto: Concesionaria Web (Arquitectura Unificada MONOLITH Studio)
 
 **Última actualización:** 04/11/2026  
-**Estado:** Servidor activo en `http://localhost:3000/`. Consolidación estética antislop: navegación central ubicada en la mitad matemática exacta de la pantalla, todos los 12 vehículos físicamente orientados hacia la izquierda en ángulo 3/4 frontal sin dependencia de transformaciones CSS, y sección "CONOCÉ SUS VERSIONES" condicionada exclusivamente a vehículos con múltiples versiones reales.
+**Repositorio GitHub:** [https://github.com/ProyectsGenZ/concesionaria-web](https://github.com/ProyectsGenZ/concesionaria-web)  
+**Estado:** Servidor activo en `http://localhost:3000/`. Repositorio creado y sincronizado en GitHub en la cuenta `ProyectsGenZ` (ramas `main` y `master`). Consolidación estética antislop: navegación central ubicada en la mitad matemática exacta de la pantalla, todos los 12 vehículos físicamente orientados hacia la izquierda en ángulo 3/4 frontal sin dependencia de transformaciones CSS, y sección "CONOCÉ SUS VERSIONES" condicionada exclusivamente a vehículos con múltiples versiones reales.
 
 ---
 
