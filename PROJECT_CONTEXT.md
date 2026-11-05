@@ -184,3 +184,11 @@
 - .firebase/ y variantes .env.* ignoradas. Revisión de patrones de credenciales sin coincidencias; no se incluyen logs, node_modules, dist ni scratch.
 - Verificaciones reales mediante agents/: tests 7/7, build y auditoría premium estricta aprobados. Destino GitHub confirmado: ProyectsGenZ/concesionaria-web, rama main, remoto coincide con HEAD previo.
 - Firebase autenticado; proyecto de Hosting pendiente de elección del usuario (ningún proyecto de concesionaria existente). No se desplegó sobre sitios de otros negocios.
+
+
+## Publicación Firebase completada (05/11/2026)
+- Usuario aprueba crear proyecto independiente MONOLITH Automotive. Creado monolith-automotive-web (projectNumber 279722942315); Hosting explícito en firebase.json y alias default persistido en .firebaserc.
+- Publicado en https://monolith-automotive-web.web.app/ . Primer intento falló por sitio no resuelto; corregido con site explícito. Segundo despliegue publicado correctamente.
+- Verificado en navegador público: portada y banner móvil cargados, navegación a catálogo con 12 vehículos y apertura de ficha Tucson, regreso a portada; sin enviar consultas. Captura local scratch/firebase-live.png.
+- Tests 7/7, build y orquestación reales aprobados con validación de coherencia entre site y alias.
+- Respaldo de la versión final ya subido a GitHub main en 52ba747; configuración definitiva de Hosting y este registro se guardan en commit de publicación posterior.
