@@ -1,20 +1,30 @@
-import React, { useState, useMemo } from 'react';
+import PriceReference from './PriceReference';
+import React, { useMemo, useRef, useState } from 'react';
 import { Search, X, ArrowUpRight } from 'lucide-react';
 import { VEHICLES, EXCHANGE_RATE } from '../data/vehicles';
+
+function CatalogSort({ value, onChange, id }) {
+  return <label className="catalog-sort" htmlFor={id}><span className="sr-only">Ordenar vehículos</span><select id={id} value={value} onChange={event => onChange(event.target.value)} className="px-3 py-1.5 bg-white border border-zinc-200 rounded-full text-xs font-semibold text-black focus:outline-none focus:border-black shadow-xs cursor-pointer"><option value="featured">Destacados</option><option value="price-asc">Menor precio</option><option value="price-desc">Mayor precio</option><option value="year-desc">Más recientes</option></select></label>;
+}
 
 export default function CatalogView({
   onOpenVehicle,
   currency,
   onToggleCurrency,
-  initialCategory = 'all',
-  initialBrand = 'all'
+  state,
+  onStateChange
 }) {
-  const [filterCondition, setFilterCondition] = useState('all');
-  const [filterBodyType, setFilterBodyType] = useState(initialCategory);
-  const [filterBrand, setFilterBrand] = useState(initialBrand);
-  const [filterFuel, setFilterFuel] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('featured');
+  const { filterCondition, filterBodyType, filterBrand, filterFuel, searchQuery, sortBy } = state;
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const filterToggleRef = useRef(null);
+  const searchRef = useRef(null);
+  const change = (key, value) => onStateChange({ ...state, [key]: value });
+  const setFilterCondition = value => change('filterCondition', value);
+  const setFilterBodyType = value => change('filterBodyType', value);
+  const setFilterBrand = value => change('filterBrand', value);
+  const setFilterFuel = value => change('filterFuel', value);
+  const setSearchQuery = value => change('searchQuery', value);
+  const setSortBy = value => change('sortBy', value);
 
   const formatPrice = (usd) => {
     if (currency === 'USD') return 'USD ' + usd.toLocaleString('es-AR');
@@ -22,11 +32,7 @@ export default function CatalogView({
   };
 
   const resetFilters = () => {
-    setFilterCondition('all');
-    setFilterBodyType('all');
-    setFilterBrand('all');
-    setFilterFuel('all');
-    setSearchQuery('');
+    onStateChange({ filterCondition: 'all', filterBodyType: 'all', filterBrand: 'all', filterFuel: 'all', searchQuery: '', sortBy: 'featured' });
   };
 
   const bodyTypes = [
@@ -62,7 +68,7 @@ export default function CatalogView({
       if (sortBy === 'price-desc') return b.priceUSD - a.priceUSD;
       if (sortBy === 'year-desc') return b.year - a.year;
       if (sortBy === 'km-asc') return a.km - b.km;
-      return 0; // featured
+      return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
     });
   }, [filterCondition, filterBodyType, filterBrand, filterFuel, searchQuery, sortBy]);
 
@@ -73,11 +79,11 @@ export default function CatalogView({
   if (filterFuel !== 'all') activeChips.push({ key: 'fuel', label: filterFuel });
 
   const handleOpenCar = (carId) => {
-    window.open(`?vehiculo=${carId}`, '_blank');
+    onOpenVehicle(carId);
   };
 
   return (
-    <section className="whynot-pearl-bg pt-20 min-h-screen">
+    <section className="catalog-view whynot-pearl-bg pt-20 min-h-screen">
       
       {/* Encabezado Limpio del Catálogo */}
       <div className="bg-white/60 backdrop-blur-md border-b border-zinc-200/80">
@@ -85,7 +91,7 @@ export default function CatalogView({
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-2 font-tech">
-                Gama Oficial Certificada
+                Encontrá tu próximo vehículo
               </span>
               <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black font-display">
                 Catálogo de Unidades
@@ -96,26 +102,31 @@ export default function CatalogView({
             <div className="w-full md:w-80 relative">
               <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
-                type="text"
+                ref={searchRef}
+                aria-label="Buscar vehículos por marca, modelo, versión o año"
+                type="search"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Buscar Citroën, Hyundai, Ford..."
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-zinc-200 rounded-full text-xs text-black placeholder-zinc-400 focus:outline-none focus:border-black transition shadow-xs"
+                className="w-full pl-10 pr-10 py-2.5 bg-white border border-zinc-200 rounded-full text-xs text-black placeholder-zinc-400 focus:outline-none focus:border-black transition shadow-xs"
               />
+              {searchQuery && <button type="button" aria-label="Limpiar búsqueda" className="absolute right-3 top-1/2 -translate-y-1/2 p-1" onClick={() => { setSearchQuery(''); searchRef.current?.focus(); }}><X className="w-4 h-4" aria-hidden="true" /></button>}
             </div>
           </div>
         </div>
       </div>
 
+      <div className="catalog-reference max-w-[1440px] mx-auto px-6 lg:px-10"><PriceReference /></div>
       {/* Main Layout: Filtros Laterales + Grilla */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-12">
-        <div className="flex flex-col lg:flex-row gap-10 items-start">
+      <div className="catalog-content max-w-[1440px] mx-auto px-6 lg:px-10 py-12">
+        <div className="catalog-layout flex flex-col lg:flex-row gap-10 items-start">
           
+          <div className="catalog-mobile-controls lg:hidden"><button ref={filterToggleRef} type="button" aria-expanded={filtersOpen} aria-controls="catalog-filters" onClick={() => setFiltersOpen(value => !value)}>Filtros{activeChips.length > 0 ? ` (${activeChips.length})` : ''} <span aria-hidden="true">{filtersOpen ? '−' : '+'}</span></button><CatalogSort id="catalog-sort-mobile" value={sortBy} onChange={setSortBy} /></div>
           {/* SIDEBAR DE FILTROS IZQUIERDO */}
-          <aside className="w-full lg:w-64 bg-white/80 backdrop-blur-md rounded-3xl border border-zinc-200/80 p-6 space-y-7 shrink-0 text-left shadow-xs">
+          <aside id="catalog-filters" className={`${filtersOpen ? 'is-open' : ''} catalog-filters w-full lg:w-64 bg-white/80 backdrop-blur-md rounded-3xl border border-zinc-200/80 p-6 space-y-7 shrink-0 text-left shadow-xs`}>
             <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
               <span className="text-xs font-bold uppercase tracking-wider text-black font-tech">Filtros</span>
-              {activeChips.length > 0 && (
+              {(activeChips.length > 0 || searchQuery) && (
                 <button
                   onClick={resetFilters}
                   className="text-[11px] font-semibold text-zinc-400 hover:text-black transition"
@@ -138,6 +149,7 @@ export default function CatalogView({
                 ].map(opt => (
                   <button
                     key={opt.value}
+                    aria-pressed={filterCondition === opt.value}
                     onClick={() => setFilterCondition(opt.value)}
                     className={`flex-1 py-1.5 rounded-full text-xs font-semibold transition cursor-pointer ${
                       filterCondition === opt.value
@@ -160,6 +172,7 @@ export default function CatalogView({
                 {bodyTypes.map(type => (
                   <button
                     key={type.value}
+                    aria-pressed={filterBodyType === type.value}
                     onClick={() => setFilterBodyType(type.value)}
                     className={`w-full text-left px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center justify-between cursor-pointer ${
                       filterBodyType === type.value
@@ -185,6 +198,7 @@ export default function CatalogView({
                 {brands.map(brand => (
                   <button
                     key={brand}
+                    aria-pressed={filterBrand.toLowerCase() === brand.toLowerCase()}
                     onClick={() => setFilterBrand(brand)}
                     className={`px-3 py-1 rounded-full text-[11px] font-semibold transition cursor-pointer ${
                       filterBrand.toLowerCase() === brand.toLowerCase()
@@ -197,15 +211,16 @@ export default function CatalogView({
                 ))}
               </div>
             </div>
+            <button type="button" className="catalog-show-results lg:hidden" onClick={() => { setFiltersOpen(false); filterToggleRef.current?.focus(); }}>Ver {filtered.length} {filtered.length === 1 ? 'vehículo' : 'vehículos'} →</button>
           </aside>
 
           {/* COLUMNA PRINCIPAL DEL CATÁLOGO */}
-          <div className="flex-1 w-full text-left">
+          <div className="catalog-results flex-1 w-full text-left">
             
             {/* Top Toolbar */}
             <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-zinc-200/80">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold text-black uppercase tracking-wider font-tech">
+                <span role="status" className="text-xs font-bold text-black uppercase tracking-wider font-tech">
                   {filtered.length} unidades disponibles
                 </span>
 
@@ -217,6 +232,7 @@ export default function CatalogView({
                   >
                     {chip.label}
                     <button
+                      aria-label={`Quitar filtro ${chip.label}`}
                       onClick={() => {
                         if (chip.key === 'condition') setFilterCondition('all');
                         if (chip.key === 'bodyType') setFilterBodyType('all');
@@ -232,16 +248,7 @@ export default function CatalogView({
               </div>
 
               {/* Sorter */}
-              <select
-                value={sortBy}
-                onChange={e => setSortBy(e.target.value)}
-                className="px-3 py-1.5 bg-white border border-zinc-200 rounded-full text-xs font-semibold text-black focus:outline-none focus:border-black shadow-xs cursor-pointer"
-              >
-                <option value="featured">Destacados</option>
-                <option value="price-asc">Menor precio</option>
-                <option value="price-desc">Mayor precio</option>
-                <option value="year-desc">Más recientes</option>
-              </select>
+              <div className="hidden lg:block"><CatalogSort id="catalog-sort-desktop" value={sortBy} onChange={setSortBy} /></div>
             </div>
 
             {/* Grilla de Autos con Miniaturas PNG y Sombra de Piso (Imagen 1 y 2) */}
@@ -263,11 +270,12 @@ export default function CatalogView({
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                 {filtered.map(car => (
-                  <article
+                  <a
+                    href={`?vehiculo=${car.id}`}
                     key={car.id}
-                    onClick={() => handleOpenCar(car.id)}
+                    onClick={event => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) { event.preventDefault(); handleOpenCar(car.id); } }}
                     className="group bg-transparent hover:bg-white/80 rounded-3xl p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-md flex flex-col justify-between cursor-pointer"
-                    title={`Abrir ${car.brand} ${car.model} en nueva pestaña`}
+                    title={`Abrir ${car.brand} ${car.model} `}
                   >
                     <div>
                       {/* Badge y Marca */}
@@ -289,7 +297,7 @@ export default function CatalogView({
                       </p>
 
                       {/* Miniatura PNG con Sombra de Piso (Orientación 3/4 Unificada) */}
-                      <div className="car-platform-shadow w-full h-40 flex items-center justify-center my-3 relative overflow-visible">
+                      <div className="w-full h-40 flex items-center justify-center my-3 relative overflow-visible">
                         {/* Wrapper estático de orientación horizontal permanente (previene rotaciones en hover) */}
                         <div className={`w-full h-full flex items-center justify-center ${car.flip ? 'scale-x-[-1]' : ''}`}>
                           {/* Contenedor interno que ejecuta el zoom suave exclusivamente */}
@@ -330,7 +338,7 @@ export default function CatalogView({
                         <ArrowUpRight className="w-4 h-4" />
                       </span>
                     </div>
-                  </article>
+                  </a>
                 ))}
               </div>
             )}

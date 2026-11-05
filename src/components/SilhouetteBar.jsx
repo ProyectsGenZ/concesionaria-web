@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { VEHICLES } from '../data/vehicles';
 
-export default function SilhouetteBar({ onOpenVehicle }) {
+export default function SilhouetteBar({ onOpenVehicle, onNavigateCatalog }) {
   const [activeTab, setActiveTab] = useState('TODOS'); // 'TODOS' | 'PARTICULARES' | 'UTILITARIOS'
 
   const filteredVehicles = VEHICLES.filter(v => {
@@ -14,17 +14,17 @@ export default function SilhouetteBar({ onOpenVehicle }) {
     if (onOpenVehicle) {
       onOpenVehicle(carId);
     } else {
-      window.open(`?vehiculo=${carId}`, '_blank');
+      window.location.assign(`?vehiculo=${carId}`);
     }
   };
 
   return (
-    <section className="whynot-pearl-bg py-20 border-b border-zinc-200/60 select-none">
+    <section className="whynot-pearl-bg studio-models py-20 border-b border-zinc-200/60 select-none">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
         
         {/* Cabecera Limpia con Tabs Superiores (Inspirado exactamente en la Imagen 2 de Citroën) */}
         <div className="flex flex-col items-center justify-center text-center mb-14">
-          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-3 font-tech">
+          <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-600 block mb-3 font-tech">
             Gama de Vehículos
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black font-display mb-8">
@@ -40,7 +40,7 @@ export default function SilhouetteBar({ onOpenVehicle }) {
                 className={`pb-2 relative uppercase transition-colors cursor-pointer ${
                   activeTab === tab
                     ? 'text-black font-black'
-                    : 'text-zinc-400 hover:text-black font-semibold'
+                    : 'text-zinc-600 hover:text-black font-semibold'
                 }`}
               >
                 <span>{tab}</span>
@@ -54,15 +54,16 @@ export default function SilhouetteBar({ onOpenVehicle }) {
 
         {/* Grilla de Miniaturas PNG con Sombra de Piso (Inspirado exactamente en Imagen 1 de Hyundai y 2 de Citroën) */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
-          {filteredVehicles.map((car) => (
-            <div
+          {filteredVehicles.slice(0, 8).map((car) => (
+            <a
+              href={`?vehiculo=${car.id}`}
               key={car.id}
-              onClick={() => handleOpenCar(car.id)}
-              className="group flex flex-col items-center text-center cursor-pointer p-4 rounded-2xl hover:bg-white/60 transition-all duration-300"
-              title={`Abrir ${car.brand} ${car.model} en nueva pestaña`}
+              onClick={event => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) { event.preventDefault(); handleOpenCar(car.id); } }}
+              className="group flex flex-col items-center text-center cursor-pointer p-4 rounded-2xl bg-transparent transition-all duration-300"
+              title={`Abrir ${car.brand} ${car.model} `}
             >
               {/* Contenedor del Vehículo PNG con Sombra en el Piso */}
-              <div className="car-platform-shadow w-full h-36 sm:h-44 flex items-center justify-center mb-4 relative overflow-visible">
+              <div className="w-full h-36 sm:h-44 flex items-center justify-center mb-4 relative overflow-visible">
                 {/* Wrapper estático de orientación horizontal permanente (previene rotaciones en hover) */}
                 <div className={`w-full h-full flex items-center justify-center ${car.flip ? 'scale-x-[-1]' : ''}`}>
                   {/* Contenedor interno que ejecuta el zoom suave exclusivamente */}
@@ -83,19 +84,20 @@ export default function SilhouetteBar({ onOpenVehicle }) {
 
               {/* Nombre del Modelo Limpio en Mayúsculas */}
               <div className="mt-1">
-                <span className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest block font-tech mb-0.5">
+                <span className="text-[11px] font-semibold text-zinc-600 uppercase tracking-widest block font-tech mb-0.5">
                   {car.brand}
                 </span>
                 <h3 className="text-sm sm:text-base font-extrabold text-black uppercase tracking-tight group-hover:text-neutral-700 transition font-display">
                   {car.model}
                 </h3>
-                <span className="text-[11px] text-zinc-400 font-tech mt-1 block">
+                <span className="text-xs text-zinc-600 font-tech mt-1 block">
                   {car.trim.split('·')[0]}
                 </span>
               </div>
-            </div>
+            </a>
           ))}
         </div>
+        <div className="mt-12 text-center"><button type="button" onClick={onNavigateCatalog} className="inline-flex items-center gap-3 rounded-full bg-black px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-zinc-800 transition cursor-pointer">Ver todos los modelos <span aria-hidden="true">→</span></button></div>
 
       </div>
     </section>

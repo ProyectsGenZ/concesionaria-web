@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import HeroSlider from './components/HeroSlider';
 import SilhouetteBar from './components/SilhouetteBar';
@@ -6,48 +6,58 @@ import FeaturedHome from './components/FeaturedHome';
 import CatalogView from './components/CatalogView';
 import VehicleDetailView from './components/VehicleDetailView';
 import ShowroomContact from './components/ShowroomContact';
-import Lightbox from './components/Lightbox';
 import Footer from './components/Footer';
 import { VEHICLES } from './data/vehicles';
 
 export default function App() {
-  // Navigation & View State
-  const [view, setView] = useState('home'); // 'home' | 'catalog' | 'detail'
-  const [currency, setCurrency] = useState('USD'); // 'USD' | 'ARS'
-  const [activeVehicleId, setActiveVehicleId] = useState('CIT-001');
-  const [prefilledVehicle, setPrefilledVehicle] = useState('');
-
-  // Lightbox
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxPhotos, setLightboxPhotos] = useState([]);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-
-  // Toast
-  const [toastMessage, setToastMessage] = useState('');
-
-  // DETECCIÓN DE APERTURA EN NUEVA PESTAÑA (?vehiculo=ID)
-  useEffect(() => {
+  const readRoute = () => {
     const params = new URLSearchParams(window.location.search);
-    const targetVehiculoId = params.get('vehiculo');
-    if (targetVehiculoId) {
-      const found = VEHICLES.find(v => v.id.toLowerCase() === targetVehiculoId.toLowerCase());
-      if (found) {
-        setActiveVehicleId(found.id);
-        setView('detail');
-      }
-    }
+    const vehicle = VEHICLES.find(v => v.id.toLowerCase() === (params.get('vehiculo') || '').toLowerCase());
+    return { view: vehicle ? 'detail' : params.get('vista') === 'catalogo' ? 'catalog' : 'home', vehicleId: vehicle?.id || VEHICLES[0].id,
+      catalog: { filterCondition: params.get('condicion') || 'all', filterBodyType: params.get('carroceria') || 'all', filterBrand: params.get('marca') || 'all', filterFuel: params.get('combustible') || 'all', searchQuery: params.get('q') || '', sortBy: params.get('orden') || 'featured' } };
+  };
+  const [route, setRoute] = useState(readRoute);
+  const { view, catalog: catalogState } = route;
+  const [currency, setCurrency] = useState('USD');
+  const [prefilledVehicle, setPrefilledVehicle] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
+  const catalogScroll = useRef(0);
+  const activeVehicle = VEHICLES.find(v => v.id === route.vehicleId) || VEHICLES[0];
+
+  useEffect(() => {
+    const restore = () => {
+      setRoute(readRoute());
+      requestAnimationFrame(() => window.scrollTo({ top: window.history.state?.scrollY || 0, behavior: 'instant' }));
+    };
+    window.addEventListener('popstate', restore);
+    return () => window.removeEventListener('popstate', restore);
   }, []);
 
-  const activeVehicle = VEHICLES.find(v => v.id === activeVehicleId) || VEHICLES[0];
-
-  const handleNavigate = (newView) => {
-    setView(newView);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const commitRoute = (next, { replace = false, top = 0 } = {}) => {
+    const url = new URL(window.location.href);
+    ['vista', 'vehiculo', 'condicion', 'carroceria', 'marca', 'combustible', 'q', 'orden'].forEach(key => url.searchParams.delete(key));
+    if (next.view === 'catalog') url.searchParams.set('vista', 'catalogo');
+    if (next.view === 'detail') url.searchParams.set('vehiculo', next.vehicleId);
+    const keys = { filterCondition: 'condicion', filterBodyType: 'carroceria', filterBrand: 'marca', filterFuel: 'combustible', searchQuery: 'q', sortBy: 'orden' };
+    Object.entries(keys).forEach(([key, param]) => {
+      const value = next.catalog[key];
+      if (value && value !== 'all' && value !== 'featured') url.searchParams.set(param, value);
+    });
+    if (!replace) window.history.replaceState({ ...window.history.state, scrollY: window.scrollY }, '', window.location.href);
+    window.history[replace ? 'replaceState' : 'pushState']({ scrollY: top, fromCatalog: next.view === 'detail' && view === 'catalog' }, '', url);
+    setRoute(next);
+    if (!replace) requestAnimationFrame(() => window.scrollTo({ top, behavior: 'instant' }));
   };
-
-  const handleOpenVehicle = (carId) => {
-    window.open(`?vehiculo=${carId}`, '_blank');
+  const handleNavigate = newView => commitRoute({ ...route, view: newView });
+  const handleOpenVehicle = carId => {
+    if (view === 'catalog') catalogScroll.current = window.scrollY;
+    commitRoute({ ...route, view: 'detail', vehicleId: carId });
   };
+  const handleBackToCatalog = () => {
+    if (window.history.state?.fromCatalog) window.history.back();
+    else commitRoute({ ...route, view: 'catalog' }, { top: catalogScroll.current });
+  };
+  const updateCatalog = next => commitRoute({ ...route, catalog: next }, { replace: true, top: window.scrollY });
 
   const handleScrollToContact = (vehicleName = '') => {
     if (typeof vehicleName === 'string' && vehicleName) {
@@ -57,12 +67,6 @@ export default function App() {
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const handleOpenLightbox = (photos, idx = 0) => {
-    setLightboxPhotos(photos);
-    setLightboxIndex(idx);
-    setLightboxOpen(true);
   };
 
   const showToast = (msg) => {
@@ -93,6 +97,7 @@ export default function App() {
 
             {/* 2. Gama de Siluetas y Modelos en 3/4 */}
             <SilhouetteBar
+              onNavigateCatalog={() => handleNavigate('catalog')}
               onOpenVehicle={handleOpenVehicle}
             />
 
@@ -108,6 +113,8 @@ export default function App() {
         {view === 'catalog' && (
           <div className="animate-fadeIn">
             <CatalogView
+              state={catalogState}
+              onStateChange={updateCatalog}
               onOpenVehicle={handleOpenVehicle}
               currency={currency}
               onToggleCurrency={setCurrency}
@@ -118,11 +125,11 @@ export default function App() {
         {view === 'detail' && (
           <div className="animate-fadeIn">
             <VehicleDetailView
+              key={activeVehicle.id}
               vehicle={activeVehicle}
-              onBack={() => setView('catalog')}
-              onScrollToContact={handleScrollToContact}
+              onBack={handleBackToCatalog}
+              onToggleCurrency={setCurrency}
               currency={currency}
-              onOpenLightbox={handleOpenLightbox}
             />
           </div>
         )}
@@ -138,14 +145,6 @@ export default function App() {
         onNavigate={handleNavigate}
         onScrollToContact={() => handleScrollToContact()}
       />
-
-      {lightboxOpen && (
-        <Lightbox
-          photos={lightboxPhotos}
-          initialIndex={lightboxIndex}
-          onClose={() => setLightboxOpen(false)}
-        />
-      )}
 
       {/* Toast Notification */}
       {toastMessage && (

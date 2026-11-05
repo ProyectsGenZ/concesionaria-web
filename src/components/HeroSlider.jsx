@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { HERO_SLIDES } from '../data/vehicles';
 
@@ -19,12 +19,12 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
     if (onOpenVehicle) {
       onOpenVehicle(currentSlide.carId);
     } else {
-      window.open(`?vehiculo=${currentSlide.carId}`, '_blank');
+      window.location.assign(`?vehiculo=${currentSlide.carId}`);
     }
   };
 
   return (
-    <section className="relative w-full h-screen min-h-[640px] bg-black text-white overflow-hidden select-none">
+    <section className="studio-hero relative w-full h-screen min-h-[640px] bg-black text-white overflow-hidden select-none">
       
       {/* Background Slides Estáticos sin Giros ni Movimientos Involuntarios */}
       <div className="absolute inset-0 w-full h-full">
@@ -37,29 +37,33 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
                 isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
               }`}
             >
+              <picture>
+                <source media="(max-width: 640px)" srcSet={slide.image.replace('-landscape.jpg', '-mobile.jpg')} />
               <img
                 src={slide.image}
                 alt={slide.title}
-                className="w-full h-full object-cover object-center brightness-100 contrast-100"
-                fetchpriority={idx === 0 ? "high" : "low"}
+                className="landscape-hero-photo"
+                style={{ '--mobile-photo-position': ['48% center', '52% center', '50% center', '50% center'][idx] }}
+                fetchPriority={idx === 0 ? "high" : "low"}
                 loading={idx === 0 ? "eager" : "lazy"}
                 decoding={idx === 0 ? "sync" : "async"}
               />
+              </picture>
             </div>
           );
         })}
       </div>
 
       {/* Gradientes atmosféricos claros y ligeros (filtro oscuro reducido para máxima luminosidad) */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-transparent z-10 pointer-events-none" />
 
       {/* Content Overlay */}
       <div className="relative z-20 h-full max-w-[1440px] mx-auto px-6 lg:px-10 pt-28 pb-14 sm:pb-16 flex flex-col justify-end">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
           
           {/* Titular y llamado a la acción único */}
-          <div className="max-w-2xl text-left">
+          <div className="hero-copy max-w-2xl text-left">
             <div className="flex items-center gap-3 mb-4">
               <span className="px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-semibold uppercase tracking-widest text-white border border-white/20 font-tech">
                 {currentSlide.tag}
@@ -80,7 +84,7 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
                 onClick={handleOpenSlideVehicle}
                 className="px-7 py-3.5 rounded-full bg-white text-black hover:bg-zinc-200 font-bold text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] inline-flex items-center gap-2.5 shadow-xl cursor-pointer"
               >
-                <span>Ver Ficha en Nueva Pestaña</span>
+                <span>Conocer el vehículo</span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
               
@@ -117,6 +121,8 @@ export default function HeroSlider({ onOpenVehicle, onNavigateCatalog }) {
               {HERO_SLIDES.map((_, idx) => (
                 <button
                   key={idx}
+                  aria-label={`Mostrar ${HERO_SLIDES[idx].title}`}
+                  aria-pressed={activeIndex === idx}
                   onClick={() => setActiveIndex(idx)}
                   className={`h-1 rounded-full transition-all duration-500 cursor-pointer ${
                     idx === activeIndex ? 'w-8 bg-white' : 'w-2 bg-white/30 hover:bg-white/60'

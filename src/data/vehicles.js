@@ -1,4 +1,6 @@
 export const EXCHANGE_RATE = 1180;
+// Fecha de configuración de la referencia de demostración; no es una cotización de mercado.
+export const EXCHANGE_RATE_DATE = '05/11/2026';
 
 // Slides para el Hero principal (Imágenes cinematográficas con animación de zoom lento)
 export const HERO_SLIDES = [
@@ -7,7 +9,7 @@ export const HERO_SLIDES = [
     tag: "Lanzamiento Exclusivo · Híbrido 48V",
     title: "Nuevo Citroën C4 Híbrido",
     subtitle: "Silueta aerodinámica Crossover Coupé · Motor híbrido de alta eficiencia y máximo confort con suspensión de topes hidráulicos progresivos.",
-    image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=75",
+    image: "/images/hero/c4-landscape.jpg",
     pngImage: "/images/cars/citroen-c4-hibrido.png"
   },
   {
@@ -15,7 +17,7 @@ export const HERO_SLIDES = [
     tag: "Nueva Generación · Entrega Inmediata",
     title: "Hyundai Nueva Tucson",
     subtitle: "Diseño paramétrico revolucionario · Propulsión híbrida inteligente · Doble pantalla curva integrada de 12.3\" con tecnología SmartSense.",
-    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1600&q=75",
+    image: "/images/hero/tucson-landscape.jpg",
     pngImage: "/images/cars/hyundai-tucson.png"
   },
   {
@@ -23,7 +25,7 @@ export const HERO_SLIDES = [
     tag: "Ford Performance · En Showroom",
     title: "Ford Ranger Raptor",
     subtitle: "Motor Naftero EcoBoost 3.0L V6 Bi-Turbo de 397 CV · Amortiguadores FOX Racing SHOX Live Valve de 2.5\" de calibración activa.",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=75",
+    image: "/images/hero/raptor-landscape.jpg",
     pngImage: "/images/cars/pickup-93.png"
   },
   {
@@ -31,7 +33,7 @@ export const HERO_SLIDES = [
     tag: "Porsche Exclusive · Seleccionado",
     title: "Porsche Macan T",
     subtitle: "265 CV Turbo PDK AWD · Paquete Sport Chrono de serie · Suspensión adaptativa PASM rebajada 15 mm en Gris Vulcano.",
-    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1600&q=75",
+    image: "/images/hero/macan-landscape.jpg",
     pngImage: "/images/cars/porsche-macan-clean.png"
   }
 ];

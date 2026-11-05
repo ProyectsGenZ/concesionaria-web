@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explorador de Texturas de Fondo · MONOLITH Automotive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #09090b;
+      --muted: #52525b;
+      --subtle: #71717a;
+      --line: #e4e4e7;
+      --line-dark: #27272a;
+      --surface: #ffffff;
+      --zinc-pearl: #f0f1f2;
+      --accent-red: #dc2626;
+      --studio-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%2309090b' opacity='.035' filter='url(%23grain)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background-color: #0d0e12;
+      color: #fafafa;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    /* HEADER */
+    header {
+      background: #121318;
+      border-bottom: 1px solid #23252d;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-logo {
+      display: grid;
+      place-items: center;
+      background: #fafafa;
+      color: #09090b;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      letter-spacing: -0.5px;
+    }
+    .brand-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .brand-text small {
+      display: block;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 2.2px;
+      color: #a1a1aa;
+    }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1c1e26;
+      border: 1px solid #2e323e;
+      color: #e4e4e7;
+      font-size: 11px;
+      font-family: 'Space Grotesk', monospace;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+    .header-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    /* CONTROLES PRINCIPALES */
+    .controls-strip {
+      background: #16181f;
+      border-bottom: 1px solid #272a34;
+      padding: 14px 32px;
+    }
+    .controls-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .view-tabs {
+      display: flex;
+      background: #0d0e12;
+      border: 1px solid #272a34;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: #a1a1aa;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .view-btn:hover {
+      color: #fafafa;
+      background: #1c1e26;
+    }
+    .view-btn[aria-pressed="true"] {
+      background: #272a34;
+      color: #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+    .car-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: #a1a1aa;
+    }
+    .car-selector span {
+      font-family: 'Space Grotesk', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 11px;
+    }
+    .car-pills {
+      display: flex;
+      gap: 6px;
+    }
+    .car-pill {
+      background: #1c1e26;
+      border: 1px solid #2e323e;
+      color: #d4d4d8;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 5px;
+      transition: all 0.15s ease;
+    }
+    .car-pill:hover {
+      border-color: #52525b;
+      color: #ffffff;
+    }
+    .car-pill[aria-pressed="true"] {
+      background: #fafafa;
+      border-color: #fafafa;
+      color: #09090b;
+      font-weight: 700;
+    }
+
+    /* MAIN CONTAINER */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 36px 32px 80px;
+    }
+
+    .hero-banner {
+      margin-bottom: 32px;
+    }
+    .eyebrow {
+      font-family: 'Space Grotesk', monospace;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #93c5fd;
+      margin: 0 0 8px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 600;
+      letter-spacing: -1px;
+      margin: 0 0 10px;
+      line-height: 1.15;
+    }
+    h1 span {
+      color: #a1a1aa;
+      font-weight: 400;
+    }
+    .lead {
+      color: #a1a1aa;
+      font-size: 14px;
+      max-width: 820px;
+      margin: 0;
+    }
+
+    /* VISTA DE CUADRÍCULA (4 EN 1) */
+    .grid-comparison {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      margin-top: 24px;
+    }
+
+    /* TARJETA DE OPCIÓN */
+    .option-card {
+      background: #14161d;
+      border: 1px solid #272a34;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .option-card:hover {
+      border-color: #3f4454;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    }
+    .option-header {
+      padding: 16px 22px;
+      background: #181a22;
+      border-bottom: 1px solid #272a34;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .opt-tag {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: #232631;
+      color: #60a5fa;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .opt-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: -0.3px;
+    }
+    .btn-focus {
+      background: transparent;
+      border: 1px solid #363a48;
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.2s ease;
+    }
+    .btn-focus:hover {
+      background: #272a34;
+      color: #ffffff;
+      border-color: #52525b;
+    }
+
+    /* ESCENARIO DE TEXTURA (ÁREA CLARA QUE SIMULA EL SHOWROOM) */
+    .stage-canvas {
+      position: relative;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: var(--ink);
+    }
+
+    /* DEFINICIONES DE LAS 4 TEXTURAS */
+
+    /* 1. PODIO DIAGONAL (ESTILO CONTACTO) */
+    .texture-podium {
+      background-color: #fafafa;
+    }
+    .texture-podium::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-color: var(--zinc-pearl);
+      background-image: var(--studio-grain);
+      background-size: 180px 180px;
+      clip-path: polygon(100% 12%, 100% 100%, 0 100%, 0 68%);
+    }
+
+    /* 2. CICLORAMA DE ESTUDIO (DEGRADÉ MATE CON GRANO) */
+    .texture-cyclorama {
+      background-color: #f7f8fa;
+      background-image:
+        linear-gradient(180deg, #ffffff 0%, #f4f5f8 35%, #e1e4e9 82%, #d2d6dd 100%),
+        var(--studio-grain);
+      background-size: 100% 100%, 180px 180px;
+    }
+    .texture-cyclorama::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      right: 10%;
+      height: 40px;
+      background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(9, 9, 11, 0.08) 0%, transparent 80%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 3. BLUEPRINT / TRAMA TÉCNICA */
+    .texture-blueprint {
+      background-color: #f6f7f9;
+      background-image:
+        linear-gradient(to right, rgba(9, 9, 11, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(9, 9, 11, 0.04) 1px, transparent 1px),
+        radial-gradient(circle at 1px 1px, rgba(9, 9, 11, 0.12) 1.5px, transparent 1.5px),
+        var(--studio-grain);
+      background-size: 40px 40px, 40px 40px, 120px 120px, 180px 180px;
+    }
+
+    /* 4. SPOTLIGHT CENITAL DIFUSO */
+    .texture-spotlight {
+      background-color: #e8e9ee;
+      background-image:
+        radial-gradient(ellipse 70% 60% at 50% 48%, #ffffff 0%, rgba(255, 255, 255, 0.9) 35%, rgba(232, 233, 238, 0.35) 75%, #e8e9ee 100%),
+        var(--studio-grain);
+      background-size: 100% 100%, 180px 180px;
+    }
+
+    /* TARJETA DE VEHÍCULO MOCKUP FLOTANTE EN EL ESCENARIO */
+    .sample-car-card {
+      position: relative;
+      z-index: 2;
+      background: #ffffff;
+      border: 1px solid #e4e4e7;
+      border-radius: 12px;
+      padding: 16px 20px 18px;
+      width: 86%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px -5px rgba(9, 9, 11, 0.07), 0 4px 10px -3px rgba(9, 9, 11, 0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sample-car-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px -6px rgba(9, 9, 11, 0.12);
+    }
+    .car-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .car-category {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: #71717a;
+    }
+    .car-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #f4f4f5;
+      color: #18181b;
+      letter-spacing: 0.5px;
+    }
+    .car-card-image-box {
+      position: relative;
+      height: 145px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4px 0 12px;
+    }
+    .car-card-img {
+      max-width: 96%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 14px rgba(9, 9, 11, 0.18));
+      transition: transform 0.3s ease;
+    }
+    .sample-car-card:hover .car-card-img {
+      transform: scale(1.03);
+    }
+    .car-card-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #09090b;
+      margin: 0 0 2px;
+      letter-spacing: -0.4px;
+      line-height: 1.2;
+    }
+    .car-card-version {
+      font-size: 11px;
+      color: #71717a;
+      margin: 0 0 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .car-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 10px;
+      border-top: 1px solid #f4f4f5;
+    }
+    .car-price-label {
+      font-size: 10px;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .car-price-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #09090b;
+      line-height: 1.1;
+    }
+    .car-btn-action {
+      background: #09090b;
+      color: #ffffff;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s ease;
+    }
+    .car-btn-action:hover {
+      background: #27272a;
+    }
+
+    /* FOOTER DE LA OPCIÓN (ANÁLISIS Y CSS) */
+    .option-footer {
+      padding: 18px 22px;
+      background: #14161d;
+      border-top: 1px solid #272a34;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option-desc {
+      font-size: 12px;
+      color: #a1a1aa;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .option-perks {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .perk-tag {
+      font-size: 10px;
+      background: #1c1e27;
+      border: 1px solid #2b2e3b;
+      color: #cbd5e1;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .css-snippet {
+      background: #090a0f;
+      border: 1px solid #1f222d;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 11px;
+      color: #93c5fd;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* VISTA DE PANTALLA ANCHA / MODO ENFOQUE */
+    .focus-mode-view {
+      display: none;
+      margin-top: 24px;
+    }
+    .focus-mode-view.active {
+      display: block;
+    }
+    .focus-showroom-stage {
+      border: 1px solid #272a34;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      padding: 60px 48px;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .focus-showroom-stage .showroom-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1240px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .focus-info-box {
+      margin-top: 24px;
+      background: #14161d;
+      border: 1px solid #272a34;
+      border-radius: 12px;
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-comparison {
+        grid-template-columns: 1fr;
+      }
+      .focus-showroom-stage .showroom-grid {
+        grid-template-columns: 1fr;
+      }
+      .focus-info-box {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .header-inner, .controls-inner, main {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+      .view-tabs {
+        width: 100%;
+        overflow-x: auto;
+      }
+      .car-selector {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-wrap">
+        <div class="brand-logo">M</div>
+        <div class="brand-text">
+          MONOLITH
+          <small>AUTOMOTIVE · LAB</small>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span class="dot"></span>
+        VISTA PREVIA INTERACTIVA DE TEXTURAS DE FONDO
+      </div>
+    </div>
+  </header>
+
+  <!-- STRIP DE CONTROLES -->
+  <div class="controls-strip">
+    <div class="controls-inner">
+      <div class="view-tabs" role="tablist" aria-label="Modo de visualización">
+        <button class="view-btn" id="btn-tab-grid" aria-pressed="true" onclick="setViewMode('grid')">
+          <span>❖</span> Comparar las 4
+        </button>
+        <button class="view-btn" id="btn-tab-1" aria-pressed="false" onclick="setViewMode('opt1')">
+          1. Podio Diagonal
+        </button>
+        <button class="view-btn" id="btn-tab-2" aria-pressed="false" onclick="setViewMode('opt2')">
+          2. Ciclorama de Estudio
+        </button>
+        <button class="view-btn" id="btn-tab-3" aria-pressed="false" onclick="setViewMode('opt3')">
+          3. Blueprint Técnico
+        </button>
+        <button class="view-btn" id="btn-tab-4" aria-pressed="false" onclick="setViewMode('opt4')">
+          4. Spotlight Cenital
+        </button>
+      </div>
+
+      <div class="car-selector">
+        <span>Vehículo de prueba:</span>
+        <div class="car-pills" role="group" aria-label="Seleccionar vehículo para prueba">
+          <button class="car-pill" aria-pressed="true" onclick="changeCar('tucson', this)">Hyundai Tucson</button>
+          <button class="car-pill" aria-pressed="false" onclick="changeCar('macan', this)">Porsche Macan</button>
+          <button class="car-pill" aria-pressed="false" onclick="changeCar('c4', this)">Citroën C4</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="hero-banner">
+      <p class="eyebrow">DIRECCIÓN DE ARTE · TEXTURAS & PROFUNDIDAD</p>
+      <h1>Propuestas de Fondo <span>para Showroom y Catálogo</span></h1>
+      <p class="lead">
+        Evaluá cómo responde el contraste, la iluminación y el soporte físico de los vehículos frente a 4 técnicas de fondo mate. Podés alternar los autos o ingresar al modo ancho de cada opción para ver el comportamiento en un showroom completo.
+      </p>
+    </div>
+
+    <!-- VISTA 1: COMPARATIVA 4 EN 1 (GRID) -->
+    <div id="view-grid" class="grid-comparison">
+
+      <!-- OPCIÓN 1: PODIO DIAGONAL (ESTILO CONTACTO) -->
+      <section class="option-card" aria-labelledby="title-opt-1">
+        <div class="option-header">
+          <div>
+            <span class="opt-tag">Opción 01 · Arquitectura</span>
+            <h2 id="title-opt-1" class="opt-title">Podio Diagonal (Estilo Contacto)</h2>
+          </div>
+          <button class="btn-focus" onclick="setViewMode('opt1')">Ver en ancho ↗</button>
+        </div>
+        <div class="stage-canvas texture-podium">
+          <div class="sample-car-card">
+            <div class="car-card-top">
+              <span class="car-category">SUV MEDIANO</span>
+              <span class="car-badge">DISPONIBLE</span>
+            </div>
+            <div class="car-card-image-box">
+              <img class="car-card-img car-active-img" src="/images/cars/hyundai-tucson.png" alt="Hyundai Tucson" loading="lazy">
+            </div>
+            <h3 class="car-card-name car-active-title">Hyundai Tucson</h3>
+            <p class="car-card-version car-active-version">2.0 CRDi 4WD Limited · AT8 · 2024</p>
+            <div class="car-card-bottom">
+              <div>
+                <div class="car-price-label">Precio contado</div>
+                <div class="car-price-val car-active-price">USD 44.500</div>
+              </div>
+              <button class="car-btn-action">Ver ficha →</button>
+            </div>
+          </div>
+        </div>
+        <div class="option-footer">
+          <p class="option-desc">
+            Corte diagonal geométrico con <code>clip-path</code> y plano en zinc perla (<code>#f0f1f2</code>) con grano mate. Genera una base sólida ascendente que eleva los autos y unifica el lenguaje con la sección de contacto.
+          </p>
+          <div class="option-perks">
+            <span class="perk-tag">✓ Coherencia con Contacto</span>
+            <span class="perk-tag">✓ Apoyo físico sólido</span>
+            <span class="perk-tag">✓ Cero impacto en rendimiento</span>
+          </div>
+          <div class="css-snippet">background-color: #fafafa;
+&::before {
+  background-color: #f0f1f2;
+  background-image: var(--studio-grain);
+  clip-path: polygon(100% 12%, 100% 100%, 0 100%, 0 68%);
+}</div>
+        </div>
+      </section>
+
+      <!-- OPCIÓN 2: CICLORAMA DE ESTUDIO (DEGRADÉ MATE) -->
+      <section class="option-card" aria-labelledby="title-opt-2">
+        <div class="option-header">
+          <div>
+            <span class="opt-tag">Opción 02 · Fotografía</span>
+            <h2 id="title-opt-2" class="opt-title">Ciclorama de Estudio (Degradé Mate)</h2>
+          </div>
+          <button class="btn-focus" onclick="setViewMode('opt2')">Ver en ancho ↗</button>
+        </div>
+        <div class="stage-canvas texture-cyclorama">
+          <div class="sample-car-card">
+            <div class="car-card-top">
+              <span class="car-category">SUV MEDIANO</span>
+              <span class="car-badge">DISPONIBLE</span>
+            </div>
+            <div class="car-card-image-box">
+              <img class="car-card-img car-active-img" src="/images/cars/hyundai-tucson.png" alt="Hyundai Tucson" loading="lazy">
+            </div>
+            <h3 class="car-card-name car-active-title">Hyundai Tucson</h3>
+            <p class="car-card-version car-active-version">2.0 CRDi 4WD Limited · AT8 · 2024</p>
+            <div class="car-card-bottom">
+              <div>
+                <div class="car-price-label">Precio contado</div>
+                <div class="car-price-val car-active-price">USD 44.500</div>
+              </div>
+              <button class="car-btn-action">Ver ficha →</button>
+            </div>
+          </div>
+        </div>
+        <div class="option-footer">
+          <p class="option-desc">
+            Simula el suelo infinito y curvado de un plató de fotografía automotriz. Transiciona suavemente de blanco puro superior a gris estudio mate (<code>#d2d6dd</code>) con micrograno integrado.
+          </p>
+          <div class="option-perks">
+            <span class="perk-tag">✓ Acabado editorial de revista</span>
+            <span class="perk-tag">✓ Fusión limpia sin aristas duras</span>
+            <span class="perk-tag">✓ Suaviza el blanco puro</span>
+          </div>
+          <div class="css-snippet">background-color: #f7f8fa;
+background-image: 
+  linear-gradient(180deg, #fff 0%, #f4f5f8 35%, #e1e4e9 82%, #d2d6dd 100%),
+  var(--studio-grain);</div>
+        </div>
+      </section>
+
+      <!-- OPCIÓN 3: BLUEPRINT / TRAMA TÉCNICA -->
+      <section class="option-card" aria-labelledby="title-opt-3">
+        <div class="option-header">
+          <div>
+            <span class="opt-tag">Opción 03 · Ingeniería</span>
+            <h2 id="title-opt-3" class="opt-title">Blueprint / Grilla Técnica</h2>
+          </div>
+          <button class="btn-focus" onclick="setViewMode('opt3')">Ver en ancho ↗</button>
+        </div>
+        <div class="stage-canvas texture-blueprint">
+          <div class="sample-car-card">
+            <div class="car-card-top">
+              <span class="car-category">SUV MEDIANO</span>
+              <span class="car-badge">DISPONIBLE</span>
+            </div>
+            <div class="car-card-image-box">
+              <img class="car-card-img car-active-img" src="/images/cars/hyundai-tucson.png" alt="Hyundai Tucson" loading="lazy">
+            </div>
+            <h3 class="car-card-name car-active-title">Hyundai Tucson</h3>
+            <p class="car-card-version car-active-version">2.0 CRDi 4WD Limited · AT8 · 2024</p>
+            <div class="car-card-bottom">
+              <div>
+                <div class="car-price-label">Precio contado</div>
+                <div class="car-price-val car-active-price">USD 44.500</div>
+              </div>
+              <button class="car-btn-action">Ver ficha →</button>
+            </div>
+          </div>
+        </div>
+        <div class="option-footer">
+          <p class="option-desc">
+            Cuadrícula milimétrica ultraliviana (4% opacidad) con puntos técnicos en intersecciones de 120px y micrograno. Transmite rigor mecánico, diseño automotriz industrial y precisión de specs.
+          </p>
+          <div class="option-perks">
+            <span class="perk-tag">✓ Estética de mesa de diseño</span>
+            <span class="perk-tag">✓ Look tecnológico moderno</span>
+            <span class="perk-tag">✓ Mínima interferencia visual</span>
+          </div>
+          <div class="css-snippet">background-image:
+  linear-gradient(to right, rgba(9,9,11,0.04) 1px, transparent 1px),
+  linear-gradient(to bottom, rgba(9,9,11,0.04) 1px, transparent 1px),
+  radial-gradient(circle at 1px 1px, rgba(9,9,11,0.12) 1.5px, transparent 1.5px),
+  var(--studio-grain);
+background-size: 40px 40px, 40px 40px, 120px 120px, 180px 180px;</div>
+        </div>
+      </section>
+
+      <!-- OPCIÓN 4: SPOTLIGHT CENITAL DIFUSO -->
+      <section class="option-card" aria-labelledby="title-opt-4">
+        <div class="option-header">
+          <div>
+            <span class="opt-tag">Opción 04 · Iluminación</span>
+            <h2 id="title-opt-4" class="opt-title">Spotlight Cenital (Halo Difuso)</h2>
+          </div>
+          <button class="btn-focus" onclick="setViewMode('opt4')">Ver en ancho ↗</button>
+        </div>
+        <div class="stage-canvas texture-spotlight">
+          <div class="sample-car-card">
+            <div class="car-card-top">
+              <span class="car-category">SUV MEDIANO</span>
+              <span class="car-badge">DISPONIBLE</span>
+            </div>
+            <div class="car-card-image-box">
+              <img class="car-card-img car-active-img" src="/images/cars/hyundai-tucson.png" alt="Hyundai Tucson" loading="lazy">
+            </div>
+            <h3 class="car-card-name car-active-title">Hyundai Tucson</h3>
+            <p class="car-card-version car-active-version">2.0 CRDi 4WD Limited · AT8 · 2024</p>
+            <div class="car-card-bottom">
+              <div>
+                <div class="car-price-label">Precio contado</div>
+                <div class="car-price-val car-active-price">USD 44.500</div>
+              </div>
+              <button class="car-btn-action">Ver ficha →</button>
+            </div>
+          </div>
+        </div>
+        <div class="option-footer">
+          <p class="option-desc">
+            Halo de iluminación elíptico difuso que emula los focos cenitales de los salones del automóvil internacionales. La luz focaliza el auto en el centro y se desvanece suavemente hacia un gris perla en los bordes.
+          </p>
+          <div class="option-perks">
+            <span class="perk-tag">✓ Efecto de presentación teatral</span>
+            <span class="perk-tag">✓ Máximo protagonismo del auto</span>
+            <span class="perk-tag">✓ Sensación tridimensional</span>
+          </div>
+          <div class="css-snippet">background-color: #e8e9ee;
+background-image:
+  radial-gradient(ellipse 70% 60% at 50% 48%, #ffffff 0%, rgba(255,255,255,0.9) 35%, rgba(232,233,238,0.35) 75%, #e8e9ee 100%),
+  var(--studio-grain);</div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- VISTA 2: MODO ENFOQUE DE OPCIÓN INDIVIDUAL (FULL SHOWROOM) -->
+    <div id="view-focus" class="focus-mode-view">
+      <div id="focus-stage" class="focus-showroom-stage texture-podium">
+        
+        <div class="showroom-grid">
+          <!-- AUTO 1: HYUNDAI TUCSON -->
+          <div class="sample-car-card">
+            <div class="car-card-top">
+              <span class="car-category">SUV MEDIANO</span>
+              <span class="car-badge">ENTREGA INMEDIATA</span>
+            </div>
+            <div class="car-card-image-box">
+              <img class="car-card-img" src="/images/cars/hyundai-tucson.png" alt="Hyundai Tucson" loading="lazy">
+            </div>
+            <h3 class="car-card-name">Hyundai Tucson</h3>
+            <p class="car-card-version">2.0 CRDi 4WD Limited · AT8 · 2024</p>
+            <div class="car-card-bottom">
+              <div>
+                <div class="car-price-label">Precio contado</div>
+                <div class="car-price-val">USD 44.500</div>
+              </div>
+              <button class="car-btn-action">Ver ficha →</button>
+            </div>
+          </div>
+
+          <!-- AUTO 2: PORSCHE MACAN -->
+          <div class="sample-car-card">
+            <div class="car-card-top">
+              <span class="car-category">SPORT PREMIUM</span>
+              <span class="car-badge">DESTACADO</span>
+            </div>
+            <div class="car-card-image-box">
+              <img class="car-card-img" src="/images/cars/porsche-macan-clean.png" alt="Porsche Macan" loading="lazy">
+            </div>
+            <h3 class="car-card-name">Porsche Macan</h3>
+            <p class="car-card-version">2.0 Turbo PDK 265 CV · AWD · 2023</p>
+            <div class="car-card-bottom">
+              <div>
+                <div class="car-price-label">Precio contado</div>
+                <div class="car-price-val">USD 115.000</div>
+              </div>
+              <button class="car-btn-action">Ver ficha →</button>
+            </div>
+          </div>
+
+          <!-- AUTO 3: CITROEN C4 HIBRIDO -->
+          <div class="sample-car-card">
+            <div class="car-card-top">
+              <span class="car-category">CROSSOVER ECO</span>
+              <span class="car-badge">NUEVO INGRESO</span>
+            </div>
+            <div class="car-card-image-box">
+              <img class="car-card-img" src="/images/cars/citroen-c4-hibrido.png" alt="Citroën C4 Híbrido" loading="lazy">
+            </div>
+            <h3 class="car-card-name">Citroën C4</h3>
+            <p class="car-card-version">Hybrid 136 e-DCS6 · Feel Pack · 2024</p>
+            <div class="car-card-bottom">
+              <div>
+                <div class="car-price-label">Precio contado</div>
+                <div class="car-price-val">USD 29.800</div>
+              </div>
+              <button class="car-btn-action">Ver ficha →</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DETALLE TÉCNICO DE LA OPCIÓN SELECCIONADA -->
+      <div class="focus-info-box">
+        <div>
+          <span class="opt-tag" id="focus-tag">OPCIÓN 01</span>
+          <h2 id="focus-title" style="font-family:'Outfit',sans-serif;font-size:24px;margin:8px 0 12px;color:#fff;">Podio Diagonal (Estilo Contacto)</h2>
+          <p id="focus-desc" style="color:#a1a1aa;margin:0 0 16px;line-height:1.6;font-size:13px;">
+            Esta opción extiende la diagonal de <code>ShowroomContact</code> a toda la franja de vehículos, logrando que el sitio se sienta como un único edificio arquitectónico monolítico.
+          </p>
+          <div id="focus-perks" class="option-perks">
+            <span class="perk-tag">Coherencia estética</span>
+            <span class="perk-tag">Podio geométrico</span>
+            <span class="perk-tag">Sin jank ni reflow</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-family:'Space Grotesk',monospace;text-transform:uppercase;color:#71717a;margin-bottom:6px;">Código CSS de implementación:</div>
+          <div class="css-snippet" id="focus-code">/* CSS */</div>
+          <div style="margin-top:12px;display:flex;gap:10px;">
+            <button class="btn-focus" style="flex:1;padding:8px 12px;" onclick="setViewMode('grid')">← Volver a la comparativa de 4</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // DATOS DE AUTOS PARA PRUEBA
+    const carsData = {
+      tucson: {
+        title: 'Hyundai Tucson',
+        version: '2.0 CRDi 4WD Limited · AT8 · 2024',
+        price: 'USD 44.500',
+        image: '/images/cars/hyundai-tucson.png'
+      },
+      macan: {
+        title: 'Porsche Macan',
+        version: '2.0 Turbo PDK 265 CV · AWD · 2023',
+        price: 'USD 115.000',
+        image: '/images/cars/porsche-macan-clean.png'
+      },
+      c4: {
+        title: 'Citroën C4',
+        version: 'Hybrid 136 e-DCS6 · Feel Pack · 2024',
+        price: 'USD 29.800',
+        image: '/images/cars/citroen-c4-hibrido.png'
+      }
+    };
+
+    // DATOS DE LAS OPCIONES PARA MODO ENFOQUE
+    const optionsData = {
+      opt1: {
+        tag: 'OPCIÓN 01 · ARQUITECTÓNICO',
+        title: 'Podio Diagonal (Estilo Contacto)',
+        class: 'texture-podium',
+        desc: 'Inspirado en el plano diagonal de ShowroomContact. Crea un corte geométrico ascendente que da la impresión de una rampa o plataforma arquitectónica que sostiene a los autos. Integra a la perfección el catálogo con el resto de la identidad visual.',
+        perks: ['✓ Lenguaje unificado con Contacto', '✓ Soporte físico visual', '✓ 100% vectorizado y liviano'],
+        code: `.whynot-pearl-bg {
+  position: relative;
+  background-color: #fafafa;
+}
+.whynot-pearl-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #f0f1f2;
+  background-image: var(--studio-grain);
+  background-size: 180px 180px;
+  clip-path: polygon(100% 12%, 100% 100%, 0 100%, 0 68%);
+}`
+      },
+      opt2: {
+        tag: 'OPCIÓN 02 · FOTOGRAFÍA DE ESTUDIO',
+        title: 'Ciclorama de Estudio (Degradé Mate con Grano)',
+        class: 'texture-cyclorama',
+        desc: 'Recrea el set de fotografía infinito (cyclorama wall) con un gradiente vertical mate que va de blanco puro a gris perla de estudio, suavizado con micrograno para evitar banding. Proporciona una transición orgánica sin quiebres geométricos.',
+        perks: ['✓ Acabado editorial de alta gama', '✓ Fusión continua sin aristas duras', '✓ Contraste perfecto para vehículos oscuros y claros'],
+        code: `.whynot-pearl-bg {
+  background-color: #f7f8fa;
+  background-image:
+    linear-gradient(180deg, #ffffff 0%, #f4f5f8 35%, #e1e4e9 82%, #d2d6dd 100%),
+    var(--studio-grain);
+  background-size: 100% 100%, 180px 180px;
+}`
+      },
+      opt3: {
+        tag: 'OPCIÓN 03 · INGENIERÍA Y PRECISIÓN',
+        title: 'Blueprint / Trama Técnica',
+        class: 'texture-blueprint',
+        desc: 'Grilla técnica milimétrica extremadamente sutil (4% de opacidad) con coordenadas cruzadas y textura mate. Ideal para transmitir precisión mecánica, ADN deportivo y tecnología automotriz sin distraer la lectura de las fotos ni del texto.',
+        perks: ['✓ Estética de mesa de diseño e ingeniería', '✓ Rigor técnico de alta precisión', '✓ Mínima interferencia visual'],
+        code: `.whynot-pearl-bg {
+  background-color: #f6f7f9;
+  background-image:
+    linear-gradient(to right, rgba(9, 9, 11, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(9, 9, 11, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 1px 1px, rgba(9, 9, 11, 0.12) 1.5px, transparent 1.5px),
+    var(--studio-grain);
+  background-size: 40px 40px, 40px 40px, 120px 120px, 180px 180px;
+}`
+      },
+      opt4: {
+        tag: 'OPCIÓN 04 · SALÓN INTERNACIONAL',
+        title: 'Spotlight Cenital (Halo Difuso de Escenario)',
+        class: 'texture-spotlight',
+        desc: 'Un halo cenital de luz pura concentrado sobre el área de exhibición, degradado suavemente hacia los extremos en gris perla. Simula los spots direccionales de un stand en salones internacionales como Ginebra o Frankfurt, elevando la presencia tridimensional del auto.',
+        perks: ['✓ Efecto escénico y teatral', '✓ Máximo foco en el producto', '✓ Realza el volumen y reflejos del vehículo'],
+        code: `.whynot-pearl-bg {
+  background-color: #e8e9ee;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 50% 48%, #ffffff 0%, rgba(255, 255, 255, 0.9) 35%, rgba(232, 233, 238, 0.35) 75%, #e8e9ee 100%),
+    var(--studio-grain);
+  background-size: 100% 100%, 180px 180px;
+}`
+      }
+    };
+
+    function setViewMode(mode) {
+      // Manejar tabs
+      const tabs = ['grid', 'opt1', 'opt2', 'opt3', 'opt4'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('btn-tab-' + (t === 'grid' ? 'grid' : t.replace('opt', '')));
+        if (btn) btn.setAttribute('aria-pressed', String(t === mode));
+      });
+
+      const gridView = document.getElementById('view-grid');
+      const focusView = document.getElementById('view-focus');
+
+      if (mode === 'grid') {
+        gridView.style.display = 'grid';
+        focusView.classList.remove('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        gridView.style.display = 'none';
+        focusView.classList.add('active');
+
+        const opt = optionsData[mode];
+        const stage = document.getElementById('focus-stage');
+        stage.className = 'focus-showroom-stage ' + opt.class;
+        document.getElementById('focus-tag').textContent = opt.tag;
+        document.getElementById('focus-title').textContent = opt.title;
+        document.getElementById('focus-desc').textContent = opt.desc;
+        document.getElementById('focus-code').textContent = opt.code;
+
+        const perksContainer = document.getElementById('focus-perks');
+        perksContainer.innerHTML = '';
+        opt.perks.forEach(p => {
+          const span = document.createElement('span');
+          span.className = 'perk-tag';
+          span.textContent = p;
+          perksContainer.appendChild(span);
+        });
+
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+      }
+    }
+
+    function changeCar(carKey, btnElement) {
+      document.querySelectorAll('.car-pill').forEach(pill => pill.setAttribute('aria-pressed', 'false'));
+      btnElement.setAttribute('aria-pressed', 'true');
+
+      const car = carsData[carKey];
+      document.querySelectorAll('.car-active-img').forEach(img => {
+        img.src = car.image;
+        img.alt = car.title;
+      });
+      document.querySelectorAll('.car-active-title').forEach(el => el.textContent = car.title);
+      document.querySelectorAll('.car-active-version').forEach(el => el.textContent = car.version);
+      document.querySelectorAll('.car-active-price').forEach(el => el.textContent = car.price);
+    }
+  </script>
+</body>
+</html>
+

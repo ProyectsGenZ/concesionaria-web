@@ -1,279 +1,96 @@
-import React, { useState } from 'react';
-import { Phone, MessageCircle, MapPin, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
+
+const BRANCHES = {
+  libertador: { title: 'Showroom Libertador', address: 'Av. del Libertador 14200, Acassuso.', weekdays: '09:00 a 19:30', saturday: '10:00 a 14:00' },
+  pilar: { title: 'Hub Logístico Pilar', address: 'Panamericana Km 46.5, Ramal Pilar.', weekdays: '08:30 a 18:00', saturday: 'Con cita previa' }
+};
 
 export default function ShowroomContact({ prefilledVehicle = '', onShowToast }) {
-  const [activeBranch, setActiveBranch] = useState('libertador'); // 'libertador' | 'pilar'
-  const [inquiryType, setInquiryType] = useState('compra'); // 'compra' | 'test-drive' | 'permuta'
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    vehicle: prefilledVehicle,
-    message: ''
-  });
+  const [activeBranch, setActiveBranch] = useState('libertador');
+  const [formData, setFormData] = useState({ name: '', phone: '', vehicle: prefilledVehicle, message: '' });
+  const [errors, setErrors] = useState({});
+  const [opening, setOpening] = useState(false);
+  const submitLock = useRef(false);
+  const nameRef = useRef(null);
+  const phoneRef = useRef(null);
+  const branch = BRANCHES[activeBranch];
+  const location = encodeURIComponent(`${branch.address}, Argentina`);
 
-  React.useEffect(() => {
-    if (prefilledVehicle) {
-      setFormData(prev => ({ ...prev, vehicle: prefilledVehicle }));
-    }
+  useEffect(() => {
+    if (prefilledVehicle) setFormData(previous => ({ ...previous, vehicle: prefilledVehicle }));
   }, [prefilledVehicle]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const branchName = activeBranch === 'libertador' ? 'Showroom Libertador (Acassuso)' : 'Hub Logístico Pilar';
-    const typeLabel = inquiryType === 'compra' ? 'Compra / Cotización Formal' : inquiryType === 'test-drive' ? 'Prueba de Manejo (Test Drive)' : 'Tasación y Entrega de Usado';
-    
-    const text = `Solicitud de Atención Oficial:
-Nombre: ${formData.name}
-WhatsApp: ${formData.phone}
-Tipo de trámite: ${typeLabel}
-Sede de preferencia: ${branchName}
-Unidad de interés: ${formData.vehicle || 'Consulta General'}
-Comentario: ${formData.message || 'Sin mensaje adicional'}`;
+  const updateField = event => {
+    const { name, value } = event.target;
+    setFormData(previous => ({ ...previous, [name]: value }));
+    setErrors(previous => ({ ...previous, [name]: undefined }));
+  };
 
-    window.open(`https://wa.me/5491155550199?text=${encodeURIComponent(text)}`, '_blank');
-    if (onShowToast) onShowToast('¡Solicitud enviada! Serás derivado a WhatsApp con un asesor oficial.');
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (submitLock.current) return;
+    const nextErrors = {};
+    if (!formData.name.trim()) nextErrors.name = 'Escribí tu nombre para continuar.';
+    if (formData.phone.replace(/\D/g, '').length < 7) nextErrors.phone = 'Ingresá un teléfono con código de área (al menos 7 dígitos).';
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      (nextErrors.name ? nameRef : phoneRef).current?.focus();
+      return;
+    }
+    submitLock.current = true;
+    setOpening(true);
+    const message = `Hola, quisiera hacer una consulta.\nNombre: ${formData.name.trim()}\nTeléfono: ${formData.phone.trim()}\nSede: ${branch.title}\nVehículo: ${formData.vehicle.trim() || 'Consulta general'}\nMensaje: ${formData.message.trim() || 'Quisiera recibir asesoramiento.'}`;
+    const destination = window.open('about:blank', '_blank');
+    if (destination) {
+      destination.opener = null;
+      destination.location.href = `https://wa.me/5491155550199?text=${encodeURIComponent(message)}`;
+      onShowToast?.('Continuá en WhatsApp para revisar y enviar tu consulta.');
+    } else {
+      setErrors({ submit: 'El navegador bloqueó la apertura. Permití las ventanas emergentes y volvé a intentar.' });
+    }
+    submitLock.current = false;
+    setOpening(false);
   };
 
   return (
-    <section id="contacto-showroom" className="whynot-pearl-bg pt-24 select-none">
-      
-      {/* 1. SECCIÓN PRINCIPAL: REDISEÑO TOTAL DE CONTACTO & SALÓN PRIVADO */}
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-10 pb-20 text-left">
-        
-        {/* Cabecera Editorial con Gran Jerarquía y Espacios Limpios */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-12 border-b border-zinc-200/80">
-          <div className="max-w-2xl">
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-2 font-tech">
-              Boutique Salón & Asesoramiento
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-black leading-tight font-display">
-              Atención Presencial & Canales Directos
-            </h2>
+    <section id="contacto-showroom" className="showroom-contact" aria-labelledby="contact-title">
+      <div className="contact-content">
+        <p className="contact-eyebrow">Contacto & showroom</p>
+        <h2 id="contact-title" className="contact-title">Hablemos de<br /><span>tu próximo auto.</span></h2>
+        <p className="contact-intro">Consultá por un vehículo o coordiná una visita. Estamos para acompañarte.</p>
+        <div className="contact-layout">
+          <div className="contact-form-panel">
+            <h3>Contanos qué estás buscando</h3>
+            <p>Dejanos tus datos y continuamos por WhatsApp.</p>
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="contact-row">
+                <div className="contact-field"><label htmlFor="contact-name">Tu nombre</label><input ref={nameRef} id="contact-name" name="name" autoComplete="name" placeholder="Nombre y apellido" required value={formData.name} onChange={updateField} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'contact-name-error' : undefined} />{errors.name && <p className="contact-error" id="contact-name-error">{errors.name}</p>}</div>
+                <div className="contact-field"><label htmlFor="contact-phone">Tu teléfono</label><input ref={phoneRef} id="contact-phone" name="phone" type="tel" autoComplete="tel" placeholder="Código de área y número" required value={formData.phone} onChange={updateField} aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? 'contact-phone-error' : undefined} />{errors.phone && <p className="contact-error" id="contact-phone-error">{errors.phone}</p>}</div>
+              </div>
+              <div className="contact-field"><label htmlFor="contact-vehicle">Vehículo de interés <span>· Opcional</span></label><input id="contact-vehicle" name="vehicle" placeholder="Marca o modelo que te interesa" value={formData.vehicle} onChange={updateField} /></div>
+              <div className="contact-field"><label htmlFor="contact-message">¿En qué podemos ayudarte? <span>· Opcional</span></label><textarea className="resize-none" id="contact-message" name="message" placeholder="Quiero conocer más sobre un vehículo, coordinar una visita…" rows={3} value={formData.message} onChange={updateField} onInput={event => { event.target.style.height = 'auto'; event.target.style.height = `${event.target.scrollHeight}px`; }} /></div>
+              <button className="contact-submit" type="submit" disabled={opening} aria-busy={opening}><span>{opening ? 'Abriendo WhatsApp…' : 'Continuar en WhatsApp'}</span><ArrowUpRight size={17} aria-hidden="true" /></button>
+              <p className="contact-note">Podrás revisar tu consulta antes de enviarla.</p>
+              <div role="status">{errors.submit && <p className="contact-error">{errors.submit}</p>}</div>
+            </form>
           </div>
-          <div className="flex items-center gap-2.5 text-xs font-semibold text-black font-tech">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Asesores disponibles en línea · Respuesta promedio &lt; 5 min</span>
+          <div className="contact-left">
+            <p className="contact-section-label">Te esperamos en nuestras sedes</p>
+            <div className="contact-branches" role="group" aria-label="Elegí una sede">
+              {Object.keys(BRANCHES).map(key => <button type="button" key={key} aria-pressed={activeBranch === key} onClick={() => setActiveBranch(key)}>{key === 'libertador' ? 'Libertador' : 'Pilar'}</button>)}
+            </div>
+            <div className="contact-branch-info" aria-live="polite">
+              <h3>{branch.title}</h3>
+              <p className="contact-address">{branch.address}</p>
+              <p className="contact-hours">Lunes a viernes · {branch.weekdays}<br />Sábados · {branch.saturday}</p>
+              <a className="contact-map-link" href={`https://www.google.com/maps/search/?api=1&query=${location}`} target="_blank" rel="noopener noreferrer">Cómo llegar <ArrowUpRight size={14} aria-hidden="true" /></a>
+            </div>
+            <div className="contact-location-map"><iframe key={activeBranch} title={`Ubicación de ${branch.title} en Google Maps`} src={`https://maps.google.com/maps?q=${location}&z=15&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>
+            <a className="contact-phone" href="tel:+541147908800">Llamanos al (011) 4790-8800</a>
           </div>
         </div>
-
-        {/* Layout en 2 Bloques Armónicos */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-12 items-start">
-          
-          {/* COLUMNA IZQUIERDA (7 cols): Sedes Showroom, Horarios y Canales Rápidos */}
-          <div className="lg:col-span-7 space-y-8">
-            
-            {/* Selector de Sedes */}
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-black block mb-3 font-tech">
-                Elegí la sede más cercana
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setActiveBranch('libertador')}
-                  className={`p-6 rounded-2xl text-left transition-all cursor-pointer ${
-                    activeBranch === 'libertador'
-                      ? 'bg-black text-white shadow-lg'
-                      : 'bg-white/80 hover:bg-white text-black'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-extrabold text-sm uppercase tracking-wide font-display">
-                      Showroom Libertador
-                    </span>
-                    <MapPin className="w-4 h-4 opacity-70" />
-                  </div>
-                  <p className={`text-xs leading-relaxed ${activeBranch === 'libertador' ? 'text-zinc-300' : 'text-zinc-500'}`}>
-                    Av. del Libertador 14200, Acassuso.<br />
-                    Salón principal de exhibición y entregas VIP.
-                  </p>
-                  <div className={`mt-4 pt-3 border-t text-[11px] font-tech flex items-center justify-between ${
-                    activeBranch === 'libertador' ? 'border-zinc-800 text-zinc-400' : 'border-zinc-100 text-zinc-400'
-                  }`}>
-                    <span>Lun a Vie 09:00 - 19:30</span>
-                    <span>Sáb 10:00 - 14:00</span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setActiveBranch('pilar')}
-                  className={`p-6 rounded-2xl text-left transition-all cursor-pointer ${
-                    activeBranch === 'pilar'
-                      ? 'bg-black text-white shadow-lg'
-                      : 'bg-white/80 hover:bg-white text-black'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-extrabold text-sm uppercase tracking-wide font-display">
-                      Hub Logístico Pilar
-                    </span>
-                    <MapPin className="w-4 h-4 opacity-70" />
-                  </div>
-                  <p className={`text-xs leading-relaxed ${activeBranch === 'pilar' ? 'text-zinc-300' : 'text-zinc-500'}`}>
-                    Panamericana Km 46.5, Ramal Pilar.<br />
-                    Centro de Alistamiento Técnico e Inspección.
-                  </p>
-                  <div className={`mt-4 pt-3 border-t text-[11px] font-tech flex items-center justify-between ${
-                    activeBranch === 'pilar' ? 'border-zinc-800 text-zinc-400' : 'border-zinc-100 text-zinc-400'
-                  }`}>
-                    <span>Lun a Vie 08:30 - 18:00</span>
-                    <span>Sáb con cita previa</span>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            {/* Accesos de Comunicación Directa */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a
-                href="https://wa.me/5491155550199"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-6 bg-white/90 hover:bg-white rounded-2xl transition-all shadow-xs group flex flex-col justify-between"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-black/60 font-tech">
-                    WhatsApp Comercial
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 text-black group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </div>
-                <div>
-                  <span className="text-base font-black text-black tabular-nums font-tech">
-                    +54 9 11 5555-0199
-                  </span>
-                  <span className="text-xs text-zinc-400 block mt-0.5">Asesoramiento en tiempo real</span>
-                </div>
-              </a>
-
-              <a
-                href="tel:+541147908800"
-                className="p-6 bg-white/90 hover:bg-white rounded-2xl transition-all shadow-xs group flex flex-col justify-between"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-black/60 font-tech">
-                    Teléfono Central Salón
-                  </span>
-                  <Phone className="w-4 h-4 text-black" />
-                </div>
-                <div>
-                  <span className="text-base font-black text-black tabular-nums font-tech">
-                    (011) 4790-8800
-                  </span>
-                  <span className="text-xs text-zinc-400 block mt-0.5">Líneas rotativas comerciales</span>
-                </div>
-              </a>
-            </div>
-
-            {/* Garantía y Compromiso */}
-            <div className="p-6 rounded-2xl bg-zinc-100/70 flex items-start gap-4">
-              <ShieldCheck className="w-6 h-6 text-black shrink-0 mt-0.5" />
-              <div className="text-xs text-zinc-600 leading-relaxed font-normal">
-                <span className="font-bold text-black block mb-0.5">Atención Transparente y Garantizada</span>
-                Todas las operaciones se realizan bajo contratos oficiales con verificación de dominio, libre deuda y peritaje mecánico previo certificado.
-              </div>
-            </div>
-
-          </div>
-
-          {/* COLUMNA DERECHA (5 cols): Formulario Concierge de Alta Gama */}
-          <div className="lg:col-span-5">
-            <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 sm:p-10 shadow-sm">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-black/60 block mb-1 font-tech">
-                Formulario Oficial
-              </span>
-              <h3 className="text-2xl font-black text-black mb-2 font-display">
-                Coordinar Visita o Cotización
-              </h3>
-              <p className="text-xs text-zinc-500 mb-6 font-normal">
-                Completá tus datos para que un asesor especializado te contacte de forma personalizada.
-              </p>
-
-              {/* Selector de Tipo de Consulta */}
-              <div className="mb-5">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-black mb-2 font-tech">
-                  Motivo de contacto
-                </label>
-                <div className="grid grid-cols-3 gap-1.5 p-1 bg-zinc-100 rounded-xl text-[11px] font-bold font-tech">
-                  {[
-                    { id: 'compra', label: 'Compra / Cotizar' },
-                    { id: 'test-drive', label: 'Test Drive' },
-                    { id: 'permuta', label: 'Permuta' }
-                  ].map(tab => (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      onClick={() => setInquiryType(tab.id)}
-                      className={`py-2 rounded-lg transition-all cursor-pointer ${
-                        inquiryType === tab.id
-                          ? 'bg-black text-white shadow-xs'
-                          : 'text-zinc-600 hover:text-black'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4 text-xs text-left">
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-black mb-1.5 font-tech">
-                    Nombre Completo *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Ej. Martín Benítez"
-                    className="w-full px-4 py-3.5 bg-zinc-50 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-black transition font-normal"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-black mb-1.5 font-tech">
-                    Número de WhatsApp *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="Ej. +54 9 11 1234-5678"
-                    className="w-full px-4 py-3.5 bg-zinc-50 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-black transition font-normal font-tech"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-black mb-1.5 font-tech">
-                    Vehículo de Interés
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.vehicle}
-                    onChange={e => setFormData({ ...formData, vehicle: e.target.value })}
-                    placeholder="Ej. Nuevo C4 Híbrido / Nueva Tucson / Ranger Raptor"
-                    className="w-full px-4 py-3.5 bg-zinc-50 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-black transition font-normal"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full mt-3 py-4 bg-black hover:bg-zinc-800 text-white rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 cursor-pointer inline-flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Enviar Consulta Directa</span>
-                </button>
-              </form>
-            </div>
-          </div>
-
-        </div>
-
       </div>
-
       {/* 2. APARTADO INDIVIDUAL "SEGUINOS EN NUESTRAS REDES SOCIALES" (De lado a lado / Full Width) */}
       <div className="w-full bg-white border-y border-zinc-200/90 py-16 px-6 lg:px-10">
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
@@ -291,7 +108,7 @@ Comentario: ${formData.message || 'Sin mensaje adicional'}`;
           </div>
 
           {/* Fila de Iconos SVG Monocromáticos en Gris/Negro (De lado a lado y centrada) */}
-          <div className="flex items-center gap-8 text-zinc-400">
+          <div className="contact-social-icons flex items-center gap-8 text-zinc-400">
             {/* Facebook */}
             <a
               href="https://facebook.com"

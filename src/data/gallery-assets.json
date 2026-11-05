@@ -1,0 +1,189 @@
+{
+  "CIT-001": [
+    {
+      "url": "/images/gallery/cit-001-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/cit-001-exterior.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/cit-001-detalles.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "HYU-003": [
+    {
+      "url": "/images/gallery/hyu-003-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/hyu-003-exterior.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/hyu-003-detalles.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "HYU-004": [
+    {
+      "url": "/images/gallery/hyu-004-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/hyu-004-exterior-optimized.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/hyu-004-detalles.png",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "CIT-002": [
+    {
+      "url": "/images/gallery/cit-002-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/cit-002-exterior.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/cit-002-detalles.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "CIT-003": [
+    {
+      "url": "/images/gallery/cit-003-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/cit-003-exterior.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/cit-003-detalles.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "CIT-004": [
+    {
+      "url": "/images/gallery/cit-004-interior-optimized.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/cit-004-exterior.webp",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/cit-004-detalles.jpg",
+      "title": "Espacio de carga",
+      "category": "Detalles"
+    }
+  ],
+  "MNL-100": [
+    {
+      "url": "/images/gallery/mnl-100-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/mnl-100-exterior.webp",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/mnl-100-detalles.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "MNL-101": [
+    {
+      "url": "/images/gallery/mnl-101-interior-optimized.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/mnl-101-exterior.webp",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/mnl-101-detalles.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "MNL-103": [
+    {
+      "url": "/images/gallery/mnl-103-interior-optimized.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/mnl-103-exterior-optimized.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/mnl-103-detalles.webp",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "MNL-108": [
+    {
+      "url": "/images/gallery/mnl-108-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/mnl-108-exterior.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/mnl-108-detalles-optimized.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ],
+  "HYU-002": [
+    {
+      "url": "/images/gallery/hyu-002-exterior.jpg",
+      "title": "Vista exterior del modelo",
+      "category": "Exterior"
+    },
+    {
+      "url": "/images/gallery/hyu-002-interior.jpg",
+      "title": "Tablero y puesto de conducción",
+      "category": "Interior"
+    },
+    {
+      "url": "/images/gallery/hyu-002-detalles.jpg",
+      "title": "Diseño exterior y terminaciones",
+      "category": "Detalles"
+    }
+  ]
+}

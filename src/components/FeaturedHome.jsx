@@ -1,9 +1,10 @@
+import PriceReference from './PriceReference';
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { VEHICLES, EXCHANGE_RATE } from '../data/vehicles';
 
 export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currency }) {
-  const featured = VEHICLES.filter(v => v.featured);
+  const featured = VEHICLES.filter(v => v.featured).slice(0, 3);
 
   const formatPrice = (usd) => {
     if (currency === 'USD') return 'USD ' + usd.toLocaleString('es-AR');
@@ -14,42 +15,42 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
     if (onOpenVehicle) {
       onOpenVehicle(carId);
     } else {
-      window.open(`?vehiculo=${carId}`, '_blank');
+      window.location.assign(`?vehiculo=${carId}`);
     }
   };
 
   return (
-    <section className="whynot-pearl-bg py-24 border-b border-zinc-200/60 select-none">
+    <section className="whynot-pearl-bg studio-featured py-24 border-b border-zinc-200/60 select-none">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
         
         {/* Encabezado Limpio con Gran Espaciado */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16">
           <div className="max-w-xl text-left">
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 block mb-2 font-tech">
+            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-600 block mb-2 font-tech">
               Selección Destacada
             </span>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-black font-display">
-              Unidades de Vanguardia
+              Vehículos destacados
             </h2>
           </div>
           
           <button
             onClick={onNavigateCatalog}
-            className="mt-4 sm:mt-0 text-xs font-bold uppercase tracking-wider text-black hover:text-zinc-500 transition inline-flex items-center gap-2 group cursor-pointer"
+            className="mt-4 sm:mt-0 text-xs font-bold uppercase tracking-wider text-black hover:text-zinc-600 transition inline-flex items-center gap-2 group cursor-pointer"
           >
             <span>Explorar catálogo completo ({VEHICLES.length})</span>
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </button>
         </div>
 
+        <PriceReference />
         {/* Grilla Limpia en Blanco y Negro SIN BORDES con Miniaturas PNG orientadas todas a 3/4 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {featured.map((car) => (
             <article
               key={car.id}
-              onClick={() => handleOpenCar(car.id)}
-              className="group bg-transparent hover:bg-white/80 p-8 rounded-3xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lg flex flex-col justify-between cursor-pointer"
-              title={`Abrir ${car.brand} ${car.model} en nueva pestaña`}
+              className="group bg-transparent hover:bg-white/80 p-8 rounded-3xl transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lg flex flex-col justify-between "
+              title={`Abrir ${car.brand} ${car.model}`}
             >
               <div>
                 {/* Header de la tarjeta con Badge y Año */}
@@ -66,12 +67,12 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
                 <h3 className="text-2xl font-black text-black tracking-tight mb-2 font-display">
                   {car.model}
                 </h3>
-                <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2 mb-6 font-normal">
+                <p className="text-xs text-zinc-600 leading-relaxed line-clamp-2 mb-6 font-normal">
                   {car.description}
                 </p>
 
                 {/* Miniatura PNG con Sombra en el Piso (Orientación 3/4 Unificada hacia la Izquierda) */}
-                <div className="car-platform-shadow w-full h-48 flex items-center justify-center my-4 relative overflow-visible">
+                <div className="w-full h-56 flex items-center justify-center my-4 relative overflow-visible">
                   {/* Wrapper estático de orientación horizontal permanente (previene rotaciones en hover) */}
                   <div className={`w-full h-full flex items-center justify-center ${car.flip ? 'scale-x-[-1]' : ''}`}>
                     {/* Contenedor interno que ejecuta el zoom suave exclusivamente */}
@@ -82,7 +83,7 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
                         style={{
                           transform: `scale(${car.scale || 1.0})`
                         }}
-                        className="max-h-36 sm:max-h-40 w-auto max-w-[90%] object-contain relative z-10 select-none pointer-events-none"
+                        className="max-h-48 sm:max-h-52 w-auto max-w-[90%] object-contain relative z-10 select-none pointer-events-none"
                         loading="lazy"
                         decoding="async"
                       />
@@ -111,9 +112,9 @@ export default function FeaturedHome({ onOpenVehicle, onNavigateCatalog, currenc
                   </span>
                 </div>
                 
-                <span className="w-10 h-10 rounded-full bg-black group-hover:bg-zinc-800 text-white flex items-center justify-center transition shadow-xs group-hover:scale-105">
-                  <ArrowUpRight className="w-4 h-4" />
-                </span>
+                <button type="button" onClick={() => handleOpenCar(car.id)} aria-label={`Conocer ${car.brand} ${car.model}`} className="featured-open rounded-full bg-black hover:bg-zinc-800 text-white inline-flex items-center gap-2 px-4 py-3 text-xs font-semibold cursor-pointer"><span>Ver ficha</span>
+                  <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                </button>
               </div>
             </article>
           ))}

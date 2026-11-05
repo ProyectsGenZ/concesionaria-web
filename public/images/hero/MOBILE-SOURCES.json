@@ -1,0 +1,25 @@
+{
+  "description": "Variantes verticales ilustrativas generadas mediante expansión de las fotografías de portada. Suelo extendido con IA para uso exclusivo en banner móvil; conservar originales de escritorio.",
+  "assets": [
+    {
+      "file": "c4-mobile.jpg",
+      "reference": "c4-landscape.jpg",
+      "method": "imagegen downward outpainting; JPEG quality 85"
+    },
+    {
+      "file": "tucson-mobile.jpg",
+      "reference": "tucson-landscape.jpg",
+      "method": "imagegen downward outpainting; JPEG quality 85"
+    },
+    {
+      "file": "raptor-mobile.jpg",
+      "reference": "raptor-landscape.jpg",
+      "method": "imagegen downward outpainting; JPEG quality 85"
+    },
+    {
+      "file": "macan-mobile.jpg",
+      "reference": "macan-landscape.jpg",
+      "method": "imagegen downward outpainting; JPEG quality 85"
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+[
+  {
+    "vehicleId": "CIT-001",
+    "category": "Interior",
+    "localPath": "/images/gallery/cit-001-interior.jpg",
+    "sourceUrl": "https://carnovo.com/wp-content/uploads/2024/10/citroen-c4-interior.jpg"
+  },
+  {
+    "vehicleId": "HYU-003",
+    "category": "Interior",
+    "localPath": "/images/gallery/hyu-003-interior.jpg",
+    "sourceUrl": "https://static.vietone.vn/Uploaded/mypt/2024_01_25/hyundai-creta-nang-cap-5-9199.jpg"
+  },
+  {
+    "vehicleId": "HYU-004",
+    "category": "Interior",
+    "localPath": "/images/gallery/hyu-004-interior.jpg",
+    "sourceUrl": "https://imagenes.km77.com/fotos/bbtcontent/clippingnew/KM7KPH20241104_0033/full.jpg"
+  },
+  {
+    "vehicleId": "CIT-002",
+    "category": "Interior",
+    "localPath": "/images/gallery/cit-002-interior.jpg",
+    "sourceUrl": "https://www.autoo.com.br/fotos/2023/11/1280_960/citroen_c3_2024_1_16112023_76578_1280_960.jpg"
+  },
+  {
+    "vehicleId": "CIT-003",
+    "category": "Interior",
+    "localPath": "/images/gallery/cit-003-interior.jpg",
+    "sourceUrl": "https://s3.carro57.com.br/FC/2495/7375419_10_W_cb6fcee0b7.jpeg"
+  },
+  {
+    "vehicleId": "CIT-004",
+    "category": "Interior",
+    "localPath": "/images/gallery/cit-004-interior-optimized.jpg",
+    "sourceUrl": "https://www.citroen.com.ar/content/dam/citroen/argentina/berlingo/berlingo-descubre-3-dk.png"
+  },
+  {
+    "vehicleId": "MNL-100",
+    "category": "Interior",
+    "localPath": "/images/gallery/mnl-100-interior.jpg",
+    "sourceUrl": "https://hips.hearstapps.com/hmg-prod/images/2023-ford-ranger-raptor-127-1668697807.jpg"
+  },
+  {
+    "vehicleId": "MNL-101",
+    "category": "Interior",
+    "localPath": "/images/gallery/mnl-101-interior-optimized.jpg",
+    "sourceUrl": "https://rpmweb.ca/medias/Porsche-Macan-T-2023-013.jpg"
+  },
+  {
+    "vehicleId": "MNL-103",
+    "category": "Interior",
+    "localPath": "/images/gallery/mnl-103-interior-optimized.jpg",
+    "sourceUrl": "https://drive.gianhangvn.com/image/bga8vc9-2590439j32581.jpg"
+  },
+  {
+    "vehicleId": "MNL-108",
+    "category": "Interior",
+    "localPath": "/images/gallery/mnl-108-interior.jpg",
+    "sourceUrl": "https://www.planetcarsz.com/img/carros/galeria/2024/01/audi-tt-rs-coupe-iconic-edition-uk-version-2023-37-20240126100456-1280x925.jpg"
+  },
+  {
+    "vehicleId": "CIT-001",
+    "category": "Exterior",
+    "localPath": "/images/gallery/cit-001-exterior.jpg",
+    "sourceUrl": "https://www.diariomotor.com/imagenes/2024/10/Citroen-C4-2025-53-670d0464a7137-scaled.jpg?class=XL"
+  },
+  {
+    "vehicleId": "HYU-002",
+    "category": "Exterior",
+    "localPath": "/images/gallery/hyu-002-exterior.jpg",
+    "sourceUrl": "https://midias.vrum.com.br/_midias/jpg/2024/05/02/hb20_platinum_safety_7_8_traseira_externa_1-36735018.jpeg"
+  },
+  {
+    "vehicleId": "HYU-003",
+    "category": "Exterior",
+    "localPath": "/images/gallery/hyu-003-exterior.jpg",
+    "sourceUrl": "https://image.idntimes.com/post/20250106/img-5652-16c54f4f9b463101c2f274c5801e3aed.jpeg"
+  },
+  {
+    "vehicleId": "HYU-004",
+    "category": "Exterior",
+    "localPath": "/images/gallery/hyu-004-exterior-optimized.jpg",
+    "sourceUrl": "https://hips.hearstapps.com/hmg-prod/images/2024-hyundai-santa-fe-brown-rear-64b55b0726895.jpg"
+  },
+  {
+    "vehicleId": "CIT-002",
+    "category": "Exterior",
+    "localPath": "/images/gallery/cit-002-exterior.jpg",
+    "sourceUrl": "https://s3.carro57.com.br/FC/2495/6838708_5_W_d9ae8af6f0.jpeg"
+  },
+  {
+    "vehicleId": "CIT-003",
+    "category": "Exterior",
+    "localPath": "/images/gallery/cit-003-exterior.jpg",
+    "sourceUrl": "https://cdn.motor1.com/images/mgl/bgB2Pn/s1/citroen-basalt.jpg"
+  },
+  {
+    "vehicleId": "CIT-004",
+    "category": "Exterior",
+    "localPath": "/images/gallery/cit-004-exterior.webp",
+    "sourceUrl": "https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_86f65f3c625a4c03a0c9d712a4478dbe.webp"
+  },
+  {
+    "vehicleId": "MNL-100",
+    "category": "Exterior",
+    "localPath": "/images/gallery/mnl-100-exterior.webp",
+    "sourceUrl": "https://plus-auto.fra1.cdn.digitaloceanspaces.com/vehicles_images/94020/94020-1819027.webp"
+  },
+  {
+    "vehicleId": "MNL-101",
+    "category": "Exterior",
+    "localPath": "/images/gallery/mnl-101-exterior.webp",
+    "sourceUrl": "https://hips.hearstapps.com/mtg-prod/659f48bfccd3520008fcc9af/2023-porsche-macan-t-7.jpg?format=webp&q=75&w=768&width=768"
+  },
+  {
+    "vehicleId": "MNL-103",
+    "category": "Exterior",
+    "localPath": "/images/gallery/mnl-103-exterior-optimized.jpg",
+    "sourceUrl": "https://drive.gianhangvn.com/image/rrt4vdb-2537679j32499.jpg"
+  },
+  {
+    "vehicleId": "MNL-108",
+    "category": "Exterior",
+    "localPath": "/images/gallery/mnl-108-exterior.jpg",
+    "sourceUrl": "https://sc42.pipelineguru.co.za/workspaceZA/1874/WUAZZZFV7P1901524_20260217093710-5.jpg"
+  },
+  {
+    "vehicleId": "CIT-001",
+    "category": "Detalles",
+    "localPath": "/images/gallery/cit-001-detalles.jpg",
+    "sourceUrl": "https://media.motorbox.com/image/nuova-citroen-c4-2025-le-nuove-luci-anteriori/8/3/6/836531/836531-16x9-lg.jpg"
+  },
+  {
+    "vehicleId": "HYU-003",
+    "category": "Detalles",
+    "localPath": "/images/gallery/hyu-003-detalles.jpg",
+    "sourceUrl": "https://www.hyundai.com/content/dam/hyundai/in/en/data/find-a-car/Creta/Exterior/pc/March/Hyundai_CRETA_SUV_Exterior_Mid_PC_1120x600_2.jpg"
+  },
+  {
+    "vehicleId": "HYU-004",
+    "category": "Detalles",
+    "localPath": "/images/gallery/hyu-004-detalles.png",
+    "sourceUrl": "https://di-uploads-pod27.dealerinspire.com/saffordhyundaiofspringfield/uploads/2023/07/Large-56349-HyundaisAll-NewSantaFeBoastsBoldNewDesignOptimizedforEffortlessOutdoorLifestyles-2.png"
+  },
+  {
+    "vehicleId": "CIT-002",
+    "category": "Detalles",
+    "localPath": "/images/gallery/cit-002-detalles.jpg",
+    "sourceUrl": "https://cdn-s3.autocarindia.com/citroen/c3/DSC_9049.JPG"
+  },
+  {
+    "vehicleId": "CIT-003",
+    "category": "Detalles",
+    "localPath": "/images/gallery/cit-003-detalles.jpg",
+    "sourceUrl": "https://cdn.motor1.com/images/mgl/RqKnpe/s1/critica-citroen-basalt-shine-t200-cvt.jpg"
+  },
+  {
+    "vehicleId": "CIT-004",
+    "category": "Detalles",
+    "localPath": "/images/gallery/cit-004-detalles.jpg",
+    "sourceUrl": "https://38citroen.com.ua/media/catalog/product/cache/57791a61927135a61f646505d4068ace/b/e/berlingo-vu-l2-you-white-trunk-inside_2.jpg"
+  },
+  {
+    "vehicleId": "MNL-100",
+    "category": "Detalles",
+    "localPath": "/images/gallery/mnl-100-detalles.jpg",
+    "sourceUrl": "https://ofnews.vn/stores/news_dataimages/duchuy/042023/08/00/1bbfefae0508eed7565ab89e3ccd6bbb.jpg"
+  },
+  {
+    "vehicleId": "MNL-101",
+    "category": "Detalles",
+    "localPath": "/images/gallery/mnl-101-detalles.jpg",
+    "sourceUrl": "https://newsroom.porsche.com/.imaging/mte/porsche-templating-theme/teaser_720x406x2/dam/AU_local/2022/Products_AU/Macan-T-Product-Highlights-2022/Exterior-Design-Gallery---Macan-T-2022/2022PORSCHE_MACAN_T_DKIMG2296.jpg/jcr%3Acontent/2022PORSCHE_MACAN_T_DKIMG2296.jpg"
+  },
+  {
+    "vehicleId": "MNL-103",
+    "category": "Detalles",
+    "localPath": "/images/gallery/mnl-103-detalles.webp",
+    "sourceUrl": "https://duttongarage.com/image/NoHd6T73k84ABHmizgAs7rQA/2023-BMW-X5-G05-LCI-xDrive30d-M-Sport-Wagon-5dr-Steptronic-8sp-4x4-3-0DT-Jul-13.webp"
+  },
+  {
+    "vehicleId": "MNL-108",
+    "category": "Detalles",
+    "localPath": "/images/gallery/mnl-108-detalles-optimized.jpg",
+    "sourceUrl": "https://s3.eu-central-1.amazonaws.com/datamotive-sulu-assets/pouw-content/03/img-6823.jpg"
+  },
+  {
+    "vehicleId": "HYU-002",
+    "category": "Interior",
+    "localPath": "/images/gallery/hyu-002-interior.jpg",
+    "sourceUrl": "https://garagem360.com.br/wp-content/uploads/2021/03/Hyundai-HB20-Sense-2022-11-1024x683.jpg"
+  },
+  {
+    "vehicleId": "HYU-002",
+    "category": "Detalles",
+    "localPath": "/images/gallery/hyu-002-detalles.jpg",
+    "sourceUrl": "https://midias.agazeta.com.br/2022/07/21/hyundai-hb20-platinum-pus-802034-article.jpg"
+  }
+]
